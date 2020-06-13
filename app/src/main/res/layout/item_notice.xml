@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="8dp"
+    android:layout_marginBottom="5dp"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/item_notice_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="工作报告汇总统计会议"
+        android:textColor="@color/black"/>
+    <TextView
+        android:id="@+id/item_notice_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:layout_alignTop="@id/item_notice_title"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="2019-11-9 08：23：16"
+        android:textColor="#BDBDBD"/>
+    <TextView
+        android:id="@+id/item_notice_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_below="@id/item_notice_title"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentLeft="true"
+        android:text="对近期巡检工作进行总结，请各组工作人员于..."
+        android:textColor="#BDBDBD"/>
+    <TextView
+        android:id="@+id/item_notice_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_below="@id/item_notice_title"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true"
+        android:text="公告"
+        android:textColor="#000000"/>
+</RelativeLayout>
