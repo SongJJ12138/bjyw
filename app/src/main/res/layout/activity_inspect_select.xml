@@ -96,16 +96,42 @@
                 android:background="@color/white"
                 android:layout_height="45dp" />
             <TextView
+                android:id="@+id/c"
                 android:layout_below="@id/selectinspect_spinner_site"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                android:layout_margin="10dp"
                 android:layout_width="348dp"
                 android:layout_height="45dp"
                 android:background="@drawable/bt_sitehistory"
                 android:text="查看台站历史信息"
                 android:textSize="18sp"
                 android:textColor="#2196F3"/>
+            <View
+                android:id="@+id/d"
+                android:layout_width="3dp"
+                android:layout_height="22dp"
+                android:background="#1976D2"
+                android:layout_below="@+id/c"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:layout_alignBottom="@id/d"
+                android:layout_toRightOf="@id/d"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:text="巡检时间"/>
+            <TextView
+                android:layout_below="@id/d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="2020-10-10"
+                android:textColor="@color/red"/>
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>
