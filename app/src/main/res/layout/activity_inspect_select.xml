@@ -1,61 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    android:orientation="vertical">
+
     <include
         android:id="@+id/a"
-        layout="@layout/toolbar_title"/>
+        layout="@layout/toolbar_title" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F2F3F7">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <FrameLayout
-                android:id="@+id/selectinspect_layout_saoma"
+                android:id="@+id/layout_saoma"
                 android:layout_width="134dp"
                 android:layout_height="134dp"
-                android:layout_margin="10dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
                 android:background="@drawable/layout_saoma">
+
                 <ImageView
                     android:layout_width="53dp"
                     android:layout_height="53dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
-                    android:src="@mipmap/saoma"/>
+                    android:src="@mipmap/saoma" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="90dp"
-                    android:textSize="18sp"
                     android:text="扫码定位"
-                    android:textColor="#1976D2"/>
+                    android:textColor="#1976D2"
+                    android:textSize="18sp" />
             </FrameLayout>
+
             <View
                 android:id="@+id/a"
                 android:layout_width="3dp"
                 android:layout_height="22dp"
-                android:background="#1976D2"
-                android:layout_below="@+id/selectinspect_layout_saoma"
+                android:layout_below="@+id/layout_saoma"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="60dp"
-                android:layout_marginLeft="10dp"/>
-            <TextView
-                android:layout_toRightOf="@id/a"
-                android:layout_alignBottom="@id/a"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="60dp"
+                android:background="#1976D2" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:layout_alignBottom="@id/a"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/a"
+                android:text="选择台站"
                 android:textColor="@color/black"
-                android:text="选择台站"/>
+                android:textSize="18sp" />
+
             <LinearLayout
                 android:id="@+id/b"
                 android:layout_width="match_parent"
@@ -63,75 +72,292 @@
                 android:layout_below="@id/a"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/selectinspect_spinner_district"
+                    android:id="@+id/spinner_district"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/white"
-                    android:layout_height="match_parent" />
+                    android:background="@color/white" />
+
                 <View
                     android:layout_width="5dp"
-                    android:layout_height="match_parent"/>
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/selectinspect_spinner_town"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:background="@color/white"
                     android:layout_height="match_parent" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_town"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white" />
+
                 <View
                     android:layout_width="5dp"
-                    android:layout_height="match_parent"/>
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/selectinspect_spinner_village"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:background="@color/white"
                     android:layout_height="match_parent" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_village"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white" />
             </LinearLayout>
+
             <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner_site"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
                 android:layout_below="@id/b"
                 android:layout_marginTop="5dp"
-                android:id="@+id/selectinspect_spinner_site"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white" />
+
+            <View
+                android:id="@+id/e"
                 android:layout_width="match_parent"
-                android:background="@color/white"
-                android:layout_height="45dp" />
+                android:layout_height="1dp"
+                android:layout_below="@+id/spinner_site"
+                android:background="#DDDDDD" />
+
             <TextView
-                android:id="@+id/c"
-                android:layout_below="@id/selectinspect_spinner_site"
-                android:gravity="center"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
+                android:id="@+id/bt_sitehistory"
                 android:layout_width="348dp"
                 android:layout_height="45dp"
+                android:layout_below="@id/e"
+                android:layout_margin="10dp"
+                android:layout_marginTop="-166dp"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/bt_sitehistory"
+                android:gravity="center"
                 android:text="查看台站历史信息"
-                android:textSize="18sp"
-                android:textColor="#2196F3"/>
+                android:textColor="#2196F3"
+                android:textSize="18sp" />
+
             <View
                 android:id="@+id/d"
                 android:layout_width="3dp"
                 android:layout_height="22dp"
-                android:background="#1976D2"
-                android:layout_below="@+id/c"
+                android:layout_below="@+id/bt_sitehistory"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"/>
-            <TextView
-                android:layout_alignBottom="@id/d"
-                android:layout_toRightOf="@id/d"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#1976D2" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:layout_alignBottom="@id/d"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/d"
+                android:text="巡检时间"
                 android:textColor="@color/black"
-                android:text="巡检时间"/>
+                android:textSize="18sp" />
+
             <TextView
-                android:layout_below="@id/d"
+                android:id="@+id/tv_inspecttime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_below="@id/d"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="2020-10-10"
-                android:textColor="@color/red"/>
+                android:textColor="@color/red"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/f"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_inspecttime"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#DDDDDD" />
+
+            <View
+                android:id="@+id/g"
+                android:layout_width="3dp"
+                android:layout_height="22dp"
+                android:layout_below="@+id/f"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#1976D2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/g"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/g"
+                android:text="巡检条件"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <RadioGroup
+                android:id="@+id/group_tiaojian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/g"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <RadioButton
+                    android:id="@+id/rb_jinru"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="正常进入"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_njinru"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="无法进入"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_diushi"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="机柜丢失"
+                    android:textSize="14sp" />
+            </RadioGroup>
+
+            <View
+                android:id="@+id/h"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/group_tiaojian"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#DDDDDD" />
+
+            <View
+                android:id="@+id/i"
+                android:layout_width="3dp"
+                android:layout_height="22dp"
+                android:layout_below="@+id/h"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#1976D2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/i"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/i"
+                android:text="使用状态"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <RadioGroup
+                android:id="@+id/group_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/i"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <RadioButton
+                    android:id="@+id/rb_zhengchang"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="正常"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_bendi"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="本地封存"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_yidi"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="异地封存"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_hangkong"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="航空管制"
+                    android:textSize="14sp" />
+            </RadioGroup>
+
+            <View
+                android:id="@+id/j"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/group_status"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#DDDDDD" />
+            <View
+                android:id="@+id/k"
+                android:layout_width="3dp"
+                android:layout_height="22dp"
+                android:layout_below="@+id/j"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#1976D2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/k"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/k"
+                android:text="工作条件"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_workstatus"
+                android:layout_below="@+id/k"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_margin="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/rv_workstatus"
+                android:layout_width="335dp"
+                android:layout_height="45dp"
+                android:textColor="@color/white"
+                android:text="下一步"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:background="@drawable/bt_login"/>
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>
