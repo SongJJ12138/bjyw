@@ -53,4 +53,15 @@ dependencies {
     api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     api 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.zaaach:TransformersLayout:1.0.5'
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+    //bar 自适应
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+    implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
+    implementation 'com.gyf.immersionbar:immersionbar-ktx:3.0.0'
+    //Zxing扫描
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.5'
+    //时间选择器
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
 }

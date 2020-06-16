@@ -11,12 +11,7 @@ class SPUtils() {
     private var sp: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
     init {
-        val name = if (TextUtils.isEmpty(xldUtils.SP_NAME)) {
-            xldUtils.context?.packageName + ".sp"
-        } else {
-            xldUtils.SP_NAME!!
-        }
-        sp = xldUtils.context?.getSharedPreferences(name, Context.MODE_PRIVATE)
+        sp = xldUtils.context?.getSharedPreferences("bjckyh", Context.MODE_PRIVATE)
         editor = sp!!.edit()
     }
 

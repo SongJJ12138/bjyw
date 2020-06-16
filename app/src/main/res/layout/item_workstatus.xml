@@ -10,22 +10,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/black"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/dp_10"
             android:text="供电情况"/>
         <View
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_weight="1"
-            android:layout_height="1dp"/>
+            android:layout_height="@dimen/dp_1"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/dp_10"
             android:src="@mipmap/up"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/layout_powercontent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -33,53 +34,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="检查要点"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <TextView
             android:id="@+id/tv_power"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:background="@drawable/tv_check"
             android:textColor="#73BFFF"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_14"
             android:text="1.本系统外接交流电源进线接线正常。\n2.万用表检查入口有220V±20%电压。"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="异常问题"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <RadioGroup
             android:id="@+id/rg_power"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"/>
         <TextView
             android:id="@+id/title_powerpic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="设备照片"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <LinearLayout
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <FrameLayout
-                android:layout_width="156dp"
-                android:layout_height="89dp"
-                android:layout_marginRight="40dp"
+                android:layout_width="@dimen/dp_156"
+                android:layout_height="@dimen/dp_89"
+                android:layout_marginRight="@dimen/dp_40"
                 android:background="@drawable/img_add">
                 <ImageView
                     android:id="@+id/img_power1"
@@ -93,11 +94,11 @@
                     android:text="维修前"
                     android:textColor="#666666"
                     android:layout_gravity="right|bottom"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="@dimen/dp_10"/>
             </FrameLayout>
             <FrameLayout
-                android:layout_width="156dp"
-                android:layout_height="89dp"
+                android:layout_width="@dimen/dp_156"
+                android:layout_height="@dimen/dp_89"
                 android:background="@drawable/img_add">
                 <ImageView
                     android:id="@+id/img_power2"
@@ -111,7 +112,7 @@
                     android:text="维修后"
                     android:textColor="#666666"
                     android:layout_gravity="right|bottom"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="@dimen/dp_10"/>
             </FrameLayout>
         </LinearLayout>
         <TextView
@@ -119,22 +120,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="备注问题"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <EditText
             android:id="@+id/ed_powercontent"
             android:layout_width="match_parent"
-            android:layout_height="81dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_height="@dimen/dp_81"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_10"
             android:background="@drawable/ed_content"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="#DDDDDD"/>
     <LinearLayout
         android:id="@+id/layout_room"
@@ -144,19 +145,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/black"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/dp_10"
             android:text="机房条件"/>
         <View
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_weight="1"
-            android:layout_height="1dp"/>
+            android:layout_height="@dimen/dp_1"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/dp_10"
             android:src="@mipmap/up"/>
     </LinearLayout>
     <LinearLayout
@@ -167,52 +168,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="检查要点"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <TextView
             android:id="@+id/tv_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:background="@drawable/tv_check"
             android:textColor="#73BFFF"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_14"
             android:text="1.本系统外接交流电源进线接线正常。\n2.万用表检查入口有220V±20%电压。"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="异常问题"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <RadioGroup
             android:id="@+id/rg_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"/>
         <TextView
             android:id="@+id/title_roompic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="设备照片"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <LinearLayout
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <FrameLayout
-                android:layout_width="156dp"
-                android:layout_height="89dp"
+                android:layout_width="@dimen/dp_156"
+                android:layout_height="@dimen/dp_89"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/img_add">
                 <ImageView
@@ -227,11 +228,11 @@
                     android:text="维修前"
                     android:textColor="#666666"
                     android:layout_gravity="right|bottom"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="@dimen/dp_10"/>
             </FrameLayout>
             <FrameLayout
-                android:layout_width="156dp"
-                android:layout_height="89dp"
+                android:layout_width="@dimen/dp_156"
+                android:layout_height="@dimen/dp_89"
                 android:background="@drawable/img_add">
                 <ImageView
                     android:id="@+id/img_room2"
@@ -245,7 +246,7 @@
                     android:text="维修后"
                     android:textColor="#666666"
                     android:layout_gravity="right|bottom"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="@dimen/dp_10"/>
             </FrameLayout>
         </LinearLayout>
         <TextView
@@ -253,22 +254,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="备注问题"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <EditText
             android:id="@+id/ed_roomcontent"
             android:layout_width="match_parent"
-            android:layout_height="81dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_height="@dimen/dp_81"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_10"
             android:background="@drawable/ed_content"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="#DDDDDD"/>
     <LinearLayout
         android:id="@+id/layout_signal"
@@ -278,19 +279,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/black"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/dp_10"
             android:text="信号情况"/>
         <View
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_0"
             android:layout_weight="1"
-            android:layout_height="1dp"/>
+            android:layout_height="@dimen/dp_1"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/dp_10"
             android:src="@mipmap/up"/>
     </LinearLayout>
     <LinearLayout
@@ -301,52 +302,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="检查要点"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <TextView
             android:id="@+id/tv_signal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:background="@drawable/tv_check"
             android:textColor="#73BFFF"
-            android:textSize="14sp"
+            android:textSize="@dimen/sp_14"
             android:text="1.本系统外接交流电源进线接线正常。\n2.万用表检查入口有220V±20%电压。"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="异常问题"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <RadioGroup
             android:id="@+id/rg_signal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"/>
         <TextView
             android:id="@+id/title_signalpic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="设备照片"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <LinearLayout
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <FrameLayout
-                android:layout_width="156dp"
-                android:layout_height="89dp"
+                android:layout_width="@dimen/dp_156"
+                android:layout_height="@dimen/dp_89"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/img_add">
                 <ImageView
@@ -361,11 +362,11 @@
                     android:text="维修前"
                     android:textColor="#666666"
                     android:layout_gravity="right|bottom"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="@dimen/dp_10"/>
             </FrameLayout>
             <FrameLayout
-                android:layout_width="156dp"
-                android:layout_height="89dp"
+                android:layout_width="@dimen/dp_156"
+                android:layout_height="@dimen/dp_89"
                 android:background="@drawable/img_add">
                 <ImageView
                     android:id="@+id/img_signal2"
@@ -379,7 +380,7 @@
                     android:text="维修后"
                     android:textColor="#666666"
                     android:layout_gravity="right|bottom"
-                    android:layout_margin="10dp"/>
+                    android:layout_margin="@dimen/dp_10"/>
             </FrameLayout>
         </LinearLayout>
         <TextView
@@ -387,21 +388,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="备注问题"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp_16"
             android:textStyle="bold"
             android:textColor="#666666"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <EditText
             android:id="@+id/ed_signalcontent"
             android:layout_width="match_parent"
-            android:layout_height="81dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_height="@dimen/dp_81"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_10"
             android:background="@drawable/ed_content"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="#DDDDDD"/>
 </LinearLayout>

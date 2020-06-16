@@ -3,17 +3,23 @@ package com.hbcx.bjckyh.network
 import android.text.TextUtils
 import android.util.Log
 import com.google.gson.JsonObject
+import com.hbcx.bjckyh.bean.Notify
+import com.hbcx.bjckyh.bean.Order
+import com.hbcx.bjckyh.bean.Signin
+import com.hbcx.bjckyh.bean.user
 import com.hbcx.bjckyh.utils.DES
+import com.hbcx.bjckyh.utils.SPUtils
 import com.hbcx.bjckyh.utils.defaultScheduler
+import com.hbcx.bjckyh.utils.getTimeOfWeek
 import io.reactivex.Flowable
+import org.json.JSONObject
 
 /**
  * 网络请求处理
  */
 object HttpManager {
 
-    const val PAGE_SIZE = 20
-    const val encodeDES = true
+    const val encodeDES = false
     private class ParamsBuilder private constructor() {
         private val sb: StringBuilder = StringBuilder()
 
@@ -93,38 +99,50 @@ object HttpManager {
         }
 
     }
-
     /**
      * 发起请求方法
      */
-    private fun request() = RRetrofit.instance().create(ApiService::class.java)
-
+    private fun request() =
+        RRetrofit.instance().create(ApiService::class.java)
 
     /**
-     * 退票
+     * 登陆
      */
-    fun refundTicket(id: Int, ridingIds: String): Flowable<ResultData<JsonObject>> {
-        val request = ParamsBuilder.create().append("server", Api.TICKET_REFUND)
-                .append("id", id).append("ridingIds", ridingIds)
-        return request().simpleRequest(request.build(encodeDES)).defaultScheduler()
+    fun login(name: String, password: String): Flowable<ResultData<user>> {
+        var jsonObject=JSONObject()
+        jsonObject.put("loginName",name)
+        jsonObject.put("password",password)
+        return request().login(jsonObject.toString()).defaultScheduler()
     }
 
+    /**
+     * 检查打卡
+     */
+    fun checkCard(): Flowable<ResultData<ArrayList<Signin>>> {
+        var jsonObject=JSONObject()
+        jsonObject.put("userId",SPUtils.instance().getInt("userId"))
+        return request().checkCard(jsonObject.toString()).defaultScheduler()
+    }
 
     /**
-     * 邀请记录
+     * 获取次日工单
      */
-    fun getInviteRecord(userId: Int, page: Int): Flowable<ResultData<ArrayList<String>>> {
-        val request = ParamsBuilder.create().append("server", Api.INVITE_RECORD)
-                .append("userId", userId).append("page", page).append("rows", PAGE_SIZE)
-        return request().getInviteRecord(request.build(encodeDES)).defaultScheduler()
+    fun getOrder(): Flowable<ResultData<ArrayList<Order>>> {
+        var jsonObject=JSONObject()
+        jsonObject.put("isToday","0")
+        jsonObject.put("creator",""+SPUtils.instance().getInt("userId"))
+        return request().getOrder(jsonObject.toString()).defaultScheduler()
     }
     /**
-     * 到达站点
+     * 获取通知
      */
-    fun getEndStation(cityCode: String,lineType:Int,stationId:Int): Flowable<ResultData<ArrayList<String>>> {
-        val request = ParamsBuilder.create().append("server", Api.END_STATION).append("cityCode", cityCode)
-                .append("lineType",lineType).append("stationId",stationId)
-        return request().getStaions(request.build(encodeDES)).defaultScheduler()
+    fun getNotify(): Flowable<ResultData<ArrayList<Notify>>> {
+        var jsonObject=JSONObject()
+        jsonObject.put("startTime",getTimeOfWeek(0))
+        jsonObject.put("endTime",""+getTimeOfWeek(6))
+        jsonObject.put("reciver","4")
+//        jsonObject.put("reciver",""+SPUtils.instance().getInt("userId"))
+        return request().getNotify(jsonObject.toString()).defaultScheduler()
     }
 
 }

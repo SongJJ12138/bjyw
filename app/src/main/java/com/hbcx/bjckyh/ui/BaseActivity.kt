@@ -1,5 +1,6 @@
 package com.hbcx.bjckyh.ui
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,10 +10,12 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.gyf.immersionbar.ImmersionBar
 import com.hbcx.bjckyh.R
 import com.hbcx.bjckyh.dialog.ProgressDialog
-import com.hbcx.bjckyh.zInterface.RequestHelper
+import com.hbcx.bjckyh.network.RequestHelper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.AnkoLogger
@@ -23,8 +26,8 @@ import java.lang.Exception
  * 基础activity，包含设置默认强制竖屏显示，广播方式实现关闭全部继承自该activity，并注册了关闭广播的子类
  *
  */
-abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestHelper {
-
+abstract class BaseActivity : Activity(), AnkoLogger,
+    RequestHelper {
     private lateinit var ACTION_CLOSE_ALL: String
     private val compositeDisposable = CompositeDisposable()
     //改用lazy初始，第一次使用时才会初始化
@@ -50,7 +53,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestHelper {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        ImmersionBar.with(this).statusBarColor(R.color.title).init()
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             //设置竖屏显示
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT

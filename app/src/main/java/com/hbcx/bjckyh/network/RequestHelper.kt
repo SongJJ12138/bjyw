@@ -1,4 +1,4 @@
-package com.hbcx.bjckyh.zInterface
+package com.hbcx.bjckyh.network
 
 import io.reactivex.disposables.Disposable
 

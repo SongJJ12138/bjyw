@@ -2,6 +2,7 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <include layout="@layout/toolbar_title"/>
     <FrameLayout
@@ -10,23 +11,23 @@
         android:layout_height="wrap_content">
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:paddingLeft="30dp"
-            android:textSize="16sp"
+            android:layout_height="@dimen/dp_36"
+            android:paddingLeft="@dimen/dp_30"
+            android:textSize="@dimen/sp_16"
             android:hint="搜索"
             android:background="@drawable/ed_select"
-            android:layout_margin="10dp"/>
+            android:layout_margin="@dimen/dp_10"/>
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="18dp"
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            android:layout_marginLeft="@dimen/dp_18"
             android:layout_gravity="center_vertical|left"
             android:src="@mipmap/serch"/>
         <ImageView
-            android:layout_width="19dp"
-            android:layout_height="19dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="20dp"
+            android:layout_width="@dimen/dp_19"
+            android:layout_height="@dimen/dp_19"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:layout_marginRight="@dimen/dp_20"
             android:layout_gravity="center_vertical|right"
             android:src="@mipmap/delete"/>
 
@@ -34,31 +35,31 @@
     <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/dp_10"
     android:background="@drawable/layout_site1">
     <TextView
         android:id="@+id/a"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="@dimen/sp_18"
         android:textColor="@color/white"
         android:text="共"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginLeft="@dimen/dp_20"/>
     <TextView
         android:id="@+id/collectsite_tv_updatesize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="32sp"
+        android:textSize="@dimen/sp_32"
         android:textColor="@color/white"
         android:text="006"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_5"
         android:layout_alignBottom="@+id/a"
         android:layout_toRightOf="@id/a"/>
     <TextView
@@ -66,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="@dimen/sp_18"
         android:textColor="@color/white"
         android:text="个"
         android:layout_alignBottom="@+id/a"
@@ -76,65 +77,65 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="@dimen/sp_18"
         android:textColor="@color/white"
         android:text="当前待更新台站"
         android:layout_below="@+id/a"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"/>
     <ImageView
-        android:layout_width="41.44dp"
-        android:layout_height="38.69dp"
+        android:layout_width="@dimen/dp_41"
+        android:layout_height="@dimen/dp_39"
         android:src="@mipmap/updatesite"
-        android:layout_margin="30dp"
+        android:layout_margin="@dimen/dp_30"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"/>
     <View
         android:id="@+id/d"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:background="#FAFAFA"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
         android:layout_below="@id/c" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/collectsite_rv_updatesite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/d"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"/>
 </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/dp_10"
         android:background="@drawable/layout_site2">
         <TextView
             android:id="@+id/aa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/white"
             android:text="共"
             android:textStyle="bold"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_20"/>
         <TextView
             android:id="@+id/collectsite_tv_collectsize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="32sp"
+            android:textSize="@dimen/sp_32"
             android:textColor="@color/white"
             android:text="006"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_5"
             android:layout_alignBottom="@+id/aa"
             android:layout_toRightOf="@id/aa"/>
         <TextView
@@ -142,7 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/white"
             android:text="个"
             android:layout_alignBottom="@+id/aa"
@@ -152,17 +153,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/white"
             android:text="当前待采集台站"
             android:layout_below="@+id/aa"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"/>
         <ImageView
-            android:layout_width="41.44dp"
-            android:layout_height="38.69dp"
+            android:layout_width="@dimen/dp_41"
+            android:layout_height="@dimen/dp_39"
             android:src="@mipmap/collectsite"
-            android:layout_margin="30dp"
+            android:layout_margin="@dimen/dp_30"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"/>
         <View
@@ -170,17 +171,17 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#FAFAFA"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
             android:layout_below="@id/cc" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/collectsite_rv_collectsite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/dd"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"/>
     </RelativeLayout>
 </LinearLayout>
