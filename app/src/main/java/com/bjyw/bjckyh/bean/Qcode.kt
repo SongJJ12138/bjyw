@@ -1,0 +1,53 @@
+package com.bjyw.bjckyh.bean
+
+data class Qcode(
+    val address: String,
+    val alarm: Int,
+    val checked: Int,
+    val contact: String,
+    val contactnum: String,
+    val createTimeFormat: String,
+    val create_time: Any,
+    val district: String,
+    val environmentCode: Int,
+    val equipMentCode: Int,
+    val fourthg: String,
+    val frequency: String,
+    val healthCode: Int,
+    val id: Int,
+    val index: Int,
+    val lat: Double,
+    val lng: Double,
+    val model: Int,
+    val picture_url: PictureUrl,
+    val qrcode_operation: String,
+    val qrcode_site: String,
+    val radius: Int,
+    val regoin_id: Int,
+    val rfid: String,
+    val running_state: Int,
+    val sequenceName: String,
+    val ticketId: Int,
+    val town: String,
+    val tree_id: Int,
+    val updateTimeFormat: String,
+    val update_time: Any,
+    val useCode: Int,
+    val vendor: Int,
+    val village: String,
+    val wireless: String,
+    val wried: String
+)
+
+data class PictureUrl(
+    val dmj: String,
+    val dmy: String,
+    val dxj: String,
+    val dzy: String,
+    val ghq: String,
+    val gqq: String,
+    val jq: String,
+    val ssj: String,
+    val tj: String,
+    val wky: String
+)

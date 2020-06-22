@@ -4,16 +4,19 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'org.greenrobot.greendao'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.hbcx.bjckyh"
+        applicationId "com.bjyw.bjckyh"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -21,10 +24,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.bjyw.bjckyh.bean.daobean'
+        targetGenDir 'src/main/java'
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.3.0'
@@ -34,9 +42,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //retrofit
-    api "com.squareup.retrofit2:retrofit:2.3.0"
-    api "com.squareup.retrofit2:converter-gson:2.3.0"
-    api "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    api 'com.squareup.retrofit2:retrofit:2.3.0'
+    api 'com.squareup.retrofit2:converter-gson:2.3.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     //rxjava
     api 'io.reactivex.rxjava2:rxjava:2.1.9'
     api 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -45,9 +53,9 @@ dependencies {
     //okhttp log
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     //anko
-    api "org.jetbrains.anko:anko:0.10.4"
-    api "org.jetbrains.anko:anko-recyclerview-v7:0.10.4"
-    api "org.jetbrains.anko:anko-recyclerview-v7-coroutines:0.10.4"
+    api 'org.jetbrains.anko:anko:0.10.4'
+    api 'org.jetbrains.anko:anko-recyclerview-v7:0.10.4'
+    api 'org.jetbrains.anko:anko-recyclerview-v7-coroutines:0.10.4'
     //fresco
     api 'com.facebook.fresco:fresco:1.8.1'
     api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
@@ -64,4 +72,13 @@ dependencies {
     implementation 'com.github.yuzhiqiang1993:zxing:2.2.5'
     //时间选择器
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
+    implementation files('src/main/jniLibs/BaiduLBS_Android.jar')
+    //greendao
+    implementation 'org.greenrobot:greendao:3.2.2'
+    //65536
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.yanzhenjie.recyclerview:x:1.3.2'
+    //图片选择
+    implementation 'com.lcw.library:imagepicker:2.2.0'
+
 }

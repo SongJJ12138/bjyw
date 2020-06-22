@@ -35,8 +35,12 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:layout_height="match_parent">
-            <androidx.appcompat.widget.AppCompatSpinner
+            <TextView
                 android:id="@+id/createOrder_spinner_district"
+                android:text="区"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>
@@ -48,8 +52,12 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:layout_height="match_parent" >
-            <androidx.appcompat.widget.AppCompatSpinner
+            <TextView
                 android:id="@+id/createOrder_spinner_town"
+                android:text="镇"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>
@@ -61,28 +69,20 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:layout_height="match_parent">
-            <androidx.appcompat.widget.AppCompatSpinner
+            <TextView
                 android:id="@+id/createOrder_spinner_village"
+                android:text="村"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>
     </LinearLayout>
-    <FrameLayout
-        android:layout_below="@id/b"
-        android:layout_marginTop="@dimen/dp_5"
-        android:layout_width="match_parent"
-        android:id="@+id/createOrder_fram_site"
-        android:background="@color/white"
-        android:layout_height="@dimen/dp_45">
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:layout_width="match_parent"
-            android:id="@+id/createOrder_spinner_site"
-            android:layout_height="match_parent" />
-    </FrameLayout>
 
     <View
         android:id="@+id/c"
-        android:layout_below="@id/createOrder_fram_site"
+        android:layout_below="@id/b"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:background="#DDDDDD"

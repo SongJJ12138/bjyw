@@ -1,0 +1,18 @@
+package com.bjyw.bjckyh.adapter
+
+import com.bjyw.bjckyh.R
+import com.bjyw.bjckyh.bean.Equip
+import org.jetbrains.anko.sdk25.coroutines.onClick
+
+class EquipAdapter(mData:ArrayList<Equip>,private val listener: onClickListener):HFRecyclerAdapter<Equip>(mData,
+    R.layout.item_equip){
+    interface onClickListener{
+        fun onClick(equipId:Int)
+    }
+    override fun onBind(holder: ViewHolder, position: Int, data: Equip) {
+        holder.setText(R.id.item_tv_equip,data.name)
+        holder.itemView.onClick {
+            listener.onClick(position)
+        }
+    }
+}

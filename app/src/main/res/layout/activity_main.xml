@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <com.hbcx.bjckyh.view.MyTransformersLayout
+            <com.bjyw.bjckyh.view.MyTransformersLayout
                 android:id="@+id/main_transforer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

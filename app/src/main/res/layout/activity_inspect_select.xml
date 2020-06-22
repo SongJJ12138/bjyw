@@ -73,10 +73,14 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/spinner_district"
+                <TextView
+                    android:id="@+id/tv_district"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:text="区"
                     android:layout_weight="1"
                     android:background="@color/white" />
 
@@ -84,10 +88,14 @@
                     android:layout_width="@dimen/dp_5"
                     android:layout_height="match_parent" />
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/spinner_town"
+                <TextView
+                    android:id="@+id/tv_town"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:text="镇"
                     android:layout_weight="1"
                     android:background="@color/white" />
 
@@ -95,28 +103,23 @@
                     android:layout_width="@dimen/dp_5"
                     android:layout_height="match_parent" />
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/spinner_village"
+                <TextView
+                    android:id="@+id/tv_village"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="@color/black"
+                    android:text="村"
+                    android:gravity="center"
                     android:layout_weight="1"
                     android:background="@color/white" />
             </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_site"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_45"
-                android:layout_below="@id/b"
-                android:layout_marginTop="@dimen/dp_5"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:background="@color/white" />
 
             <View
                 android:id="@+id/e"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
-                android:layout_below="@+id/spinner_site"
+                android:layout_below="@+id/b"
                 android:background="#DDDDDD" />
 
             <TextView
@@ -206,35 +209,8 @@
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/dp_10"
-                android:paddingBottom="@dimen/dp_10">
+                android:paddingBottom="@dimen/dp_10"/>
 
-                <RadioButton
-                    android:id="@+id/rb_jinru"
-                    android:gravity="center"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="正常进入"
-                    android:textSize="@dimen/sp_14" />
-
-                <RadioButton
-                    android:id="@+id/rb_njinru"
-                    android:gravity="center"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="无法进入"
-                    android:textSize="@dimen/sp_14" />
-
-                <RadioButton
-                    android:id="@+id/rb_diushi"
-                    android:gravity="center"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="机柜丢失"
-                    android:textSize="@dimen/sp_14" />
-            </RadioGroup>
 
             <View
                 android:id="@+id/h"
@@ -274,44 +250,7 @@
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/dp_10"
-                android:paddingBottom="@dimen/dp_10">
-
-                <RadioButton
-                    android:id="@+id/rb_zhengchang"
-                    android:gravity="center"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="正常"
-                    android:textSize="@dimen/sp_14" />
-
-                <RadioButton
-                    android:id="@+id/rb_bendi"
-                    android:gravity="center"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="本地封存"
-                    android:textSize="@dimen/sp_14" />
-
-                <RadioButton
-                    android:id="@+id/rb_yidi"
-                    android:gravity="center"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="异地封存"
-                    android:textSize="@dimen/sp_14" />
-
-                <RadioButton
-                    android:id="@+id/rb_hangkong"
-                    android:gravity="center"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="航空管制"
-                    android:textSize="@dimen/sp_14" />
-            </RadioGroup>
+                android:paddingBottom="@dimen/dp_10"/>
 
             <View
                 android:id="@+id/j"
@@ -340,18 +279,19 @@
                 android:text="工作条件"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_18" />
-            <include
-                android:id="@+id/q"
+            <LinearLayout
+                android:id="@+id/layout_EnvironUsualView"
                 android:background="@color/white"
-                layout="@layout/item_workstatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_below="@+id/k"
                 android:layout_marginTop="@dimen/dp_10"/>
             <TextView
+                android:id="@+id/bt_next"
                 android:layout_margin="@dimen/dp_10"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/q"
+                android:layout_below="@+id/layout_EnvironUsualView"
                 android:layout_width="@dimen/dp_335"
                 android:layout_height="@dimen/dp_45"
                 android:textColor="@color/white"

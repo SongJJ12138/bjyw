@@ -2,6 +2,7 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <include  layout="@layout/toolbar_title" />
     <ScrollView
@@ -31,6 +32,7 @@
                     android:textSize="@dimen/sp_18" />
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_inspect_equip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
@@ -327,7 +329,7 @@
                 <FrameLayout
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="69dp"
-                    android:layout_marginRight="@dimen/dp_0"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:background="@drawable/img_add">
                     <ImageView
                         android:id="@+id/img_clean1"
@@ -339,7 +341,7 @@
                 <FrameLayout
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="69dp"
-                    android:layout_marginRight="@dimen/dp_0"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:background="@drawable/img_add">
                     <ImageView
                         android:id="@+id/img_clean2"
@@ -385,16 +387,18 @@
             </LinearLayout>
             <EditText
                 android:id="@+id/ed_content"
-                android:layout_width="348dp"
+                android:layout_width="@dimen/dp_348"
                 android:layout_height="@dimen/dp_81"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
                 android:hint="*编辑备注巡检详情"
                 android:gravity="start"
                 android:textSize="@dimen/sp_16"
                 android:background="@drawable/ed_content"/>
             <TextView
-                android:layout_width="355dp"
-                android:layout_height="45dp"
+                android:layout_width="@dimen/dp_355"
+                android:layout_height="@dimen/dp_45"
                 android:textSize="@dimen/sp_18"
                 android:layout_margin="@dimen/dp_20"
                 android:text="提交工单"

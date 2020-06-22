@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="#F2F3F7"
+    tools:context=".ui.InspectDetailActivity">
+    <include layout="@layout/toolbar_title"/>
+    <LinearLayout
+        android:background="@drawable/layout_equip"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:layout_marginLeft="@dimen/dp_35"
+        android:layout_marginRight="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_20">
+        <TextView
+            android:id="@+id/tv_orderlist_chuli"
+            android:background="@drawable/tv_equiptitle"
+            android:layout_width="0dp"
+            android:text="待处理"
+            android:gravity="center"
+            android:textColor="#1976D2"
+            android:textSize="@dimen/sp_17"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/tv_orderlist_wancheng"
+            android:background="@drawable/tv_equiptitle2"
+            android:text="待完成"
+            android:textSize="@dimen/sp_17"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/orderlist_framlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"/>
+</LinearLayout>
