@@ -1,48 +1,61 @@
 package com.bjyw.bjckyh.ui
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
-import com.bjyw.bjckyh.R
-import kotlinx.android.synthetic.main.activity_inspect_select.*
-import kotlinx.android.synthetic.main.toolbar_title.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.textColor
-import com.yzq.zxinglibrary.android.CaptureActivity
-import android.content.Intent
-import android.app.Activity
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RadioButton
+import androidx.core.view.get
 import com.baidu.mapapi.model.LatLng
 import com.baidu.mapapi.utils.DistanceUtil
+import com.bjyw.bjckyh.R
+import com.bjyw.bjckyh.bean.Message
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.utils.MapLocationUtil
+import com.bjyw.bjckyh.view.EnvironUsualView
+import com.yzq.zxinglibrary.android.CaptureActivity
 import com.yzq.zxinglibrary.common.Constant
+import kotlinx.android.synthetic.main.activity_inspect_select.*
+import kotlinx.android.synthetic.main.toolbar_title.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.textColor
+import org.jetbrains.anko.toast
+import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import com.bjyw.bjckyh.view.EnvironUsualView
-import com.lcw.library.imagepicker.ImagePicker
-import org.jetbrains.anko.toast
 
 
 class InspectSelectActivity : BaseActivity() {
     private val REQUEST_CODE_SCAN=0x01
     private val REQUEST_CODE_ORDE=0x02
-    private val REQUEST__CODE_IMAGES=0x02
+    private val REQUEST__CODE_IMAGES=0x03
     var siteId=""
     var coitionId=""
     var useStutusId=""
     var orderId=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inspect_select)
         orderId=intent.getStringExtra("orderId")
+        EventBus.getDefault().register(this)
         initView()
         initClick()
         getData()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
     private fun getData() {
         var threadCount=3
         showDialog()
@@ -72,10 +85,10 @@ class InspectSelectActivity : BaseActivity() {
         HttpManager.getCoition(1).request(this@InspectSelectActivity){ _,data->
             data.let {data ->
                 threadCount--
-                data!!.forEach {
+                for (i in 0 until data!!.size) {
                     var environUsualView=EnvironUsualView(applicationContext)
-                    environUsualView.init(this@InspectSelectActivity)
-                    environUsualView.setTitle(it.context)
+                    environUsualView.init(this@InspectSelectActivity,i)
+                    environUsualView.setTitle(data[i].context)
                     layout_EnvironUsualView.addView(environUsualView)
                 }
                 if (threadCount==0){
@@ -163,10 +176,33 @@ class InspectSelectActivity : BaseActivity() {
                 orderId= data.getStringExtra("orderIndex")
             }
         } else if(requestCode == REQUEST__CODE_IMAGES && resultCode == Activity.RESULT_OK){
-            val imagePaths = data?.getStringArrayListExtra(ImagePicker.EXTRA_SELECT_IMAGES)
+            if (data==null){
+                showPic("")
+            }else{
+                val paths = data!!.extras!!.getSerializable("photos") as List<String>? //path是选择拍照或者图片的地址数组
+                paths?.get(0)?.let { showPic(it) }
+            }
+
         }else{
             //测试
             getQcode("BJCKYH-000000085")
+        }
+    }
+
+    private fun showPic(s: String) {
+        var uriStr:String
+        if (s.equals("")){
+            uriStr= map.get("uri") as String
+        }else{
+            uriStr=s
+        }
+        var fis: FileInputStream? = null
+        fis = FileInputStream(uriStr)
+        val bitmap = BitmapFactory.decodeStream(fis)
+        if (map.get("type")==0){
+            map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment1).setImageBitmap(bitmap)}
+        }else{
+            map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment2).setImageBitmap(bitmap)}
         }
     }
 
@@ -187,6 +223,12 @@ class InspectSelectActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    var map=HashMap<String,Any>()
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onGetMessage(data: Message) {
+        map= data.message as HashMap<String, Any>
     }
 
 }

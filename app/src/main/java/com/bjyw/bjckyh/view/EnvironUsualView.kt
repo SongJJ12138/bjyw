@@ -1,26 +1,35 @@
 package com.bjyw.bjckyh.view
 
-import android.widget.RadioButton
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.RadioButton
 import com.bjyw.bjckyh.R
+import com.bjyw.bjckyh.bean.Message
 import com.bjyw.bjckyh.bean.UseSttus
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.ui.InspectSelectActivity
+import com.bjyw.bjckyh.utils.FileProviderUtil
 import com.lcw.library.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.item_workstatus.view.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import java.lang.StringBuilder
+import java.io.File
 
 
 class EnvironUsualView : LinearLayout {
     private val REQUEST__CODE_IMAGES = 0x03
     private lateinit var activity:InspectSelectActivity
     private var checkId= 0
+    private var position=0
     private var list=ArrayList<UseSttus>()
     constructor(context: Context) : super(context) {
         initView(context)
@@ -38,10 +47,35 @@ class EnvironUsualView : LinearLayout {
         initView(context)
     }
 
+    public lateinit var uri: Uri
 
+    @SuppressLint("SimpleDateFormat")
     private fun initView(context: Context) {
         LayoutInflater.from(context).inflate(R.layout.item_workstatus, this, true)
         img_environment1.onClick {
+            var path_name =
+                "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            var file= File(
+                Environment.getExternalStorageDirectory(),
+                path_name
+            )
+            uri= FileProviderUtil.getFileUri(
+                context,
+                file,
+                activity.getPackageName() + ".fileprovider"
+            )!!
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
+            activity.startActivityForResult(intent,REQUEST__CODE_IMAGES)
+            var map=HashMap<String,Any>()
+            map["position"] = position
+            map["type"] = 0
+            map["uri"]=file.absolutePath
+            EventBus.getDefault().post(Message.getInstance(map))
+        }
+
+
+        img_environment2.onClick {
             ImagePicker.getInstance()
                 .setTitle("选择照片")//设置标题
                 .showCamera(true)//设置是否显示拍照按钮
@@ -52,7 +86,12 @@ class EnvironUsualView : LinearLayout {
                     activity,
                     REQUEST__CODE_IMAGES
                 )
+            var map=HashMap<String,Int>()
+            map["position"] = position
+            map["type"] = 1
+            EventBus.getDefault().post(Message.getInstance(map))
         }
+
         bt_environment.onClick {
             if (layout_environment.visibility== View.GONE){
                 if (list.size>0){
@@ -68,8 +107,9 @@ class EnvironUsualView : LinearLayout {
         }
     }
 
-    fun init(baseActivity:InspectSelectActivity){
+    fun init(baseActivity:InspectSelectActivity, i:Int){
         activity=baseActivity
+        position=i
     }
     private fun getData() {
         HttpManager.getUseStatus(4).request(activity){ _, data->
@@ -83,6 +123,7 @@ class EnvironUsualView : LinearLayout {
 
     private fun initSelect() {
         var tishi=StringBuilder()
+        rg_environment.removeAllViews()
         for (i in 0 until list!!.size){
             var radioButton=RadioButton(context)
             radioButton.text=list[i].abnormalContext
