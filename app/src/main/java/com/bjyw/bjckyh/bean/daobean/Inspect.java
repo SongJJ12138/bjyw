@@ -11,13 +11,13 @@ public class Inspect {
     private String orderIndex;
     private String userId;
     private String status;
-    private int is_unusual;
+    private String is_unusual;
     private String useStatus;
     private String environmentStatus;
     private String conId;
-    @Generated(hash = 1534128341)
+    @Generated(hash = 1148144510)
     public Inspect(Long id, String orderIndex, String userId, String status,
-            int is_unusual, String useStatus, String environmentStatus,
+            String is_unusual, String useStatus, String environmentStatus,
             String conId) {
         this.id = id;
         this.orderIndex = orderIndex;
@@ -55,10 +55,10 @@ public class Inspect {
     public void setStatus(String status) {
         this.status = status;
     }
-    public int getIs_unusual() {
+    public String getIs_unusual() {
         return this.is_unusual;
     }
-    public void setIs_unusual(int is_unusual) {
+    public void setIs_unusual(String is_unusual) {
         this.is_unusual = is_unusual;
     }
     public String getUseStatus() {

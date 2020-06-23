@@ -13,5 +13,8 @@ object Api {
     const val GET_USESTATUS="usual/environment"//使用状态
     const val GET_ALLEQUIP="equip/getByMap"//全部设备
     const val GET_EQUIPUSUAL="usual/equipment"//设备巡检项
+    const val UPLOAD_PIC="file/upload"//设备巡检项
+    const val GET_CONSUMABLE="consumable/getAll"//设备巡检项
+
 
 }

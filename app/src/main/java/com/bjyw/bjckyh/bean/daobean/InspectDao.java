@@ -26,7 +26,7 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
         public final static Property OrderIndex = new Property(1, String.class, "orderIndex", false, "ORDER_INDEX");
         public final static Property UserId = new Property(2, String.class, "userId", false, "USER_ID");
         public final static Property Status = new Property(3, String.class, "status", false, "STATUS");
-        public final static Property Is_unusual = new Property(4, int.class, "is_unusual", false, "IS_UNUSUAL");
+        public final static Property Is_unusual = new Property(4, String.class, "is_unusual", false, "IS_UNUSUAL");
         public final static Property UseStatus = new Property(5, String.class, "useStatus", false, "USE_STATUS");
         public final static Property EnvironmentStatus = new Property(6, String.class, "environmentStatus", false, "ENVIRONMENT_STATUS");
         public final static Property ConId = new Property(7, String.class, "conId", false, "CON_ID");
@@ -49,7 +49,7 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
                 "\"ORDER_INDEX\" TEXT," + // 1: orderIndex
                 "\"USER_ID\" TEXT," + // 2: userId
                 "\"STATUS\" TEXT," + // 3: status
-                "\"IS_UNUSUAL\" INTEGER NOT NULL ," + // 4: is_unusual
+                "\"IS_UNUSUAL\" TEXT," + // 4: is_unusual
                 "\"USE_STATUS\" TEXT," + // 5: useStatus
                 "\"ENVIRONMENT_STATUS\" TEXT," + // 6: environmentStatus
                 "\"CON_ID\" TEXT);"); // 7: conId
@@ -84,7 +84,11 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
         if (status != null) {
             stmt.bindString(4, status);
         }
-        stmt.bindLong(5, entity.getIs_unusual());
+ 
+        String is_unusual = entity.getIs_unusual();
+        if (is_unusual != null) {
+            stmt.bindString(5, is_unusual);
+        }
  
         String useStatus = entity.getUseStatus();
         if (useStatus != null) {
@@ -125,7 +129,11 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
         if (status != null) {
             stmt.bindString(4, status);
         }
-        stmt.bindLong(5, entity.getIs_unusual());
+ 
+        String is_unusual = entity.getIs_unusual();
+        if (is_unusual != null) {
+            stmt.bindString(5, is_unusual);
+        }
  
         String useStatus = entity.getUseStatus();
         if (useStatus != null) {
@@ -155,7 +163,7 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // orderIndex
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // userId
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // status
-            cursor.getInt(offset + 4), // is_unusual
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // is_unusual
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // useStatus
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // environmentStatus
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // conId
@@ -169,7 +177,7 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
         entity.setOrderIndex(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setUserId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setStatus(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setIs_unusual(cursor.getInt(offset + 4));
+        entity.setIs_unusual(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setUseStatus(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setEnvironmentStatus(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setConId(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));

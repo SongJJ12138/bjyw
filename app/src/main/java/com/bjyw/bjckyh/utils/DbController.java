@@ -7,6 +7,8 @@ import com.bjyw.bjckyh.bean.daobean.DaoMaster;
 import com.bjyw.bjckyh.bean.daobean.DaoSession;
 import com.bjyw.bjckyh.bean.daobean.Inspect;
 import com.bjyw.bjckyh.bean.daobean.InspectDao;
+import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent;
+import com.bjyw.bjckyh.bean.daobean.InspectEnvironMentDao;
 
 import org.greenrobot.greendao.AbstractDao;
 
@@ -37,6 +39,7 @@ public class DbController {
      * dao
      */
     private InspectDao inspectDao;
+    private InspectEnvironMentDao inspectEnvironMentDao;
 
     private static DbController mDbController;
 
@@ -63,6 +66,7 @@ public class DbController {
         mDaoMaster =new DaoMaster(getWritableDatabase());
         mDaoSession = mDaoMaster.newSession();
         inspectDao = mDaoSession.getInspectDao();
+        inspectEnvironMentDao=mDaoSession.getInspectEnvironMentDao();
     }
     /**
      * 获取可读数据库
@@ -91,14 +95,14 @@ public class DbController {
      * 会自动判定是插入还是替换
      * @param Inspect
      */
-    public void insertOrReplace(Inspect Inspect){
+    public void insertOrReplaceInspect(Inspect Inspect){
         inspectDao.insertOrReplace(Inspect);
     }
     /**插入一条记录，表里面要没有与之相同的记录
      *
      * @param Inspect
      */
-    public long insert(Inspect Inspect){
+    public long insertInspect(Inspect Inspect){
         return  inspectDao.insert(Inspect);
     }
 
@@ -106,7 +110,7 @@ public class DbController {
      * 更新数据
      * @param Inspect
      */
-    public void update(Inspect Inspect){
+    public void updateInspect(Inspect Inspect){
         Inspect mOldInspect = inspectDao.queryBuilder().where(InspectDao.Properties.OrderIndex.eq(Inspect.getId())).build().unique();//拿到之前的记录
         if(mOldInspect !=null){
             inspectDao.update(mOldInspect);
@@ -115,21 +119,38 @@ public class DbController {
     /**
      * 按条件查询数据
      */
-    public List<Inspect> searchByWhere(String wherecluse){
+    public List<Inspect> searchByWhereInspect(String wherecluse){
         List<Inspect>Inspects = (List<Inspect>) inspectDao.queryBuilder().where(InspectDao.Properties.OrderIndex.eq(wherecluse)).build().unique();
         return Inspects;
     }
     /**
      * 查询所有数据
      */
-    public List<Inspect> searchAll(){
+    public List<Inspect> searchAllInspect(){
         List<Inspect>Inspects=inspectDao.queryBuilder().list();
         return Inspects;
     }
     /**
      * 删除数据
      */
-    public void delete(String wherecluse){
+    public void deleteInspect(String wherecluse){
         inspectDao.queryBuilder().where(InspectDao.Properties.OrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
+
+
+    public void insertOrReplaceEnvironment(InspectEnvironMent environMent){
+        inspectEnvironMentDao.insertOrReplace(environMent);
+    }
+    public List<InspectEnvironMent> searchByWhereEnvironment(String wherecluse){
+        List<InspectEnvironMent>environMents = (List<InspectEnvironMent>) inspectEnvironMentDao.queryBuilder().where(InspectEnvironMentDao.Properties.OnrderIndex.eq(wherecluse)).build().unique();
+        return environMents;
+    }
+    public List<InspectEnvironMent> searchAllEnvironment(){
+        List<InspectEnvironMent>environMents=inspectEnvironMentDao.queryBuilder().list();
+        return environMents;
+    }
+    public void deleteEnvironment(String wherecluse){
+        inspectEnvironMentDao.queryBuilder().where(InspectEnvironMentDao.Properties.OnrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 }

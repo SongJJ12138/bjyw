@@ -14,6 +14,7 @@ import android.widget.RadioButton
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.bean.Message
 import com.bjyw.bjckyh.bean.UseSttus
+import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.ui.InspectSelectActivity
@@ -22,12 +23,14 @@ import com.lcw.library.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.item_workstatus.view.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.toast
 import java.io.File
 
 
 class EnvironUsualView : LinearLayout {
     private val REQUEST__CODE_IMAGES = 0x03
     private lateinit var activity:InspectSelectActivity
+    private var conId= 0
     private var checkId= 0
     private var position=0
     private var list=ArrayList<UseSttus>()
@@ -47,7 +50,7 @@ class EnvironUsualView : LinearLayout {
         initView(context)
     }
 
-    public lateinit var uri: Uri
+    lateinit var uri: Uri
 
     @SuppressLint("SimpleDateFormat")
     private fun initView(context: Context) {
@@ -112,12 +115,13 @@ class EnvironUsualView : LinearLayout {
         }
     }
 
-    fun init(baseActivity:InspectSelectActivity, i:Int){
+    fun init(baseActivity:InspectSelectActivity, position:Int,conId:Int){
         activity=baseActivity
-        position=i
+        this.position =position
+        this.conId =conId
     }
     private fun getData() {
-        HttpManager.getUseStatus(4).request(activity){ _, data->
+        HttpManager.getUseStatus(conId).request(activity){ _, data->
             data.let {
                 list.addAll(it!!)
                 initSelect()
@@ -135,6 +139,7 @@ class EnvironUsualView : LinearLayout {
             radioButton.textSize=14f
             radioButton.onClick {
                 checkId=list[i].id
+                activity.toast(list[i].id.toString())
             }
             rg_environment.addView(radioButton)
             var a=i+1
@@ -146,6 +151,21 @@ class EnvironUsualView : LinearLayout {
 
     fun setTitle(title:String){
         tv_title.text=title
+    }
+
+    fun getEnvironBean():InspectEnvironMent {
+        var environ=InspectEnvironMent()
+        environ.environmentIndex=""+conId
+        environ.remark=ed_environmentcontent.text.toString().trim()
+        environ.picture=""
+        if (checkId==0){
+            environ.context=""
+            environ.is_unusual="0"
+        }else{
+            environ.context=""+checkId
+            environ.is_unusual="1"
+        }
+        return  environ
     }
 
 }

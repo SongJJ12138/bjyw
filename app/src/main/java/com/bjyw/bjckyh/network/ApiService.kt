@@ -2,7 +2,9 @@ package com.bjyw.bjckyh.network
 
 import com.bjyw.bjckyh.bean.*
 import io.reactivex.Flowable
+import okhttp3.MultipartBody
 import retrofit2.http.*
+import java.io.File
 import java.math.BigInteger
 
 /**
@@ -53,5 +55,14 @@ interface ApiService {
     @POST(Api.GET_EQUIPUSUAL)
     @FormUrlEncoded
     fun getEquipUsual(@Field("json") json: String): Flowable<ResultData<ArrayList<EquipUsual>>>
+
+    @POST(Api.UPLOAD_PIC)
+    @FormUrlEncoded
+    fun updataPic( @Part("files") partList:List<MultipartBody.Part> ): Flowable<ResultData<String>>
+
+    @POST(Api.GET_CONSUMABLE)
+    @FormUrlEncoded
+    fun getConsumable(@Field("json") json: String): Flowable<ResultData<ArrayList<Consumable>>>
+
 
 }

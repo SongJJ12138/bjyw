@@ -52,6 +52,7 @@ class ChuliFragment: BaseFragment(), OrderAdapter.onClickListener {
     }
 
     private fun initSide() {
+        ry_orderlist.isNestedScrollingEnabled = false
         ry_orderlist.isItemViewSwipeEnabled = true
         ry_orderlist.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         // 创建菜单：

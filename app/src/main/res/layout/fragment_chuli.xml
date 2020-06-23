@@ -4,6 +4,8 @@
     android:background="#F2F3F7"
     android:layout_height="match_parent">
     <com.yanzhenjie.recyclerview.SwipeRecyclerView
+        android:fadingEdge="none"
+        android:overScrollMode="never"
         android:id="@+id/ry_orderlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

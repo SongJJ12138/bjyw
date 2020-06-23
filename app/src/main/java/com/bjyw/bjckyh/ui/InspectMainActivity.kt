@@ -30,7 +30,9 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
     private val siteId by lazy{
         intent.getIntExtra("siteId",0)
     }
-
+    private val orderId by lazy{
+        intent.getStringExtra("orderId")
+    }
     private fun initView() {
         activity_include_tvrignt.text="保存"
         activity_include_tvrignt.textColor=Color.WHITE

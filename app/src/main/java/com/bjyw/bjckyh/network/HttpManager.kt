@@ -7,9 +7,15 @@ import com.bjyw.bjckyh.utils.DES
 import com.bjyw.bjckyh.utils.SPUtils
 import com.bjyw.bjckyh.utils.defaultScheduler
 import io.reactivex.Flowable
+import okhttp3.MediaType
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 import java.math.BigInteger
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+
+
 
 /**
  * 网络请求处理
@@ -207,6 +213,28 @@ object HttpManager {
         var jsonObject=JSONObject()
         jsonObject.put("eqId",equipId)
         return request().getEquipUsual(jsonObject.toString()).defaultScheduler()
+    }
+
+    /**
+     * 上传照片
+     */
+    fun updataPic(files: ArrayList<File>): Flowable<ResultData<String>> {
+        var partList=ArrayList<MultipartBody.Part>()
+        for (i in 0 until files.size){
+            val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), files[i])
+            val body =
+                MultipartBody.Part.createFormData("photo"+i, "photo"+i, requestFile)
+            partList.add(body)
+        }
+        return request().updataPic(partList).defaultScheduler()
+    }
+
+    /**
+     * 获取维修材料
+     */
+    fun getConsumable(): Flowable<ResultData<ArrayList<Consumable>>> {
+        var jsonObject=JSONObject()
+        return request().getConsumable(jsonObject.toString()).defaultScheduler()
     }
 }
 
