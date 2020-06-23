@@ -1,5 +1,7 @@
 package com.bjyw.bjckyh.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.fragment.ChuliFragment
@@ -26,6 +28,11 @@ class OrderListActivity : BaseActivity() {
         initClick()
     }
     private fun initClick() {
+        activity_include_btback.onClick {
+            var intent= Intent(this@OrderListActivity,InspectSelectActivity::class.java)
+            setResult(Activity.RESULT_CANCELED,intent)
+            finish()
+        }
         tv_orderlist_chuli.onClick {
             tv_orderlist_wancheng.background=application.resources.getDrawable(R.drawable.tv_equiptitle2)
             tv_orderlist_chuli.background=application.resources.getDrawable(R.drawable.tv_equiptitle)
@@ -40,6 +47,11 @@ class OrderListActivity : BaseActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        var intent= Intent(this@OrderListActivity,InspectSelectActivity::class.java)
+        setResult(Activity.RESULT_CANCELED,intent)
+        finish()
+    }
 
     override fun onDestroy() {
         try {

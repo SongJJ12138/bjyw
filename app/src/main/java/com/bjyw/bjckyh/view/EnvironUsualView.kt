@@ -76,20 +76,25 @@ class EnvironUsualView : LinearLayout {
 
 
         img_environment2.onClick {
-            ImagePicker.getInstance()
-                .setTitle("选择照片")//设置标题
-                .showCamera(true)//设置是否显示拍照按钮
-                .showImage(false)//设置是否展示图片
-                .showVideo(false)//设置是否展示视频
-                .setSingleType(true)//设置图片视频不能同时选择
-                .start(
-                    activity,
-                    REQUEST__CODE_IMAGES
+                var path_name =
+                    "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                var file= File(
+                    Environment.getExternalStorageDirectory(),
+                    path_name
                 )
-            var map=HashMap<String,Int>()
-            map["position"] = position
-            map["type"] = 1
-            EventBus.getDefault().post(Message.getInstance(map))
+                uri= FileProviderUtil.getFileUri(
+                    context,
+                    file,
+                    activity.getPackageName() + ".fileprovider"
+                )!!
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
+                activity.startActivityForResult(intent,REQUEST__CODE_IMAGES)
+                var map=HashMap<String,Any>()
+                map["position"] = position
+                map["type"] = 1
+                map["uri"]=file.absolutePath
+                EventBus.getDefault().post(Message.getInstance(map))
         }
 
         bt_environment.onClick {

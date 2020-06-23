@@ -104,7 +104,7 @@ class InspectSelectActivity : BaseActivity() {
                     radioButton.text=useStatus.abnormalContext
                     radioButton.textSize=14f
                     radioButton.onClick {
-                        useStutusId=""+useStatus.id
+                        useStutusId=""+useStatus.index
                         toast(useStutusId)
                     }
                     radioButton.layoutParams = LinearLayout.LayoutParams(
@@ -200,8 +200,10 @@ class InspectSelectActivity : BaseActivity() {
         fis = FileInputStream(uriStr)
         val bitmap = BitmapFactory.decodeStream(fis)
         if (map.get("type")==0){
+            map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment1).scaleType=ImageView.ScaleType.CENTER_CROP}
             map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment1).setImageBitmap(bitmap)}
         }else{
+            map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment2).scaleType=ImageView.ScaleType.CENTER_CROP}
             map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment2).setImageBitmap(bitmap)}
         }
     }
@@ -226,6 +228,7 @@ class InspectSelectActivity : BaseActivity() {
     }
 
     var map=HashMap<String,Any>()
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onGetMessage(data: Message) {
         map= data.message as HashMap<String, Any>
