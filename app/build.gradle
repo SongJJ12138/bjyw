@@ -25,7 +25,7 @@ android {
         }
     }
     greendao {
-        schemaVersion 1
+        schemaVersion 2
         daoPackage 'com.bjyw.bjckyh.bean.daobean'
         targetGenDir 'src/main/java'
     }
@@ -48,6 +48,7 @@ dependencies {
     //rxjava
     api 'io.reactivex.rxjava2:rxjava:2.1.9'
     api 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    api 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     api 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     api 'com.android.support.constraint:constraint-layout:1.1.3'
     //okhttp log

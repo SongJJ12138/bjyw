@@ -6,9 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 import com.bjyw.bjckyh.bean.daobean.DaoMaster;
 import com.bjyw.bjckyh.bean.daobean.DaoSession;
 import com.bjyw.bjckyh.bean.daobean.Inspect;
+import com.bjyw.bjckyh.bean.daobean.InspectConsumable;
+import com.bjyw.bjckyh.bean.daobean.InspectConsumableDao;
 import com.bjyw.bjckyh.bean.daobean.InspectDao;
 import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent;
 import com.bjyw.bjckyh.bean.daobean.InspectEnvironMentDao;
+import com.bjyw.bjckyh.bean.daobean.InspectEquipMent;
+import com.bjyw.bjckyh.bean.daobean.InspectEquipMentDao;
 
 import org.greenrobot.greendao.AbstractDao;
 
@@ -40,6 +44,8 @@ public class DbController {
      */
     private InspectDao inspectDao;
     private InspectEnvironMentDao inspectEnvironMentDao;
+    private InspectEquipMentDao inspectEquipMentDao;
+    private InspectConsumableDao inspectConsumableDao;
 
     private static DbController mDbController;
 
@@ -67,6 +73,8 @@ public class DbController {
         mDaoSession = mDaoMaster.newSession();
         inspectDao = mDaoSession.getInspectDao();
         inspectEnvironMentDao=mDaoSession.getInspectEnvironMentDao();
+        inspectEquipMentDao=mDaoSession.getInspectEquipMentDao();
+        inspectConsumableDao=mDaoSession.getInspectConsumableDao();
     }
     /**
      * 获取可读数据库
@@ -93,29 +101,13 @@ public class DbController {
 
     /**
      * 会自动判定是插入还是替换
-     * @param Inspect
+     * @param inspect
      */
-    public void insertOrReplaceInspect(Inspect Inspect){
-        inspectDao.insertOrReplace(Inspect);
-    }
-    /**插入一条记录，表里面要没有与之相同的记录
-     *
-     * @param Inspect
-     */
-    public long insertInspect(Inspect Inspect){
-        return  inspectDao.insert(Inspect);
+    public void insertOrReplaceInspect(Inspect inspect){
+        deleteInspect(inspect.getOrderIndex());
+        inspectDao.insertOrReplace(inspect);
     }
 
-    /**
-     * 更新数据
-     * @param Inspect
-     */
-    public void updateInspect(Inspect Inspect){
-        Inspect mOldInspect = inspectDao.queryBuilder().where(InspectDao.Properties.OrderIndex.eq(Inspect.getId())).build().unique();//拿到之前的记录
-        if(mOldInspect !=null){
-            inspectDao.update(mOldInspect);
-        }
-    }
     /**
      * 按条件查询数据
      */
@@ -137,20 +129,42 @@ public class DbController {
         inspectDao.queryBuilder().where(InspectDao.Properties.OrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
-
-
     public void insertOrReplaceEnvironment(InspectEnvironMent environMent){
+        deleteEnvironment(environMent.getOnrderIndex());
         inspectEnvironMentDao.insertOrReplace(environMent);
     }
     public List<InspectEnvironMent> searchByWhereEnvironment(String wherecluse){
         List<InspectEnvironMent>environMents = (List<InspectEnvironMent>) inspectEnvironMentDao.queryBuilder().where(InspectEnvironMentDao.Properties.OnrderIndex.eq(wherecluse)).build().unique();
         return environMents;
     }
-    public List<InspectEnvironMent> searchAllEnvironment(){
-        List<InspectEnvironMent>environMents=inspectEnvironMentDao.queryBuilder().list();
-        return environMents;
-    }
+
     public void deleteEnvironment(String wherecluse){
         inspectEnvironMentDao.queryBuilder().where(InspectEnvironMentDao.Properties.OnrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
+
+    public void insertOrReplaceEquipment(InspectEquipMent equipMent){
+        deleteEquipment(equipMent.getOrderIndex());
+        inspectEquipMentDao.insertOrReplace(equipMent);
+    }
+    public void deleteEquipment(String wherecluse){
+        inspectEquipMentDao.queryBuilder().where(InspectEquipMentDao.Properties.OrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+    public List<InspectEquipMent> searchByWhereEquipment(String wherecluse){
+        List<InspectEquipMent>equipMents = (List<InspectEquipMent>) inspectEquipMentDao.queryBuilder().where(InspectEquipMentDao.Properties.OrderIndex.eq(wherecluse),InspectEquipMentDao.Properties.OrderIndex.eq(wherecluse)).build().unique();
+        return equipMents;
+    }
+
+
+    public void insertOrReplaceConsum(InspectConsumable inspectConsumable){
+        deleteConsum(inspectConsumable.getOrderIndex());
+        inspectConsumableDao.insertOrReplace(inspectConsumable);
+    }
+    public void deleteConsum(String wherecluse){
+        inspectConsumableDao.queryBuilder().where(InspectConsumableDao.Properties.OrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+    public List<InspectConsumable> searchByWhereConsum(String wherecluse,String equipId){
+        List<InspectConsumable>consumables = (List<InspectConsumable>) inspectConsumableDao.queryBuilder().where(InspectConsumableDao.Properties.OrderIndex.eq(wherecluse),InspectConsumableDao.Properties.EquipId.eq(equipId)).build().unique();
+        return consumables;
     }
 }

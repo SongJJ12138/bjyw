@@ -1,5 +1,6 @@
 package com.bjyw.bjckyh.ui
 
+import android.Manifest
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -17,11 +18,14 @@ import org.jetbrains.anko.toast
 import java.util.regex.Pattern
 
 
+
+
 @Suppress("UNREACHABLE_CODE")
 class LogonActivity : BaseActivity(), TextWatcher {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logon)
+        requestPermission()
         activity_login_edpassword.addTextChangedListener(this)
         activity_login_btlogin.onClick {
             var name=activity_login_edname.text.toString().trim()
@@ -48,6 +52,11 @@ class LogonActivity : BaseActivity(), TextWatcher {
             }
         }
     }
+
+    private fun requestPermission() {
+
+    }
+
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
 
@@ -64,7 +73,10 @@ class LogonActivity : BaseActivity(), TextWatcher {
     }
 
     override fun afterTextChanged(s: Editable?) {
-       
+       if (activity_login_edpassword.text.toString().equals("")){
+           login_passworderror.visibility= View.GONE
+           activity_view_password.backgroundColor=applicationContext.resources.getColor(R.color.dimgray)
+       }
     }
     fun checknum(str:String): Boolean {
         val pattern = Pattern.compile("^[-\\+]?[\\d]*$")

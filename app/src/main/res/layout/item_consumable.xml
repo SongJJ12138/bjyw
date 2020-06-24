@@ -27,12 +27,13 @@
         android:textColor="@color/black"
         android:textSize="@dimen/sp_15"/>
     <EditText
+        android:id="@+id/ed_count"
         android:layout_margin="@dimen/dp_1"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:inputType="number"
-        android:hint="用量"
+        android:hint="0"
         android:gravity="center"
         android:background="@null"
         android:textColor="@color/black"

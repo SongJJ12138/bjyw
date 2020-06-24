@@ -236,5 +236,12 @@ object HttpManager {
         var jsonObject=JSONObject()
         return request().getConsumable(jsonObject.toString()).defaultScheduler()
     }
+
+    /**
+     * 提交工单
+     */
+    fun commit(jsonject:String): Flowable<ResultData<String>> {
+        return request().commit(jsonject).defaultScheduler()
+    }
 }
 

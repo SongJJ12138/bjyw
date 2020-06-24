@@ -111,16 +111,18 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_3" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:text="无线网络状态"
-                android:textColor="#666666"
+                android:paddingLeft="@dimen/dp_15"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
-                android:paddingLeft="@dimen/dp_15"
-                android:textSize="@dimen/sp_18"/>
+                android:text="无线网络状态"
+                android:textColor="#666666"
+                android:textSize="@dimen/sp_18" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1" />
@@ -397,6 +399,7 @@
                 android:textSize="@dimen/sp_16"
                 android:background="@drawable/ed_content"/>
             <TextView
+                android:id="@+id/tv_commit"
                 android:layout_width="@dimen/dp_355"
                 android:layout_height="@dimen/dp_45"
                 android:textSize="@dimen/sp_18"

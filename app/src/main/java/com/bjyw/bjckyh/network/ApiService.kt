@@ -64,5 +64,10 @@ interface ApiService {
     @FormUrlEncoded
     fun getConsumable(@Field("json") json: String): Flowable<ResultData<ArrayList<Consumable>>>
 
+    @POST(Api.COMMIT)
+    @FormUrlEncoded
+    fun commit( @Field("json") json: String ): Flowable<ResultData<String>>
+
+
 
 }

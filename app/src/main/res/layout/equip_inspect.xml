@@ -25,11 +25,13 @@
         android:orientation="horizontal"
         android:layout_margin="@dimen/dp_10">
         <RadioButton
+            android:id="@+id/rb_have"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="有"/>
         <RadioButton
+            android:id="@+id/rb_Nhave"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
