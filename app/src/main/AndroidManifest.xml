@@ -34,7 +34,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.OrderListActivity"></activity>
+        <activity android:name=".ui.SiteDeatilActivity"></activity>
+        <activity android:name=".ui.OrderListActivity" />
         <activity android:name=".ui.InspectDetailActivity" /> <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
             android:name="android.notch_support"
@@ -52,8 +53,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
-        <!-- targetSDKVersion >= 24时才需要添加这个provider，provider的authorities属性的值为${applicationId}.fileprovider，请开发者根据自己的${applicationId}来设置这个值 -->
+            android:process=":remote" /> <!-- targetSDKVersion >= 24时才需要添加这个provider，provider的authorities属性的值为${applicationId}.fileprovider，请开发者根据自己的${applicationId}来设置这个值 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.bjyw.bjckyh.fileprovider"

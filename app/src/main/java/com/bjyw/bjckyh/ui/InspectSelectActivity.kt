@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -45,6 +46,7 @@ class InspectSelectActivity : BaseActivity() {
     private val REQUEST_CODE_SCAN=0x01
     private val REQUEST_CODE_ORDE=0x02
     private val REQUEST__CODE_IMAGES=0x03
+    var isOk=true
     var siteId=0
     var coitionId=""
     var useStutusId=""
@@ -76,8 +78,11 @@ class InspectSelectActivity : BaseActivity() {
                     radioButton.text=inspectItem.context
                     radioButton.textSize=14f
                     radioButton.onClick {
+                        isOk = inspectItem.context == "正常巡检"
+                        environList.forEach {
+                            it.setOk(isOk)
+                        }
                         coitionId=""+inspectItem.index
-                        toast(coitionId)
                     }
                     radioButton.layoutParams = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -96,7 +101,7 @@ class InspectSelectActivity : BaseActivity() {
                 threadCount--
                 for (i in 0 until data!!.size) {
                     var environUsualView=EnvironUsualView(applicationContext)
-                    environUsualView.init(this@InspectSelectActivity,i,data[i].index)
+                    environUsualView.init(this@InspectSelectActivity,i,data[i].index,isOk)
                     environUsualView.setTitle(data[i].context)
                     layout_EnvironUsualView.addView(environUsualView)
                     environList.add(environUsualView)
@@ -117,7 +122,7 @@ class InspectSelectActivity : BaseActivity() {
                     radioButton.textSize=14f
                     radioButton.onClick {
                         useStutusId=""+useStatus.index
-                        toast(useStutusId)
+
                     }
                     radioButton.layoutParams = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -135,6 +140,13 @@ class InspectSelectActivity : BaseActivity() {
 
 
     private fun initClick() {
+        bt_sitehistory.onClick {
+            if (orderId.equals("")){
+                toast("请先去工单列表选择工单")
+            }else{
+                startActivity(Intent(this@InspectSelectActivity,SiteDeatilActivity::class.java))
+            }
+        }
         activity_include_btback.onClick {
             this@InspectSelectActivity.finish()
         }
@@ -155,7 +167,7 @@ class InspectSelectActivity : BaseActivity() {
             }else{
                 //测试
                 toast("请先扫码获取站点数据")
-                saveInspect()
+//                saveInspect()
             }
         }
     }
@@ -233,10 +245,11 @@ class InspectSelectActivity : BaseActivity() {
     private fun onNext() {
         dismissDialog()
         var intent=Intent(this@InspectSelectActivity,InspectMainActivity::class.java)
-        //intent.putExtra("siteId",siteId)
+        intent.putExtra("siteId",siteId)
         //测试
-        intent.putExtra("siteId",200)
+//        intent.putExtra("siteId",1)
         intent.putExtra("orderId",orderId)
+        intent.putExtra("isOk",isOk)
         startActivity(intent)
     }
 
@@ -253,6 +266,8 @@ class InspectSelectActivity : BaseActivity() {
     }
 
     private fun initView() {
+        size.visibility=View.VISIBLE
+        size.text=intent.getStringExtra("orderSize")
         activity_include_tvrignt.text="工单列表"
         activity_include_tvrignt.textColor=Color.WHITE
         val formatter = SimpleDateFormat("yyyy年MM月dd日")

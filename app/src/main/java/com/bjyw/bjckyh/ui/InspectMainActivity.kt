@@ -1,16 +1,24 @@
 package com.bjyw.bjckyh.ui
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.adapter.EquipAdapter
 import com.bjyw.bjckyh.bean.Equip
+import com.bjyw.bjckyh.dialog.CommitFaileDialog
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.utils.DbController
+import com.bjyw.bjckyh.utils.FileProviderUtil
+import com.bjyw.bjckyh.utils.convertBitmapToFile
 import kotlinx.android.synthetic.main.activity_inspect_main.*
 import kotlinx.android.synthetic.main.toolbar_title.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -18,22 +26,33 @@ import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
+import java.io.FileInputStream
 
+@Suppress("DEPRECATION")
 class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
-    val REQUEST_CODE=0x01
-    var youxian=""
-    var wuxian=""
-    var phone=""
-    var huanjing=""
-    var teshu=""
-    var cleanPic=""
-    var beizhu=""
+    private  val REQUEST_CODE=0x01
+    private val REQUEST__CODE_IMAGES=0x02
+    var httpType=0
+    private var youxian=""
+    private var wuxian=""
+    private var phone=""
+    private var huanjing=""
+    private var teshu=""
+    private  var cleanPic=""
+    private  var picIndex=0
+    var picPath=""
+    var picList=ArrayList<Bitmap>()
     override fun onClick(position:Int,equipId: String) {
-        var intent=Intent(this@InspectMainActivity,InspectDetailActivity::class.java)
-        intent.putExtra("equipId",equipId)
-        intent.putExtra("orderId",orderId)
-        intent.putExtra("position",position)
-        startActivityForResult(intent,REQUEST_CODE)
+        if (isok){
+            var intent=Intent(this@InspectMainActivity,InspectDetailActivity::class.java)
+            intent.putExtra("equipId",equipId)
+            intent.putExtra("orderId",orderId)
+            intent.putExtra("position",position)
+            startActivityForResult(intent,REQUEST_CODE)
+        }else{
+            toast("异常巡检，无法点击")
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,9 +63,67 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         getEquipUsual()
     }
 
+    private val isok by lazy {
+       intent.getBooleanExtra("isOk",true)
+    }
+
     private fun initClick() {
         activity_include_btback.onClick {
             finish()
+        }
+        img_clean1.onClick {
+            picIndex=0
+            val path_name =
+                "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val file= File(
+                Environment.getExternalStorageDirectory(),
+                path_name
+            )
+            val uri= FileProviderUtil.getFileUri(
+                applicationContext,
+                file,
+                "$packageName.fileprovider"
+            )!!
+            picPath=file.absolutePath
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
+            startActivityForResult(intent,REQUEST__CODE_IMAGES)
+        }
+        img_clean2.onClick {
+            picIndex=1
+            val path_name2 =
+                "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val file= File(
+                Environment.getExternalStorageDirectory(),
+                path_name2
+            )
+            val uri= FileProviderUtil.getFileUri(
+                applicationContext,
+                file,
+                "$packageName.fileprovider"
+            )!!
+            picPath=file.absolutePath
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
+            startActivityForResult(intent,REQUEST__CODE_IMAGES)
+        }
+        img_clean3.onClick {
+            picIndex=2
+            val path_name3 =
+                "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val file= File(
+                Environment.getExternalStorageDirectory(),
+                path_name3
+            )
+            val uri= FileProviderUtil.getFileUri(
+                applicationContext,
+                file,
+                "$packageName.fileprovider"
+            )!!
+            picPath=file.absolutePath
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
+            startActivityForResult(intent,REQUEST__CODE_IMAGES)
         }
         tv_commit.onClick {
             checkItem()
@@ -102,37 +179,55 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
     }
 
     private fun checkItem() {
-        if (youxian.equals("")){
+        if (youxian == ""){
             toast("请选择有线网络状态")
             return
         }
-        if (wuxian.equals("")){
+        if (wuxian == ""){
             toast("请选择无线网络状态")
             return
         }
-        if (phone.equals("")){
+        if (phone == ""){
             toast("请选择手机信号状态")
             return
         }
-        if (huanjing.equals("")){
+        if (huanjing == ""){
             toast("请选择环境情况")
             return
         }
-        if (cleanPic.equals("")){
+        if (cleanPic == ""){
             toast("请添加清扫照片")
             return
         }
-        commit()
+        var picFiles=ArrayList<File>()
+        picList.forEach {
+            picFiles.add(convertBitmapToFile(applicationContext,it))
+        }
+        if (picFiles.size>0){
+            uploadPic(picFiles)
+        }else{
+            showDialog()
+            commit()
+        }
     }
 
+    private fun uploadPic(files: ArrayList<File>) {
+        showDialog()
+        HttpManager.updataPic(files).request(this){ _,data->
+            data.let {
+                cleanPic= it!!
+                commit()
+            }
+        }
+    }
     private fun commit() {
-        var inspect=DbController.getInstance(applicationContext).searchByWhereInspect(orderId)
-        var equimpment= DbController.getInstance(applicationContext).searchByWhereEquipment(orderId)
-        var environment= DbController.getInstance(applicationContext).searchByWhereEnvironment(orderId)
-        var jsonObject=JSONObject()
+        val inspect=DbController.getInstance(applicationContext).searchByWhereInspect(orderId)
+        val equimpment= DbController.getInstance(applicationContext).searchByWhereEquipment(orderId)
+        val environment= DbController.getInstance(applicationContext).searchByWhereEnvironment(orderId)
+        val jsonObject=JSONObject()
         jsonObject.put("orderIndex",inspect[0].orderIndex)
         jsonObject.put("userId",inspect[0].userId)
-        var data=JSONObject()
+        val data=JSONObject()
 //        data.put("workStatus",inspect[0].)
         data.put("status",inspect[0].status)
         data.put("netStatus",youxian)
@@ -148,9 +243,9 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         data.put("conId",inspect[0].conId)
         data.put("comments",ed_content.text.toString())
         data.put("specialProblem",teshu)
-        var environmentInspect=JSONArray()
+        val environmentInspect=JSONArray()
         environment.forEach{
-            var environment=JSONObject()
+            val environment=JSONObject()
             environment.put("environmentIndex",it.environmentIndex)
             environment.put("remark",it.remark)
             environment.put("picture",it.picture)
@@ -160,9 +255,9 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
             environmentInspect.put(environment)
         }
         data.put("environmentInspect",environmentInspect)
-        var equimInspect=JSONArray()
+        val equimInspect=JSONArray()
         equimpment.forEach {
-            var equipment=JSONObject()
+            val equipment=JSONObject()
             equipment.put("equipmentIndex",it.equipmentIndex)
             equipment.put("remark",it.remark)
             equipment.put("picture",it.picture)
@@ -170,11 +265,11 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
             equipment.put("is_unusual",it.is_unusual)
             equipment.put("is_exist",it.is_exist)
             equipment.put("comments",it.comments)
-            var coum= DbController.getInstance(applicationContext).searchByWhereConsum(orderId,it.equipmentIndex)
+            val coum= DbController.getInstance(applicationContext).searchByWhereConsum(orderId,it.equipmentIndex)
             if (coum.size>0){
-                var couns=JSONArray()
+                val couns=JSONArray()
                 coum.forEach {counmable ->
-                    var coun=JSONObject()
+                    val coun=JSONObject()
                     coun.put("consumableId",counmable.consumableId)
                     coun.put("handId",counmable.handId)
                     coun.put("count",counmable.count)
@@ -186,11 +281,19 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         }
         data.put("equimInspect",equimInspect)
         jsonObject.put("data",data)
+        httpType=1
         HttpManager.commit(jsonObject.toString()).request(this) { _, data ->
             data?.let {
             }
         }
-
+    }
+    override fun dismissDialog() {
+        super.dismissDialog()
+        if (httpType==1){
+            httpType=0
+            var dialog= CommitFaileDialog(applicationContext)
+            dialog.show()
+        }
     }
 
     private val siteId by lazy{
@@ -223,22 +326,55 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data!=null){
-            var pos=data.getIntExtra("position",-1)
-            var type=data.getIntExtra("type",-1)
-            when(type){
-                0->{
-                    rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).textColor=Color.GREEN
-                    rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).background=resources.getDrawable(R.drawable.tv_equip_green)
+        if(requestCode == REQUEST__CODE_IMAGES ){
+            if (data==null){
+                showPic("")
+            }else{
+                val paths = data!!.extras!!.getSerializable("photos") as List<String>? //path是选择拍照或者图片的地址数组
+                paths?.get(0)?.let { showPic(it) }
+            }
+        }else{
+            if (data!=null){
+                val pos=data.getIntExtra("position",-1)
+                when(data.getIntExtra("type",-1)){
+                    0->{
+                        rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).textColor=Color.GREEN
+                        rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).background=resources.getDrawable(R.drawable.tv_equip_green)
+                    }
+                    1->{
+                        rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).textColor=Color.BLACK
+                        rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).background=resources.getDrawable(R.drawable.tv_equip_yello)
+                    }
+                    2->{
+                        rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).textColor=Color.RED
+                        rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).background=resources.getDrawable(R.drawable.tv_equip_red)
+                    }
                 }
-                1->{
-                    rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).textColor=Color.BLACK
-                    rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).background=resources.getDrawable(R.drawable.tv_equip_yello)
-                }
-                2->{
-                    rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).textColor=Color.RED
-                    rv_inspect_equip.getChildAt(pos).findViewById<TextView>(R.id.item_tv_equip).background=resources.getDrawable(R.drawable.tv_equip_red)
-                }
+            }
+        }
+    }
+    private fun showPic(s: String) {
+        val uriStr:String = if (s == ""){
+            picPath as String
+        }else{
+            s
+        }
+        var fis: FileInputStream? = null
+        fis = FileInputStream(uriStr)
+        val bitmap = BitmapFactory.decodeStream(fis)
+        picList.add(bitmap)
+        when(picIndex){
+            0 ->{
+                img_clean1.scaleType=ImageView.ScaleType.CENTER_CROP
+                img_clean1.setImageBitmap(bitmap)
+            }
+            1 ->{
+                img_clean2.scaleType=ImageView.ScaleType.CENTER_CROP
+                img_clean2.setImageBitmap(bitmap)
+            }
+            2 ->{
+                img_clean3.scaleType=ImageView.ScaleType.CENTER_CROP
+                img_clean3.setImageBitmap(bitmap)
             }
 
         }

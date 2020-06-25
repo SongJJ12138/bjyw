@@ -59,7 +59,7 @@ class RepairFragment : BaseFragment(){
             picType=2
             takePic()
         }
-        getData()
+//        getData()
     }
 
     fun takePic(){
@@ -113,10 +113,12 @@ class RepairFragment : BaseFragment(){
     }
 
     private fun uploadPic(bitmap: Bitmap) {
+        showDialog()
         var  pic=ArrayList<File>()
         var file=convertBitmapToFile(activity!!.applicationContext ,bitmap)
         pic.add(file)
         HttpManager.updataPic(pic).requestByF(this){ _,data->
+            dismissDialog()
             data.let {
                 if (picType==1){
                     pic1= it.toString()

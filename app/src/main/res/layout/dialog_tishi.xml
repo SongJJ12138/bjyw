@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="@dimen/dp_303"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog2_layout"
+    android:layout_height="@dimen/dp_234">
+
+    <ImageView
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_width="@dimen/dp_55"
+        android:layout_height="@dimen/dp_53"
+        android:src="@mipmap/createorder"/>
+    <TextView
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="确认无误？立即创建"
+        android:textColor="#ff666666"
+        android:textSize="19sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/falsee"
+            android:layout_width="@dimen/dp_120"
+            android:layout_height="@dimen/dp_43"
+            android:background="@drawable/bt_fou"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="否"
+            android:textColor="#1976D2"
+            android:textSize="@dimen/sp_19"/>
+        <Button
+            android:id="@+id/truee"
+            android:layout_width="@dimen/dp_120"
+            android:layout_height="@dimen/dp_43"
+            android:text="是"
+            android:background="@drawable/bt_shi"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_19"/>
+    </LinearLayout>
+</LinearLayout>

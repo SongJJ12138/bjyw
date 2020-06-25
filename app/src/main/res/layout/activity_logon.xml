@@ -2,29 +2,20 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="#F2F3F7"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <ImageView
         android:id="@+id/img_logo"
         android:layout_width="@dimen/dp_150"
         android:layout_height="@dimen/dp_150"
-        android:layout_marginTop="@dimen/dp_100"
+        android:layout_marginTop="@dimen/dp_80"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/logo"/>
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_below="@id/img_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/sp_16"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:text="广电运维助手"
-        android:textColor="#000000" />
     <LinearLayout
         android:id="@+id/layout_name"
-        android:layout_below="@id/tv_title"
-        android:layout_marginTop="@dimen/dp_100"
+        android:layout_below="@id/img_logo"
+        android:layout_marginTop="@dimen/dp_80"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_40"
@@ -144,13 +135,13 @@
     <TextView
         android:id="@+id/activity_login_btlogin"
         android:layout_below="@id/layout_password"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_50"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_316"
+        android:layout_height="@dimen/dp_46"
         android:background="@drawable/bt_login"
         android:text="登录"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"/>
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.bjyw.bjckyh.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.fragment.ChuliFragment
@@ -9,6 +10,7 @@ import com.bjyw.bjckyh.fragment.RepairFragment
 import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.toolbar_title.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.textColor
 
 class OrderListActivity : BaseActivity() {
     private val chuli by lazy {
@@ -20,7 +22,8 @@ class OrderListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_list)
-        activity_include_tvrignt.text=""
+        activity_include_tvrignt.text="刷新"
+        activity_include_tvrignt.textColor= Color.WHITE
         val fT = supportFragmentManager.beginTransaction()
         fT.add(R.id.orderlist_framlayout, chuli)
         fT.add(R.id.orderlist_framlayout, wancheng)
@@ -28,6 +31,9 @@ class OrderListActivity : BaseActivity() {
         initClick()
     }
     private fun initClick() {
+        activity_include_tvrignt.onClick {
+            chuli.refreash()
+        }
         activity_include_btback.onClick {
             var intent= Intent(this@OrderListActivity,InspectSelectActivity::class.java)
             setResult(Activity.RESULT_CANCELED,intent)

@@ -66,6 +66,32 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_10"/>
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="维修情况"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            android:textColor="#666666"
+            android:layout_margin="@dimen/dp_10"/>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10">
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_20"
+                android:text="当日可维修"
+                android:textSize="@dimen/sp_12"/>
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="遗留问题"
+                android:textSize="@dimen/sp_12"/>
+        </RadioGroup>
+        <TextView
             android:id="@+id/title_environmentpic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,11 +104,12 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:orientation="horizontal">
             <FrameLayout
                 android:layout_width="@dimen/dp_156"
                 android:layout_height="@dimen/dp_89"
-                android:layout_marginRight="@dimen/dp_40"
                 android:background="@drawable/img_add">
                 <ImageView
                     android:id="@+id/img_environment1"
@@ -98,6 +125,10 @@
                     android:layout_gravity="right|bottom"
                     android:layout_margin="@dimen/dp_10"/>
             </FrameLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="1dp"/>
             <FrameLayout
                 android:layout_width="@dimen/dp_156"
                 android:layout_height="@dimen/dp_89"
@@ -130,8 +161,8 @@
             android:id="@+id/ed_environmentcontent"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_81"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:layout_marginBottom="@dimen/dp_10"
             android:background="@drawable/ed_content"/>
     </LinearLayout>

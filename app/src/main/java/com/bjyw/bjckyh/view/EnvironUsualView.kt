@@ -3,6 +3,7 @@ package com.bjyw.bjckyh.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -23,6 +24,7 @@ import com.lcw.library.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.item_workstatus.view.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 import java.io.File
 
@@ -30,6 +32,7 @@ import java.io.File
 class EnvironUsualView : LinearLayout {
     private val REQUEST__CODE_IMAGES = 0x03
     private lateinit var activity:InspectSelectActivity
+    private var isOk=true
     private var conId= 0
     private var checkId= 0
     private var position=0
@@ -101,24 +104,28 @@ class EnvironUsualView : LinearLayout {
         }
 
         bt_environment.onClick {
-            if (layout_environment.visibility== View.GONE){
-                if (list.size>0){
-                    initSelect()
+            if (isOk){
+                if (layout_environment.visibility== View.GONE){
+                    if (list.size>0){
+                        initSelect()
+                    }else{
+                        activity.showDialog()
+                        getData()
+                    }
                 }else{
-                    activity.showDialog()
-                    getData()
+                    layout_environment.visibility= View.GONE
                 }
             }else{
-                layout_environment.visibility= View.GONE
+                activity.toast("异常巡检，无法点击")
             }
-
         }
     }
 
-    fun init(baseActivity:InspectSelectActivity, position:Int,conId:Int){
+    fun init(baseActivity:InspectSelectActivity, position:Int,conId:Int,isOk:Boolean){
         activity=baseActivity
         this.position =position
         this.conId =conId
+        this.isOk=isOk
     }
     private fun getData() {
         HttpManager.getUseStatus(conId).request(activity){ _, data->
@@ -166,6 +173,18 @@ class EnvironUsualView : LinearLayout {
             environ.is_unusual="1"
         }
         return  environ
+    }
+
+    fun setOk(ok: Boolean) {
+        isOk=ok
+        if (!isOk){
+            tv_title.textColor=Color.RED
+            if (layout_environment.visibility== View.VISIBLE){
+                layout_environment.visibility== View.GONE
+            }
+        }else{
+            tv_title.textColor=resources.getColor(R.color.grey)
+        }
     }
 
 }

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import androidx.fragment.app.Fragment
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.bean.EquipInspectBean
 import com.bjyw.bjckyh.bean.daobean.InspectEquipMent
@@ -54,11 +53,9 @@ class InspectFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         rb_have.onClick {
             isExit="0"
-            activity!!.toast(isExit)
         }
         rb_Nhave.onClick {
             isExit="1"
-            activity!!.toast(isExit)
         }
     }
 

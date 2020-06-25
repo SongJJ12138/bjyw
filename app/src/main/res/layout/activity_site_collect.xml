@@ -36,6 +36,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
     android:background="@drawable/layout_site1">
     <TextView
         android:id="@+id/a"
@@ -112,6 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
         android:background="@drawable/layout_site2">
         <TextView
             android:id="@+id/aa"

@@ -21,24 +21,39 @@ import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.utils.dp2px
 import com.zaaach.transformerslayout.holder.Holder
 import org.jetbrains.anko.textColor
-import org.jetbrains.anko.toast
 
 
 @Suppress("UNREACHABLE_CODE")
 class MainActivity : BaseActivity() {
+    var orderSize="0"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkLogin()
         initView()
-        isCard()
-        getOrder()
-        getNotify()
+        getData()
     }
 
-    private fun getNotify() {
+
+    private fun getData() {
+        showDialog()
+        var threadCount=3
+        HttpManager.getOrder().request(this@MainActivity){ _,data ->
+            data.let {
+                threadCount--
+                if (it!=null&&it.size>0){
+                    orderSize=""+it.size
+                    navList[0] = Nav(0,"巡检工单", com.bjyw.bjckyh.R.mipmap.main_xunjain,true,"待完成")
+                    main_transforer.notifyDataChanged(navList)
+                }
+            }
+            if (threadCount==0){
+                dismissDialog()
+            }
+        }
         HttpManager.getNotify().request(this@MainActivity){ _,data ->
             data.let {
+                threadCount--
                 if (it!=null&&it.size>0){
                     notifys.clear()
                     activity_mian_tvwordsize.text=""+it.size
@@ -52,16 +67,20 @@ class MainActivity : BaseActivity() {
                         adapter.notifyDataSetChanged()
                     }
                 }
+                if (threadCount==0){
+                    dismissDialog()
+                }
             }
         }
-    }
-
-    private fun getOrder() {
-        HttpManager.getOrder().request(this@MainActivity){ _,data ->
-            data.let {
+        HttpManager.checkCard().request(this@MainActivity){ _,data->
+            data?.let {
+                threadCount--
                 if (it!=null&&it.size>0){
-                    navList[1] = Nav(1,"次日工单", com.bjyw.bjckyh.R.mipmap.main_ciri,true,"待完成")
-                    main_transforer.notifyDataChanged(navList)
+                    activity_include_tvrignt.text="已打卡"
+                    activity_include_tvrignt.textColor=Color.WHITE
+                }
+                if (threadCount==0){
+                    dismissDialog()
                 }
             }
         }
@@ -70,24 +89,14 @@ class MainActivity : BaseActivity() {
     private val navList:ArrayList<Nav> by lazy {
         var navList:ArrayList<Nav> = ArrayList()
         navList.add(Nav(0,"巡检工单", com.bjyw.bjckyh.R.mipmap.main_xunjain,false,""))
-        navList.add(Nav(1,"次日工单", com.bjyw.bjckyh.R.mipmap.main_ciri,false,""))
-        navList.add(Nav(2,"维修工单", com.bjyw.bjckyh.R.mipmap.maia_weixiu,false,""))
-        navList.add(Nav(3,"拆建工单", com.bjyw.bjckyh.R.mipmap.main_chaijian,false,""))
-        navList.add(Nav(4,"台站采集", com.bjyw.bjckyh.R.mipmap.main_caiji,false,""))
-        navList.add(Nav(5,"我的小组", com.bjyw.bjckyh.R.mipmap.main_wode,false,""))
-        navList.add(Nav(6,"工作统计", com.bjyw.bjckyh.R.mipmap.main_gongzuo,false,""))
+        navList.add(Nav(1,"台站采集", com.bjyw.bjckyh.R.mipmap.main_caiji,false,""))
+        navList.add(Nav(2,"次日工单", com.bjyw.bjckyh.R.mipmap.main_ciri,false,""))
+        navList.add(Nav(3,"我的小组", com.bjyw.bjckyh.R.mipmap.main_wode,false,""))
+        navList.add(Nav(4,"维修工单", com.bjyw.bjckyh.R.mipmap.maia_weixiu,false,""))
+        navList.add(Nav(5,"工作统计", com.bjyw.bjckyh.R.mipmap.main_gongzuo,false,""))
+        navList.add(Nav(6,"拆建工单", com.bjyw.bjckyh.R.mipmap.main_chaijian,false,""))
         navList.add(Nav(7,"本地备忘录", com.bjyw.bjckyh.R.mipmap.main_bendi,false,""))
         navList
-    }
-    private fun isCard() {
-        HttpManager.checkCard().request(this@MainActivity){ _,data->
-            data?.let {
-                if (it!=null&&it.size>0){
-                    activity_include_tvrignt.text="已打卡"
-                    activity_include_tvrignt.textColor=Color.WHITE
-                }
-            }
-        }
     }
 
     private fun initView() {
@@ -110,14 +119,18 @@ class MainActivity : BaseActivity() {
                     0 ->{
                         intent= Intent(this@MainActivity,InspectSelectActivity::class.java)
                         intent.putExtra("orderId","")
+                        intent.putExtra("orderSize",orderSize)
                         startActivity(intent)
                     }
                     1 ->{
+                        intent= Intent(this@MainActivity,SiteCollectActivity::class.java)
+                        startActivity(intent)
+                    }
+                    2 ->{
                         intent= Intent(this@MainActivity,CreateOrderActivity::class.java)
                         startActivity(intent)
                     }
                 }
-                toast("点击")
             })
             .load(navList, object : TransformersHolderCreator<Nav> {
                 override fun createHolder(itemView: View): Holder<Nav> {
@@ -144,6 +157,6 @@ class MainActivity : BaseActivity() {
     }
     var notifys= ArrayList<Notify>()
     private val adapter by lazy {
-        NoticeAdapter(notifys)
+       NoticeAdapter(this@MainActivity,notifys)
     }
 }

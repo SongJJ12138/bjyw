@@ -14,19 +14,31 @@ import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.requestByF
 import kotlinx.android.synthetic.main.fragment_chuli.*
 import android.graphics.Color
+import androidx.fragment.app.Fragment
+import com.bjyw.bjckyh.network.ResultDataSubscriber
 import com.bjyw.bjckyh.ui.InspectSelectActivity
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener
 import com.yanzhenjie.recyclerview.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.SwipeMenuItem
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ChuliFragment: BaseFragment(), OrderAdapter.onClickListener {
+    override fun contentViewId(): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onFirstVisibleToUser() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun onClick(orderId: String) {
         var intent=Intent(activity,InspectSelectActivity::class.java)
-//        intent.putExtra("orderId",orderId)
+        intent.putExtra("orderId",orderId)
         //测试
-        intent.putExtra("orderIndex","2390108011083969470")
+//        intent.putExtra("orderIndex","2390108011083969470")
         activity?.setResult(Activity.RESULT_OK,intent)
         activity?.finish()
     }
@@ -88,23 +100,24 @@ class ChuliFragment: BaseFragment(), OrderAdapter.onClickListener {
         OrderAdapter(list,this@ChuliFragment)
     }
 
-    override fun onFirstVisibleToUser() {
-    }
-
-    override fun contentViewId() = R.layout.fragment_chuli
-
     private fun getData() {
+        showDialog()
         HttpManager.getOrder().requestByF(this){ _, data->
             data?.let {
+                dismissDialog()
                 list.clear()
                 //测试
-//                list.addAll
-                for (i in 0..5){
-                    var order=Order("",0,"","",0,0,0,0,"",0,"","","",0,"",0,"","","",0,"","")
-                    list.add(order)
-                }
+                list.addAll(it)
+//                for (i in 0..5){
+//                    var order=Order("",0,"","",0,0,0,0,"",0,"","","",0,"",0,"","","",0,"","")
+//                    list.add(order)
+//                }
                 adapter.notifyDataSetChanged()
             }
         }
+    }
+
+    fun refreash() {
+        getData()
     }
 }

@@ -33,6 +33,7 @@ inline fun <reified O, I : ResultData<O>> Flowable<I>.request(activity: BaseActi
 inline fun <reified O, I : ResultData<O>> Flowable<I>.request(activity: BaseActivity, showToast: Boolean = true, crossinline success: (msg:String?, t: O?) -> Unit) {
     request(activity,showToast,success){_,_->}
 }
+
 inline fun <reified O, I : ResultData<O>> Flowable<I>.requestByF(fragment: BaseFragment, showToast: Boolean = true, crossinline success: (msg:String?, t: O?) -> Unit, crossinline error : (code: Int, msg: String) -> Unit) {
     this.defaultScheduler().subscribe(object : ResultDataSubscriber<O>(fragment){
         override fun onSuccess(msg: String?, data: O?) {

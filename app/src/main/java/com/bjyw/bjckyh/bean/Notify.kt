@@ -10,7 +10,7 @@ class Notify(
     val issue: String,
     val reciver: String,
     val recordTimeFormat: String,
-    val record_time: RecordTime,
+    val record_time: RecordTime?,
     val sequenceName: String,
     val status: Int,
     val title: String,

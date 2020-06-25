@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/black"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 <TextView
+    android:id="@+id/tv_site"
     android:layout_width="@dimen/dp_94"
     android:layout_height="@dimen/dp_34"
     android:paddingLeft="@dimen/dp_10"
     android:paddingRight="@dimen/dp_10"
     android:textColor="@color/white"
     android:textSize="@dimen/sp_14"
-    android:background="@drawable/tv_site"
+    android:background="@drawable/tv_site2"
     android:gravity="center"
     android:text="站点--回龙观站"
     android:singleLine="true"
