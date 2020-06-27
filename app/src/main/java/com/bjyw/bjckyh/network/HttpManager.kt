@@ -243,5 +243,14 @@ object HttpManager {
     fun commit(jsonject:String): Flowable<ResultData<String>> {
         return request().commit(jsonject).defaultScheduler()
     }
+
+
+    /**
+     * 提交工单
+     */
+    fun deleteOrder(jsonject:String): Flowable<ResultData<String>> {
+        return request().commit(jsonject).defaultScheduler()
+    }
+
 }
 
