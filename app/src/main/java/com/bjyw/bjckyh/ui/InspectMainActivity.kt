@@ -12,12 +12,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.adapter.EquipAdapter
-import com.bjyw.bjckyh.bean.Equip
+import com.bjyw.bjckyh.bean.EquipBean
+import com.bjyw.bjckyh.bean.daobean.InspectEquipMent
 import com.bjyw.bjckyh.dialog.CommitFaileDialog
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.utils.DbController
 import com.bjyw.bjckyh.utils.FileProviderUtil
+import com.bjyw.bjckyh.utils.SPUtils
 import com.bjyw.bjckyh.utils.convertBitmapToFile
 import kotlinx.android.synthetic.main.activity_inspect_main.*
 import kotlinx.android.synthetic.main.toolbar_title.*
@@ -37,8 +39,8 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
     private var youxian=""
     private var wuxian=""
     private var phone=""
-    private var huanjing=""
-    private var teshu=""
+    private var huanjing=-1
+    private var teshu="0"
     private  var cleanPic=""
     private  var picIndex=0
     var picPath=""
@@ -156,25 +158,25 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
             phone="无4G"
         }
         rb_environment_good.onClick {
-            huanjing="好"
+            huanjing=2
         }
         rb_environment_yiban.onClick {
-            huanjing="一般"
+            huanjing=1
         }
         rb_environment_bad.onClick {
-            huanjing="差"
+            huanjing=0
         }
         rb_special_banqian.onClick {
-            teshu="需搬迁"
+            teshu="1"
         }
         rb_special_fengcun.onClick {
-            teshu="需封存"
+            teshu="2"
         }
         rb_special_chaichu.onClick {
-            teshu="待拆除"
+            teshu="3"
         }
         rb_special_huifu.onClick {
-            teshu="待恢复"
+            teshu="4"
         }
     }
 
@@ -191,12 +193,8 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
             toast("请选择手机信号状态")
             return
         }
-        if (huanjing == ""){
+        if (huanjing ==-1){
             toast("请选择环境情况")
-            return
-        }
-        if (cleanPic == ""){
-            toast("请添加清扫照片")
             return
         }
         var picFiles=ArrayList<File>()
@@ -221,30 +219,32 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         }
     }
     private fun commit() {
-        val inspect=DbController.getInstance(applicationContext).searchByWhereInspect(orderId)
-        val equimpment= DbController.getInstance(applicationContext).searchByWhereEquipment(orderId)
-        val environment= DbController.getInstance(applicationContext).searchByWhereEnvironment(orderId)
+        val inspect=DbController.getInstance(applicationContext).searchById(orderId)
+        val equimpmentList= DbController.getInstance(applicationContext).searchByWhereEquipment(orderId)
+        val environmentList= DbController.getInstance(applicationContext).searchByWhereEnvironment(orderId)
         val jsonObject=JSONObject()
-        jsonObject.put("orderIndex",inspect[0].orderIndex)
-        jsonObject.put("userId",inspect[0].userId)
+        jsonObject.put("orderIndex",inspect.orderIndex)
+        jsonObject.put("userId",""+SPUtils.instance().getInt("userId"))
+        jsonObject.put("today","0")
+        jsonObject.put("siteId","1")
         val data=JSONObject()
-//        data.put("workStatus",inspect[0].)
-        data.put("status",inspect[0].status)
+        data.put("workStatus","3")
+        data.put("status",inspect.status)
+        data.put("userId",""+SPUtils.instance().getInt("userId"))
         data.put("netStatus",youxian)
         data.put("noNetStatus",wuxian)
         data.put("pNetStatus",phone)
-        data.put("is_unusual",inspect[0].is_unusual)
-        data.put("useStatus",inspect[0].useStatus)
-        data.put("environmentStatus",inspect[0].environmentStatus)
-//        data.put("equipStatus",inspect[0].environmentStatus)
-        data.put("cleanStatus",huanjing)
+        data.put("is_unusual",inspect.is_unusual)
+        data.put("useStatus",inspect.useStatus)
+        data.put("environmentStatus",inspect.environmentStatus)
+        data.put("equipStatus","3")
+        data.put("cleanStatus",""+huanjing)
         data.put("cleanPicture",cleanPic)
-        data.put("userId",inspect[0].userId)
-        data.put("conId",inspect[0].conId)
+        data.put("conId",inspect.conId)
         data.put("comments",ed_content.text.toString())
         data.put("specialProblem",teshu)
         val environmentInspect=JSONArray()
-        environment.forEach{
+        environmentList.forEach{
             val environment=JSONObject()
             environment.put("environmentIndex",it.environmentIndex)
             environment.put("remark",it.remark)
@@ -256,7 +256,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         }
         data.put("environmentInspect",environmentInspect)
         val equimInspect=JSONArray()
-        equimpment.forEach {
+        equimpmentList.forEach {
             val equipment=JSONObject()
             equipment.put("equipmentIndex",it.equipmentIndex)
             equipment.put("remark",it.remark)
@@ -273,17 +273,21 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
                     coun.put("consumableId",counmable.consumableId)
                     coun.put("handId",counmable.handId)
                     coun.put("count",counmable.count)
+                    couns.put(coun)
                 }
-                equipment.put("comments",couns)
+                equipment.put("consumable",couns)
             }else{
                 equipment.put("consumable","")
             }
+            equimInspect.put(equipment)
         }
         data.put("equimInspect",equimInspect)
         jsonObject.put("data",data)
         httpType=1
         HttpManager.commit(jsonObject.toString()).request(this) { _, data ->
             data?.let {
+                toast("success")
+                this.finish()
             }
         }
     }
@@ -291,7 +295,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         super.dismissDialog()
         if (httpType==1){
             httpType=0
-            var dialog= CommitFaileDialog(applicationContext)
+            var dialog= CommitFaileDialog(this@InspectMainActivity)
             dialog.show()
         }
     }
@@ -309,7 +313,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         rv_inspect_equip.adapter=adapter
     }
 
-    var list=ArrayList<Equip>()
+    var list=ArrayList<EquipBean>()
     private val adapter by lazy {
         EquipAdapter(list,this)
     }
@@ -317,6 +321,18 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         showDialog()
         HttpManager.getAllEquip(siteId).request(this@InspectMainActivity){ _, data->
             data.let {
+                it!!.forEach{ equip ->
+                    var inspectEquipMent= InspectEquipMent()
+                    inspectEquipMent.equipmentIndex=""+equip.id
+                    inspectEquipMent.comments=""
+                    inspectEquipMent.context=""
+                    inspectEquipMent.is_exist="0"
+                    inspectEquipMent.is_unusual="0"
+                    inspectEquipMent.orderIndex=orderId
+                    inspectEquipMent.picture=""
+                    inspectEquipMent.remark=""
+                    DbController.getInstance(applicationContext).insertOrReplaceEquipment(inspectEquipMent)
+                }
                 list.addAll(it!!)
                 adapter.notifyDataSetChanged()
                 dismissDialog()

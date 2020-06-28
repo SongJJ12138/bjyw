@@ -14,13 +14,19 @@ import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.requestByF
 import kotlinx.android.synthetic.main.fragment_chuli.*
 import android.graphics.Color
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bjyw.bjckyh.network.ResultDataSubscriber
+import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.ui.InspectSelectActivity
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener
 import com.yanzhenjie.recyclerview.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.SwipeMenuItem
+import kotlinx.android.synthetic.main.activity_inspect_select.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -85,9 +91,16 @@ class ChuliFragment: BaseFragment(), OrderAdapter.onClickListener {
                 val adapterPosition = swipeMenuBridge.position // RecyclerView的Item的position。
                 val menuPosition = swipeMenuBridge.position // 菜单在RecyclerView的Item中的Position。
                 if (menuPosition == 0) {
-                    HttpManager.deleteOrder()
-                    list.removeAt(adapterPosition)
-                    adapter.notifyDataSetChanged() // 刷新
+                    var id=list[adapterPosition].id
+                    showDialog()
+                    HttpManager.deleteOrder(id).requestByF(this) { _, data ->
+                        data.let {
+                            dismissDialog()
+                            list.removeAt(adapterPosition)
+                            adapter.notifyDataSetChanged() // 刷新
+                            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         // 菜单点击监听。

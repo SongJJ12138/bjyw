@@ -141,11 +141,9 @@ class InspectSelectActivity : BaseActivity() {
 
     private fun initClick() {
         bt_sitehistory.onClick {
-            if (orderId.equals("")){
-                toast("请先去工单列表选择工单")
-            }else{
-                startActivity(Intent(this@InspectSelectActivity,SiteDeatilActivity::class.java))
-            }
+            var intent=Intent(this@InspectSelectActivity,SiteDeatilActivity::class.java)
+            intent.putExtra("siteId","1")
+            startActivity(intent)
         }
         activity_include_btback.onClick {
             this@InspectSelectActivity.finish()
@@ -167,7 +165,7 @@ class InspectSelectActivity : BaseActivity() {
             }else{
                 //测试
                 toast("请先扫码获取站点数据")
-//                saveInspect()
+                saveInspect()
             }
         }
     }
@@ -245,9 +243,9 @@ class InspectSelectActivity : BaseActivity() {
     private fun onNext() {
         dismissDialog()
         var intent=Intent(this@InspectSelectActivity,InspectMainActivity::class.java)
-        intent.putExtra("siteId",siteId)
+//        intent.putExtra("siteId",siteId)
         //测试
-//        intent.putExtra("siteId",1)
+        intent.putExtra("siteId",1)
         intent.putExtra("orderId",orderId)
         intent.putExtra("isOk",isOk)
         startActivity(intent)
@@ -285,7 +283,7 @@ class InspectSelectActivity : BaseActivity() {
             }
         }else if (requestCode == REQUEST_CODE_ORDE && resultCode == Activity.RESULT_OK){
             if (data != null) {
-                orderId= data.getStringExtra("orderIndex")
+                orderId= data.getStringExtra("orderId")
             }
         } else if(requestCode == REQUEST__CODE_IMAGES && resultCode == Activity.RESULT_OK){
             if (data==null){

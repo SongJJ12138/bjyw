@@ -8,13 +8,12 @@ import com.bjyw.bjckyh.utils.SPUtils
 import com.bjyw.bjckyh.utils.defaultScheduler
 import io.reactivex.Flowable
 import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.math.BigInteger
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-
 
 
 /**
@@ -200,7 +199,7 @@ object HttpManager {
     /**
      * 全部设备
      */
-    fun getAllEquip(siteId:Int): Flowable<ResultData<ArrayList<Equip>>> {
+    fun getAllEquip(siteId:Int): Flowable<ResultData<ArrayList<EquipBean>>> {
         var jsonObject=JSONObject()
         jsonObject.put("siteId",""+siteId)
         return request().getAllEquip(jsonObject.toString()).defaultScheduler()
@@ -218,15 +217,14 @@ object HttpManager {
     /**
      * 上传照片
      */
-    fun updataPic(files: ArrayList<File>): Flowable<ResultData<String>> {
-        var partList=ArrayList<MultipartBody.Part>()
-        for (i in 0 until files.size){
-            val requestFile = RequestBody.create(MediaType.parse("image/jpeg"), files[i])
-            val body =
-                MultipartBody.Part.createFormData("photo"+i, "photo"+i, requestFile)
-            partList.add(body)
+    fun updataPic(pics: ArrayList<File>): Flowable<ResultData<String>> {
+        val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        for (i in 0 until pics.size){
+            val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), pics[i])
+            builder.addFormDataPart("file",pics[i].getName(),requestBody)
         }
-        return request().updataPic(partList).defaultScheduler()
+        val files = builder.build().parts()
+        return request().updataPic(true,files).defaultScheduler()
     }
 
     /**
@@ -246,10 +244,21 @@ object HttpManager {
 
 
     /**
-     * 提交工单
+     * 删除工单
      */
-    fun deleteOrder(jsonject:String): Flowable<ResultData<String>> {
-        return request().commit(jsonject).defaultScheduler()
+    fun deleteOrder(id:String): Flowable<ResultData<String>> {
+        var jsonObject=JSONObject()
+        jsonObject.put("id",id)
+        return request().deleteOrder(jsonObject.toString()).defaultScheduler()
+    }
+
+    /**
+     * 删除工单
+     */
+    fun getSiteDetails(id:String): Flowable<ResultData<SiteDetails>> {
+        var jsonObject=JSONObject()
+        jsonObject.put("id",id)
+        return request().getSiteDetails(jsonObject.toString()).defaultScheduler()
     }
 
 }

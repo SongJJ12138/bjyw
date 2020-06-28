@@ -1,6 +1,6 @@
 package com.bjyw.bjckyh.bean
 
-data class Equip(
+data class EquipBean(
     val _index: Int,
     val createTimeFormat: String,
     val create_time: Any,

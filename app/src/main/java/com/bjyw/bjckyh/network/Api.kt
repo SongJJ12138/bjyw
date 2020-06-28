@@ -15,7 +15,9 @@ object Api {
     const val GET_EQUIPUSUAL="usual/equipment"//设备巡检项
     const val UPLOAD_PIC="file/upload"//上传照片
     const val GET_CONSUMABLE="consumable/getAll"//维修项
-    const val COMMIT="consumable/getAll"//提交工单
+    const val COMMIT="ticket/excuteOrder"//提交工单
+    const val DELETE_ORDER="ticket/delete"//删除工单
+    const val GET_SITEDETAILS="site/getSiteDetail"//工单详情
 
 
 }

@@ -74,6 +74,7 @@ class InspectDetailActivity : BaseActivity() {
     }
 
     private fun saveData() {
+        showDialog()
         var equipInspectBean=inspect.getDataBean()
         if (equipInspectBean.is_exist.equals("-1")){
             toast("请选择设备情况")

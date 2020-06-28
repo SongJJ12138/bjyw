@@ -31,6 +31,10 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         checkLogin()
         initView()
+    }
+
+    override fun onResume() {
+        super.onResume()
         getData()
     }
 

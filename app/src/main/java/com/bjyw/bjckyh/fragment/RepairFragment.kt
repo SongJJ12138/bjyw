@@ -3,9 +3,8 @@ package com.bjyw.bjckyh.fragment
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +19,11 @@ import com.bjyw.bjckyh.bean.Consumable
 import com.bjyw.bjckyh.bean.EquipRepairBean
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.requestByF
-import com.bjyw.bjckyh.utils.FileProviderUtil
+import com.bjyw.bjckyh.utils.TakePhoto
 import com.bjyw.bjckyh.utils.convertBitmapToFile
 import kotlinx.android.synthetic.main.fragmeny_repair.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.io.File
-import java.io.FileInputStream
 
 
 class RepairFragment : BaseFragment(){
@@ -59,25 +57,15 @@ class RepairFragment : BaseFragment(){
             picType=2
             takePic()
         }
-//        getData()
+        getData()
     }
 
     fun takePic(){
-        var path_name =
-            "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        var file= File(
-            Environment.getExternalStorageDirectory(),
-            path_name
-        )
-        picPath=file.absolutePath
-        var  uri= FileProviderUtil.getFileUri(
-            getContext(),
-            file,
-            activity!!.getPackageName() + ".fileprovider"
-        )!!
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-        startActivityForResult(intent,REQUEST__CODE_IMAGES)
+        val myuri: Uri = TakePhoto.getOutputMediaFileUri(context)
+        val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+        openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
     }
 
     fun getDataBean():EquipRepairBean{
@@ -98,9 +86,8 @@ class RepairFragment : BaseFragment(){
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == REQUEST__CODE_IMAGES && resultCode == Activity.RESULT_OK){
-            var fis: FileInputStream? = null
-            fis = FileInputStream(picPath)
-            val bitmap = BitmapFactory.decodeStream(fis)
+            val uri = TakePhoto.getOutputMediaFileUri(context)
+            val bitmap = TakePhoto.getBitmapFormUri(context, uri)
             if (picType==1){
                 img_equip_repqir1.scaleType= ImageView.ScaleType.CENTER_CROP
                 img_equip_repqir1.setImageBitmap(bitmap)

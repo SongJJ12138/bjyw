@@ -4,7 +4,6 @@ import com.bjyw.bjckyh.bean.*
 import io.reactivex.Flowable
 import okhttp3.MultipartBody
 import retrofit2.http.*
-import java.io.File
 import java.math.BigInteger
 
 /**
@@ -50,15 +49,15 @@ interface ApiService {
 
     @POST(Api.GET_ALLEQUIP)
     @FormUrlEncoded
-    fun getAllEquip(@Field("json") json: String): Flowable<ResultData<ArrayList<Equip>>>
+    fun getAllEquip(@Field("json") json: String): Flowable<ResultData<ArrayList<EquipBean>>>
 
     @POST(Api.GET_EQUIPUSUAL)
     @FormUrlEncoded
     fun getEquipUsual(@Field("json") json: String): Flowable<ResultData<ArrayList<EquipUsual>>>
 
+    @Multipart
     @POST(Api.UPLOAD_PIC)
-    @FormUrlEncoded
-    fun updataPic( @Part("files") partList:List<MultipartBody.Part> ): Flowable<ResultData<String>>
+    fun updataPic(@Header("watermark")  watermark:Boolean=true, @Part files:List<MultipartBody.Part> ): Flowable<ResultData<String>>
 
     @POST(Api.GET_CONSUMABLE)
     @FormUrlEncoded
@@ -68,6 +67,13 @@ interface ApiService {
     @FormUrlEncoded
     fun commit( @Field("json") json: String ): Flowable<ResultData<String>>
 
+    @POST(Api.DELETE_ORDER)
+    @FormUrlEncoded
+    fun deleteOrder( @Field("json") json: String ): Flowable<ResultData<String>>
+
+    @POST(Api.GET_SITEDETAILS)
+    @FormUrlEncoded
+    fun getSiteDetails( @Field("json") json: String ): Flowable<ResultData<SiteDetails>>
 
 
 }
