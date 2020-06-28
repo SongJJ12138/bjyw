@@ -72,13 +72,11 @@ class RepairFragment : BaseFragment(){
         var consumList=ArrayList<Conse>()
         for (i in 0 until list.size){
             var id=""+list[i].id
-            var handle=list[i].unit
             var count=rv_consumable.getChildAt(i).findViewById<EditText>(R.id.ed_count).text.toString()
-            if (count==null||count.equals("0")){
-                count=""
+            if (count!=null&&!count.equals("")){
+                var conse=Conse(id,count,"")
+                consumList.add(conse)
             }
-            var conse=Conse(id,handle,count)
-            consumList.add(conse)
         }
         return EquipRepairBean("",consumList,pic1+pic2,ed_equip_repair.text.toString())
     }

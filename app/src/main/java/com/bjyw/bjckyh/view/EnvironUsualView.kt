@@ -54,10 +54,16 @@ class EnvironUsualView : LinearLayout {
     }
 
     lateinit var uri: Uri
-
+    var isYiliu=true
     @SuppressLint("SimpleDateFormat")
     private fun initView(context: Context) {
         LayoutInflater.from(context).inflate(R.layout.item_workstatus, this, true)
+        rb_ok.onClick {
+            isYiliu=false
+        }
+        rb_yiliu.onClick {
+            isYiliu=true
+        }
         img_environment1.onClick {
             var path_name =
                 "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
@@ -146,7 +152,6 @@ class EnvironUsualView : LinearLayout {
             radioButton.textSize=14f
             radioButton.onClick {
                 checkId=list[i].id
-                activity.toast(list[i].id.toString())
             }
             rg_environment.addView(radioButton)
             var a=i+1
@@ -170,7 +175,11 @@ class EnvironUsualView : LinearLayout {
             environ.is_unusual="0"
         }else{
             environ.context=""+checkId
-            environ.is_unusual="1"
+            if (isYiliu){
+                environ.is_unusual="1"
+            }else{
+                environ.is_unusual="0"
+            }
         }
         return  environ
     }

@@ -223,21 +223,26 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         val equimpmentList= DbController.getInstance(applicationContext).searchByWhereEquipment(orderId)
         val environmentList= DbController.getInstance(applicationContext).searchByWhereEnvironment(orderId)
         val jsonObject=JSONObject()
-        jsonObject.put("orderIndex",inspect.orderIndex)
+        if (inspect.today){
+            jsonObject.put("today","0")
+            jsonObject.put("orderIndex","")
+        }else{
+            jsonObject.put("today","1")
+            jsonObject.put("orderIndex",inspect.orderIndex)
+        }
+        jsonObject.put("siteId",""+inspect.siteId)
         jsonObject.put("userId",""+SPUtils.instance().getInt("userId"))
-        jsonObject.put("today","0")
-        jsonObject.put("siteId","1")
+
         val data=JSONObject()
-        data.put("workStatus","3")
-        data.put("status",inspect.status)
+        data.put("status","5")
         data.put("userId",""+SPUtils.instance().getInt("userId"))
         data.put("netStatus",youxian)
         data.put("noNetStatus",wuxian)
         data.put("pNetStatus",phone)
         data.put("is_unusual",inspect.is_unusual)
         data.put("useStatus",inspect.useStatus)
-        data.put("environmentStatus",inspect.environmentStatus)
-        data.put("equipStatus","3")
+        var environStatus=inspect.environmentStatus.toInt()
+        data.put("environmentStatus",""+environStatus)
         data.put("cleanStatus",""+huanjing)
         data.put("cleanPicture",cleanPic)
         data.put("conId",inspect.conId)
@@ -256,6 +261,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         }
         data.put("environmentInspect",environmentInspect)
         val equimInspect=JSONArray()
+        var badEquip=StringBuffer()
         equimpmentList.forEach {
             val equipment=JSONObject()
             equipment.put("equipmentIndex",it.equipmentIndex)
@@ -265,20 +271,48 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
             equipment.put("is_unusual",it.is_unusual)
             equipment.put("is_exist",it.is_exist)
             equipment.put("comments",it.comments)
+            if(it.is_unusual.equals("1")||it.is_exist.equals("1")){
+                badEquip.append(it.equipName)
+            }
+            var badEquipStr=badEquip.toString()
+            var equipStatus=3
+            if (badEquipStr.equals("")){
+                equipStatus=3
+            }else if (badEquipStr.contains("总电源")||badEquipStr.contains("UPS")){
+                equipStatus=1
+            }else if (badEquipStr.equals("天线1")&&badEquipStr.equals("天线2")){
+                equipStatus=1
+            }else if (badEquipStr.equals("主馈线")&&badEquipStr.equals("备用馈线")){
+                equipStatus=1
+            }else if (badEquipStr.equals("主解码器")&&badEquipStr.equals("备用解码器")){
+                equipStatus=1
+            }else if (badEquipStr.equals("主发射机")&&badEquipStr.equals("备用发射机")){
+                equipStatus=1
+            }else{
+                equipStatus=2
+            }
+            data.put("equipStatus",""+equipStatus)
+            if (equipStatus==1){
+                data.put("workStatus","1")
+            }else{
+                if (environStatus==0){
+                    data.put("workStatus","2")
+                }else{
+                    data.put("workStatus","3")
+                }
+            }
             val coum= DbController.getInstance(applicationContext).searchByWhereConsum(orderId,it.equipmentIndex)
+            val couns=JSONArray()
             if (coum.size>0){
-                val couns=JSONArray()
                 coum.forEach {counmable ->
                     val coun=JSONObject()
                     coun.put("consumableId",counmable.consumableId)
-                    coun.put("handId",counmable.handId)
                     coun.put("count",counmable.count)
                     couns.put(coun)
                 }
-                equipment.put("consumable",couns)
-            }else{
-                equipment.put("consumable","")
+
             }
+            equipment.put("consumable",couns)
             equimInspect.put(equipment)
         }
         data.put("equimInspect",equimInspect)
@@ -323,6 +357,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
             data.let {
                 it!!.forEach{ equip ->
                     var inspectEquipMent= InspectEquipMent()
+                    inspectEquipMent.equipName=equip.name
                     inspectEquipMent.equipmentIndex=""+equip.id
                     inspectEquipMent.comments=""
                     inspectEquipMent.context=""

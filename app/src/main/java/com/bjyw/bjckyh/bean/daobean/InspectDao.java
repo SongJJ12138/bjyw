@@ -23,13 +23,15 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property OrderIndex = new Property(1, String.class, "orderIndex", false, "ORDER_INDEX");
-        public final static Property UserId = new Property(2, String.class, "userId", false, "USER_ID");
-        public final static Property Status = new Property(3, String.class, "status", false, "STATUS");
-        public final static Property Is_unusual = new Property(4, String.class, "is_unusual", false, "IS_UNUSUAL");
-        public final static Property UseStatus = new Property(5, String.class, "useStatus", false, "USE_STATUS");
-        public final static Property EnvironmentStatus = new Property(6, String.class, "environmentStatus", false, "ENVIRONMENT_STATUS");
-        public final static Property ConId = new Property(7, String.class, "conId", false, "CON_ID");
+        public final static Property Today = new Property(1, boolean.class, "today", false, "TODAY");
+        public final static Property SiteId = new Property(2, int.class, "siteId", false, "SITE_ID");
+        public final static Property OrderIndex = new Property(3, String.class, "orderIndex", false, "ORDER_INDEX");
+        public final static Property UserId = new Property(4, String.class, "userId", false, "USER_ID");
+        public final static Property Status = new Property(5, String.class, "status", false, "STATUS");
+        public final static Property Is_unusual = new Property(6, String.class, "is_unusual", false, "IS_UNUSUAL");
+        public final static Property UseStatus = new Property(7, String.class, "useStatus", false, "USE_STATUS");
+        public final static Property EnvironmentStatus = new Property(8, String.class, "environmentStatus", false, "ENVIRONMENT_STATUS");
+        public final static Property ConId = new Property(9, String.class, "conId", false, "CON_ID");
     }
 
 
@@ -46,13 +48,15 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"INSPECT\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"ORDER_INDEX\" TEXT," + // 1: orderIndex
-                "\"USER_ID\" TEXT," + // 2: userId
-                "\"STATUS\" TEXT," + // 3: status
-                "\"IS_UNUSUAL\" TEXT," + // 4: is_unusual
-                "\"USE_STATUS\" TEXT," + // 5: useStatus
-                "\"ENVIRONMENT_STATUS\" TEXT," + // 6: environmentStatus
-                "\"CON_ID\" TEXT);"); // 7: conId
+                "\"TODAY\" INTEGER NOT NULL ," + // 1: today
+                "\"SITE_ID\" INTEGER NOT NULL ," + // 2: siteId
+                "\"ORDER_INDEX\" TEXT," + // 3: orderIndex
+                "\"USER_ID\" TEXT," + // 4: userId
+                "\"STATUS\" TEXT," + // 5: status
+                "\"IS_UNUSUAL\" TEXT," + // 6: is_unusual
+                "\"USE_STATUS\" TEXT," + // 7: useStatus
+                "\"ENVIRONMENT_STATUS\" TEXT," + // 8: environmentStatus
+                "\"CON_ID\" TEXT);"); // 9: conId
     }
 
     /** Drops the underlying database table. */
@@ -69,40 +73,42 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
+        stmt.bindLong(2, entity.getToday() ? 1L: 0L);
+        stmt.bindLong(3, entity.getSiteId());
  
         String orderIndex = entity.getOrderIndex();
         if (orderIndex != null) {
-            stmt.bindString(2, orderIndex);
+            stmt.bindString(4, orderIndex);
         }
  
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(3, userId);
+            stmt.bindString(5, userId);
         }
  
         String status = entity.getStatus();
         if (status != null) {
-            stmt.bindString(4, status);
+            stmt.bindString(6, status);
         }
  
         String is_unusual = entity.getIs_unusual();
         if (is_unusual != null) {
-            stmt.bindString(5, is_unusual);
+            stmt.bindString(7, is_unusual);
         }
  
         String useStatus = entity.getUseStatus();
         if (useStatus != null) {
-            stmt.bindString(6, useStatus);
+            stmt.bindString(8, useStatus);
         }
  
         String environmentStatus = entity.getEnvironmentStatus();
         if (environmentStatus != null) {
-            stmt.bindString(7, environmentStatus);
+            stmt.bindString(9, environmentStatus);
         }
  
         String conId = entity.getConId();
         if (conId != null) {
-            stmt.bindString(8, conId);
+            stmt.bindString(10, conId);
         }
     }
 
@@ -114,40 +120,42 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
+        stmt.bindLong(2, entity.getToday() ? 1L: 0L);
+        stmt.bindLong(3, entity.getSiteId());
  
         String orderIndex = entity.getOrderIndex();
         if (orderIndex != null) {
-            stmt.bindString(2, orderIndex);
+            stmt.bindString(4, orderIndex);
         }
  
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(3, userId);
+            stmt.bindString(5, userId);
         }
  
         String status = entity.getStatus();
         if (status != null) {
-            stmt.bindString(4, status);
+            stmt.bindString(6, status);
         }
  
         String is_unusual = entity.getIs_unusual();
         if (is_unusual != null) {
-            stmt.bindString(5, is_unusual);
+            stmt.bindString(7, is_unusual);
         }
  
         String useStatus = entity.getUseStatus();
         if (useStatus != null) {
-            stmt.bindString(6, useStatus);
+            stmt.bindString(8, useStatus);
         }
  
         String environmentStatus = entity.getEnvironmentStatus();
         if (environmentStatus != null) {
-            stmt.bindString(7, environmentStatus);
+            stmt.bindString(9, environmentStatus);
         }
  
         String conId = entity.getConId();
         if (conId != null) {
-            stmt.bindString(8, conId);
+            stmt.bindString(10, conId);
         }
     }
 
@@ -160,13 +168,15 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
     public Inspect readEntity(Cursor cursor, int offset) {
         Inspect entity = new Inspect( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // orderIndex
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // userId
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // status
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // is_unusual
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // useStatus
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // environmentStatus
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // conId
+            cursor.getShort(offset + 1) != 0, // today
+            cursor.getInt(offset + 2), // siteId
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // orderIndex
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // userId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // status
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // is_unusual
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // useStatus
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // environmentStatus
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // conId
         );
         return entity;
     }
@@ -174,13 +184,15 @@ public class InspectDao extends AbstractDao<Inspect, Long> {
     @Override
     public void readEntity(Cursor cursor, Inspect entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setOrderIndex(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setUserId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setStatus(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setIs_unusual(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setUseStatus(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setEnvironmentStatus(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setConId(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setToday(cursor.getShort(offset + 1) != 0);
+        entity.setSiteId(cursor.getInt(offset + 2));
+        entity.setOrderIndex(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setUserId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setStatus(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setIs_unusual(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setUseStatus(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setEnvironmentStatus(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setConId(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     @Override

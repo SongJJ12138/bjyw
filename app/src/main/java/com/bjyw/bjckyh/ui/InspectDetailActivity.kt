@@ -74,7 +74,6 @@ class InspectDetailActivity : BaseActivity() {
     }
 
     private fun saveData() {
-        showDialog()
         var equipInspectBean=inspect.getDataBean()
         if (equipInspectBean.is_exist.equals("-1")){
             toast("请选择设备情况")
@@ -84,6 +83,7 @@ class InspectDetailActivity : BaseActivity() {
             toast("请检查是否需要设备维修")
             return
         }
+        showDialog()
         var equipRepairBean=repair.getDataBean()
         showDialog()
         equipRepairBean.consumable.forEach {
@@ -91,7 +91,6 @@ class InspectDetailActivity : BaseActivity() {
             inspectConsumable.orderIndex=orderId
             inspectConsumable.equipId=equipId
             inspectConsumable.consumableId=it.consumableId
-            inspectConsumable.handId=it.handId
             inspectConsumable.count=it.count
             DbController.getInstance(applicationContext).insertOrReplaceConsum(inspectConsumable)
         }

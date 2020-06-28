@@ -8,6 +8,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class InspectEquipMent {
     @Id
     Long id;
+    String equipName;
     String orderIndex;
     String equipmentIndex;
     String remark;
@@ -16,11 +17,12 @@ public class InspectEquipMent {
     String is_unusual;
     String is_exist;
     String comments;
-    @Generated(hash = 1559217940)
-    public InspectEquipMent(Long id, String orderIndex, String equipmentIndex,
-            String remark, String picture, String context, String is_unusual,
-            String is_exist, String comments) {
+    @Generated(hash = 1090936997)
+    public InspectEquipMent(Long id, String equipName, String orderIndex,
+            String equipmentIndex, String remark, String picture, String context,
+            String is_unusual, String is_exist, String comments) {
         this.id = id;
+        this.equipName = equipName;
         this.orderIndex = orderIndex;
         this.equipmentIndex = equipmentIndex;
         this.remark = remark;
@@ -86,5 +88,11 @@ public class InspectEquipMent {
     }
     public void setComments(String comments) {
         this.comments = comments;
+    }
+    public String getEquipName() {
+        return this.equipName;
+    }
+    public void setEquipName(String equipName) {
+        this.equipName = equipName;
     }
 }

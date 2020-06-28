@@ -8,6 +8,8 @@ import org.greenrobot.greendao.annotation.Generated;
 public class Inspect {
     @Id(autoincrement = true)//设置自增长
     private Long id;
+    private boolean today;
+    private int siteId;
     private String orderIndex;
     private String userId;
     private String status;
@@ -15,11 +17,13 @@ public class Inspect {
     private String useStatus;
     private String environmentStatus;
     private String conId;
-    @Generated(hash = 1148144510)
-    public Inspect(Long id, String orderIndex, String userId, String status,
-            String is_unusual, String useStatus, String environmentStatus,
-            String conId) {
+    @Generated(hash = 1500907064)
+    public Inspect(Long id, boolean today, int siteId, String orderIndex,
+            String userId, String status, String is_unusual, String useStatus,
+            String environmentStatus, String conId) {
         this.id = id;
+        this.today = today;
+        this.siteId = siteId;
         this.orderIndex = orderIndex;
         this.userId = userId;
         this.status = status;
@@ -78,5 +82,17 @@ public class Inspect {
     }
     public void setConId(String conId) {
         this.conId = conId;
+    }
+    public boolean getToday() {
+        return this.today;
+    }
+    public void setToday(boolean today) {
+        this.today = today;
+    }
+    public int getSiteId() {
+        return this.siteId;
+    }
+    public void setSiteId(int siteId) {
+        this.siteId = siteId;
     }
 }

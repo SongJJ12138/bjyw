@@ -221,7 +221,7 @@ object HttpManager {
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
         for (i in 0 until pics.size){
             val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), pics[i])
-            builder.addFormDataPart("file",pics[i].getName(),requestBody)
+            builder.addFormDataPart("files",pics[i].getName(),requestBody)
         }
         val files = builder.build().parts()
         return request().updataPic(true,files).defaultScheduler()

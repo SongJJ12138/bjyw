@@ -56,7 +56,6 @@ class InspectSelectActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inspect_select)
-        orderId=intent.getStringExtra("orderId")
         EventBus.getDefault().register(this)
         initView()
         initClick()
@@ -142,6 +141,7 @@ class InspectSelectActivity : BaseActivity() {
     private fun initClick() {
         bt_sitehistory.onClick {
             var intent=Intent(this@InspectSelectActivity,SiteDeatilActivity::class.java)
+            //测试
             intent.putExtra("siteId","1")
             startActivity(intent)
         }
@@ -152,12 +152,8 @@ class InspectSelectActivity : BaseActivity() {
             startActivityForResult(Intent(this@InspectSelectActivity,OrderListActivity::class.java),REQUEST_CODE_ORDE)
         }
         layout_saoma.onClick {
-            if (orderId.equals("")){
-                toast("请先去工单列表选择工单")
-            }else{
-                val intent = Intent(this@InspectSelectActivity, CaptureActivity::class.java)
-                startActivityForResult(intent, REQUEST_CODE_SCAN)
-            }
+            val intent = Intent(this@InspectSelectActivity, CaptureActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_SCAN)
         }
         bt_next.onClick {
             if (siteId !=0){
@@ -172,18 +168,10 @@ class InspectSelectActivity : BaseActivity() {
 
     private fun saveInspect() {
         var inspect=Inspect()
-        inspect.status=="1"
+        inspect.status="1"
         if (SPUtils.instance().getInt("userId")==-1){
             toast("请先登录")
             return
-        }else{
-            inspect.orderIndex=orderId
-        }
-        if (orderId.equals("")){
-            toast("请先选择工单进行巡检")
-            return
-        }else{
-            inspect.orderIndex=orderId
         }
         if (coitionId.equals("")){
             toast("请选择巡检条件")
@@ -209,6 +197,16 @@ class InspectSelectActivity : BaseActivity() {
                     inspect.environmentStatus="2"
                 }
             }
+        }
+        if (orderId.equals("")){
+            orderId=Date().time.toString()
+            inspect.orderIndex=orderId
+            inspect.today=true
+            inspect.siteId=siteId
+        }else{
+            inspect.orderIndex=orderId
+            inspect.today=false
+            inspect.siteId=siteId
         }
         if (useStutusId.equals("")){
             toast("请选择使用状态")
