@@ -99,10 +99,8 @@ class RepairFragment : BaseFragment(){
 
     private fun uploadPic(bitmap: Bitmap) {
         showDialog()
-        var  pic=ArrayList<File>()
         var file=convertBitmapToFile(activity!!.applicationContext ,bitmap)
-        pic.add(file)
-        HttpManager.updataPic(pic).requestByF(this){ _,data->
+        HttpManager.updataPic(file).requestByF(this){ _,data->
             dismissDialog()
             data.let {
                 if (picType==1){

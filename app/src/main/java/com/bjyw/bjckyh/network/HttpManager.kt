@@ -6,6 +6,7 @@ import com.bjyw.bjckyh.bean.*
 import com.bjyw.bjckyh.utils.DES
 import com.bjyw.bjckyh.utils.SPUtils
 import com.bjyw.bjckyh.utils.defaultScheduler
+import com.google.gson.JsonObject
 import io.reactivex.Flowable
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -217,14 +218,20 @@ object HttpManager {
     /**
      * 上传照片
      */
-    fun updataPic(pics: ArrayList<File>): Flowable<ResultData<String>> {
-        val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+    fun updataPic(pics: ArrayList<File>): Flowable<ResultData<JsonObject>> {
+        val files2= ArrayList<MultipartBody.Part>()
         for (i in 0 until pics.size){
             val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), pics[i])
-            builder.addFormDataPart("files",pics[i].getName(),requestBody)
+            val form = MultipartBody.Part.createFormData("files", pics[i].name, requestBody)
+            files2.add(form)
         }
-        val files = builder.build().parts()
-        return request().updataPic(true,files).defaultScheduler()
+        return request().updataPic(files2).defaultScheduler()
+    }
+
+    fun updataPic(file:File): Flowable<ResultData<JsonObject>> {
+        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+        val form =MultipartBody.Part.createFormData("files", "files", requestFile)
+        return request().updataPic(form).defaultScheduler()
     }
 
     /**

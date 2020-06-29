@@ -1,6 +1,7 @@
 package com.bjyw.bjckyh.network
 
 import com.bjyw.bjckyh.bean.*
+import com.google.gson.JsonObject
 import io.reactivex.Flowable
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -57,7 +58,11 @@ interface ApiService {
 
     @Multipart
     @POST(Api.UPLOAD_PIC)
-    fun updataPic(@Header("watermark")  watermark:Boolean=true, @Part files:List<MultipartBody.Part> ): Flowable<ResultData<String>>
+    fun updataPic(@Part filesPart:List<MultipartBody.Part> ): Flowable<ResultData<JsonObject>>
+
+    @Multipart
+    @POST(Api.UPLOAD_PIC)
+    fun updataPic(@Part Part:MultipartBody.Part ): Flowable<ResultData<JsonObject>>
 
     @POST(Api.GET_CONSUMABLE)
     @FormUrlEncoded

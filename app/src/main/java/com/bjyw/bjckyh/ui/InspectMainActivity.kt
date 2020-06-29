@@ -213,7 +213,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
         showDialog()
         HttpManager.updataPic(files).request(this){ _,data->
             data.let {
-                cleanPic= it!!
+                cleanPic= it.toString()!!
                 commit()
             }
         }

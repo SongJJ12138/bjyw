@@ -1,3 +1,2 @@
-<resources>
-    <string name="app_name">行政村运维助手</string>
-</resources>
+<component name="libraryTable">
+    <library name="Gradle: androidx.savedstate:savedstat

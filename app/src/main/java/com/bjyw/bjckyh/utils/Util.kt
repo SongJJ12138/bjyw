@@ -1,8 +1,12 @@
 package com.bjyw.bjckyh.utils
 
 
+import android.app.Activity
 import android.content.Context
+import android.database.Cursor
 import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -30,6 +34,7 @@ fun date2String(date:Date):String {
     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
     return  simpleDateFormat.format(date)
 }
+
 fun convertBitmapToFile(context: Context, bm: Bitmap): File {
    var  bitmap = Bitmap.createScaledBitmap(bm, 150, 150, true);
     val f = File(context.cacheDir, "portrait")

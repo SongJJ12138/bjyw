@@ -255,7 +255,7 @@ class InspectSelectActivity : BaseActivity() {
     ) {
         HttpManager.updataPic(pic).request(this@InspectSelectActivity){ _,data->
             data.let {
-                environ.picture=it
+                environ.picture=it.toString()
                 DbController.getInstance(applicationContext).insertOrReplaceEnvironment(environ)
             }
         }

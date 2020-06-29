@@ -1,5 +1,6 @@
 package com.bjyw.bjckyh.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bjyw.bjckyh.R
@@ -15,6 +16,9 @@ class SiteCollectActivity : BaseActivity() {
         collectsite_rv_updatesite.adapter=updateAdapter
         collectsite_rv_collectsite.layoutManager= GridLayoutManager(applicationContext,3)
         collectsite_rv_collectsite.adapter=collectAdapter
+        tv_caiji.Click{
+            startActivity(Intent(this@SiteCollectActivity,SiteUpdateActivity::class.java))
+        }
     }
     private val updateAdapter by lazy {
         var list= ArrayList<String>()
