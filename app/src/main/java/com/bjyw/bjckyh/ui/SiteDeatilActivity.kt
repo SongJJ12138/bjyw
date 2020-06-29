@@ -29,6 +29,19 @@ class SiteDeatilActivity : BaseActivity(), EquipQcodeApapter.onClickListener {
         }
         activity_include_tvtitle.text="台站详情"
         activity_include_tvrignt.text=""
+        var isShow=true
+        shouqii.onClick {
+            if (isShow){
+                layout1.visibility=View.GONE
+                layout2.visibility=View.GONE
+                layout_3.visibility=View.GONE
+            }else{
+                layout1.visibility=View.VISIBLE
+                layout2.visibility=View.VISIBLE
+                layout_3.visibility=View.VISIBLE
+            }
+            isShow=!isShow
+        }
         getData()
     }
 

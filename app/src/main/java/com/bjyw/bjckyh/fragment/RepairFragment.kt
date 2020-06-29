@@ -17,16 +17,33 @@ import com.bjyw.bjckyh.adapter.ConsumableAdapter
 import com.bjyw.bjckyh.bean.Conse
 import com.bjyw.bjckyh.bean.Consumable
 import com.bjyw.bjckyh.bean.EquipRepairBean
+import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.bjyw.bjckyh.network.HttpManager
+import com.bjyw.bjckyh.network.HttpModel
 import com.bjyw.bjckyh.network.requestByF
 import com.bjyw.bjckyh.utils.TakePhoto
-import com.bjyw.bjckyh.utils.convertBitmapToFile
 import kotlinx.android.synthetic.main.fragmeny_repair.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import java.io.File
+import org.json.JSONObject
 
 
-class RepairFragment : BaseFragment(){
+class RepairFragment : BaseFragment(), HttpModel.HttpClientListener {
+    override fun onSuccess2(response: String, environ: InspectEnvironMent) {}
+
+    var pic=""
+    var listPicBit=ArrayList<Bitmap>()
+    override fun onSuccess(obj: Any) {
+        dismissDialog()
+        var jsonObject=JSONObject(obj as String)
+        pic=jsonObject.get("data").toString()
+        ed_equip_repair.hint=pic
+    }
+
+    override fun onError() {
+        dismissDialog()
+        errorToast("上传失败")
+    }
+
     private val REQUEST__CODE_IMAGES = 0x01
     var  picType=1
     var pic1=""
@@ -43,7 +60,6 @@ class RepairFragment : BaseFragment(){
         return inflater.inflate(R.layout.fragmeny_repair, container, false)
     }
 
-     var picPath=""
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv_consumable.isNestedScrollingEnabled = false
@@ -78,7 +94,7 @@ class RepairFragment : BaseFragment(){
                 consumList.add(conse)
             }
         }
-        return EquipRepairBean("",consumList,pic1+pic2,ed_equip_repair.text.toString())
+        return EquipRepairBean("",consumList,pic,ed_equip_repair.text.toString())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -93,23 +109,15 @@ class RepairFragment : BaseFragment(){
                 img_equip_repqir2.scaleType= ImageView.ScaleType.CENTER_CROP
                 img_equip_repqir2.setImageBitmap(bitmap)
             }
-            uploadPic(bitmap)
+            listPicBit.add(bitmap)
+            uploadPic(listPicBit)
         }
     }
 
-    private fun uploadPic(bitmap: Bitmap) {
+    private fun uploadPic(bitmaps: List<Bitmap>) {
         showDialog()
-        var file=convertBitmapToFile(activity!!.applicationContext ,bitmap)
-        HttpManager.updataPic(file).requestByF(this){ _,data->
-            dismissDialog()
-            data.let {
-                if (picType==1){
-                    pic1= it.toString()
-                }else{
-                    pic2= it.toString()
-                }
-            }
-        }
+        var httpModel=HttpModel(this@RepairFragment)
+        httpModel.postFile(context!!,bitmaps)
     }
 
     var list=ArrayList<Consumable>()

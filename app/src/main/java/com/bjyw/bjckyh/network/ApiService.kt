@@ -80,5 +80,10 @@ interface ApiService {
     @FormUrlEncoded
     fun getSiteDetails( @Field("json") json: String ): Flowable<ResultData<SiteDetails>>
 
+    @POST(Api.UPDATE_SITE)
+    @FormUrlEncoded
+    fun updateSite( @Field("json") json: String ): Flowable<ResultData<String>>
+
+
 
 }

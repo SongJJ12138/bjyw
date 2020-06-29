@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.adapter.EquipAdapter
 import com.bjyw.bjckyh.bean.EquipBean
+import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.bjyw.bjckyh.bean.daobean.InspectEquipMent
 import com.bjyw.bjckyh.dialog.CommitFaileDialog
 import com.bjyw.bjckyh.network.HttpManager
+import com.bjyw.bjckyh.network.HttpModel
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.utils.DbController
 import com.bjyw.bjckyh.utils.FileProviderUtil
@@ -32,7 +34,10 @@ import java.io.File
 import java.io.FileInputStream
 
 @Suppress("DEPRECATION")
-class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
+class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
+    HttpModel.HttpClientListener {
+
+
     private  val REQUEST_CODE=0x01
     private val REQUEST__CODE_IMAGES=0x02
     var httpType=0
@@ -211,12 +216,23 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener {
 
     private fun uploadPic(files: ArrayList<File>) {
         showDialog()
-        HttpManager.updataPic(files).request(this){ _,data->
-            data.let {
-                cleanPic= it.toString()!!
-                commit()
-            }
-        }
+        var httpModel= HttpModel(this@InspectMainActivity)
+        httpModel.postFile3(applicationContext,files)
+    }
+    override fun onError() {
+        dismissDialog()
+        errorToast("图片上传失败")
+    }
+
+    override fun onSuccess(obj: Any) {
+        dismissDialog()
+        var jsonObject= JSONObject(obj as String)
+        var pic=jsonObject.get("data").toString()
+        cleanPic= pic
+        commit()
+    }
+
+    override fun onSuccess2(response: String, environ: InspectEnvironMent) {
     }
     private fun commit() {
         val inspect=DbController.getInstance(applicationContext).searchById(orderId)

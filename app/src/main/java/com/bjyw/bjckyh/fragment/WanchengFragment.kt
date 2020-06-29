@@ -33,8 +33,6 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
     override fun onClick(orderId: String) {
         var intent= Intent(activity, InspectSelectActivity::class.java)
         intent.putExtra("orderId",orderId)
-        //测试
-//        intent.putExtra("orderIndex","2390108011083969470")
         activity?.setResult(Activity.RESULT_OK,intent)
         activity?.finish()
     }

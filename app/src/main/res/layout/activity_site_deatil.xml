@@ -95,17 +95,6 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="1dp"/>
-                <TextView
-                    android:id="@+id/bt_latlng"
-                    android:layout_width="@dimen/dp_67"
-                    android:layout_height="@dimen/dp_27"
-                    android:text="更新"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:textColor="#fff5f5f5"
-                    android:gravity="center"
-                    android:textSize="15sp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bt_login"/>
             </LinearLayout>
             <TextView
                 android:layout_marginTop="@dimen/dp_5"
@@ -217,17 +206,6 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="1dp"/>
-                <TextView
-                    android:id="@+id/bt_people"
-                    android:layout_width="@dimen/dp_67"
-                    android:layout_height="@dimen/dp_27"
-                    android:text="变更"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:textColor="#fff5f5f5"
-                    android:gravity="center"
-                    android:textSize="15sp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bt_login"/>
             </LinearLayout>
             <TextView
                 android:layout_marginTop="@dimen/dp_5"
@@ -359,17 +337,6 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="1dp"/>
-                <TextView
-                    android:id="@+id/bt_pic"
-                    android:layout_width="@dimen/dp_67"
-                    android:layout_height="@dimen/dp_27"
-                    android:text="替换"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:textColor="#fff5f5f5"
-                    android:gravity="center"
-                    android:textSize="15sp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bt_login"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -610,8 +577,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_5"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:background="@color/white">
+            android:orientation="horizontal">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -628,7 +594,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="地线电线（增）"
+                    android:text="地线电线"
                     android:textColor="#ff505050"
                     android:textSize="@dimen/sp_14"
                     android:layout_margin="@dimen/dp_5"
@@ -640,6 +606,7 @@
                 android:layout_height="1dp"/>
         </LinearLayout>
             <LinearLayout
+                android:id="@+id/shouqii"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
                 android:orientation="horizontal"

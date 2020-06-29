@@ -215,24 +215,7 @@ object HttpManager {
         return request().getEquipUsual(jsonObject.toString()).defaultScheduler()
     }
 
-    /**
-     * 上传照片
-     */
-    fun updataPic(pics: ArrayList<File>): Flowable<ResultData<JsonObject>> {
-        val files2= ArrayList<MultipartBody.Part>()
-        for (i in 0 until pics.size){
-            val requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), pics[i])
-            val form = MultipartBody.Part.createFormData("files", pics[i].name, requestBody)
-            files2.add(form)
-        }
-        return request().updataPic(files2).defaultScheduler()
-    }
 
-    fun updataPic(file:File): Flowable<ResultData<JsonObject>> {
-        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
-        val form =MultipartBody.Part.createFormData("files", "files", requestFile)
-        return request().updataPic(form).defaultScheduler()
-    }
 
     /**
      * 获取维修材料
@@ -266,6 +249,13 @@ object HttpManager {
         var jsonObject=JSONObject()
         jsonObject.put("id",id)
         return request().getSiteDetails(jsonObject.toString()).defaultScheduler()
+    }
+
+    /**
+     * 更新台站
+     */
+    fun updateSite(id:String): Flowable<ResultData<String>> {
+        return request().updateSite(id).defaultScheduler()
     }
 
 }

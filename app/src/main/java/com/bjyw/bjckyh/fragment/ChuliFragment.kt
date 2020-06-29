@@ -43,8 +43,6 @@ class ChuliFragment: BaseFragment(), OrderAdapter.onClickListener {
     override fun onClick(orderId: String) {
         var intent=Intent(activity,InspectSelectActivity::class.java)
         intent.putExtra("orderId",orderId)
-        //测试
-//        intent.putExtra("orderIndex","2390108011083969470")
         activity?.setResult(Activity.RESULT_OK,intent)
         activity?.finish()
     }
@@ -119,7 +117,6 @@ class ChuliFragment: BaseFragment(), OrderAdapter.onClickListener {
             data?.let {
                 dismissDialog()
                 list.clear()
-                //测试
                 list.addAll(it)
                 adapter.notifyDataSetChanged()
             }

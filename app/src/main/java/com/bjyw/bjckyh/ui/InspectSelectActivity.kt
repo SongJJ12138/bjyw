@@ -19,6 +19,7 @@ import com.bjyw.bjckyh.bean.daobean.Inspect
 import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.bjyw.bjckyh.bean.environPic
 import com.bjyw.bjckyh.network.HttpManager
+import com.bjyw.bjckyh.network.HttpModel
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.utils.DbController
 import com.bjyw.bjckyh.utils.MapLocationUtil
@@ -35,6 +36,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
+import org.json.JSONObject
 import java.io.File
 import java.io.FileInputStream
 import java.text.SimpleDateFormat
@@ -42,7 +44,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class InspectSelectActivity : BaseActivity() {
+class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
+    override fun onSuccess(obj: Any) {}
+
     private val REQUEST_CODE_SCAN=0x01
     private val REQUEST_CODE_ORDE=0x02
     private val REQUEST__CODE_IMAGES=0x03
@@ -141,7 +145,7 @@ class InspectSelectActivity : BaseActivity() {
     private fun initClick() {
         bt_sitehistory.onClick {
             var intent=Intent(this@InspectSelectActivity,SiteDeatilActivity::class.java)
-            //测试
+            //equipStatus
             intent.putExtra("siteId","1")
             startActivity(intent)
         }
@@ -159,9 +163,7 @@ class InspectSelectActivity : BaseActivity() {
             if (siteId !=0){
                 saveInspect()
             }else{
-                //测试
                 toast("请先扫码获取站点数据")
-                saveInspect()
             }
         }
     }
@@ -218,7 +220,6 @@ class InspectSelectActivity : BaseActivity() {
         DbController.getInstance(applicationContext).insertOrReplaceInspect(inspect)
         saveEnvironment()
     }
-
     private fun saveEnvironment() {
         for (i in 0 until environList.size){
             var environ=environList[i].getEnvironBean()
@@ -241,24 +242,27 @@ class InspectSelectActivity : BaseActivity() {
     private fun onNext() {
         dismissDialog()
         var intent=Intent(this@InspectSelectActivity,InspectMainActivity::class.java)
-//        intent.putExtra("siteId",siteId)
-        //测试
-        intent.putExtra("siteId",1)
+        intent.putExtra("siteId",siteId)
         intent.putExtra("orderId",orderId)
         intent.putExtra("isOk",isOk)
         startActivity(intent)
     }
 
-    private fun updataPic(
-        pic: ArrayList<File>,
-        environ: InspectEnvironMent
-    ) {
-        HttpManager.updataPic(pic).request(this@InspectSelectActivity){ _,data->
-            data.let {
-                environ.picture=it.toString()
-                DbController.getInstance(applicationContext).insertOrReplaceEnvironment(environ)
-            }
-        }
+    private fun updataPic(pic: ArrayList<File>, environ: InspectEnvironMent) {
+        //拍照
+        var httpModel= HttpModel(this@InspectSelectActivity)
+        httpModel.postFile2(applicationContext,pic,environ)
+    }
+    override fun onError() {
+        dismissDialog()
+        errorToast("上传失败")
+    }
+    override fun onSuccess2(response: String, environ: InspectEnvironMent) {
+        dismissDialog()
+        var jsonObject= JSONObject(response)
+        var pic=jsonObject.get("data").toString()
+        environ.picture=pic
+        DbController.getInstance(applicationContext).insertOrReplaceEnvironment(environ)
     }
 
     private fun initView() {
