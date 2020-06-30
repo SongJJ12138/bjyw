@@ -83,8 +83,12 @@ class InspectDetailActivity : BaseActivity() {
             toast("请检查是否需要设备维修")
             return
         }
-        showDialog()
         var equipRepairBean=repair.getDataBean()
+        if (equipRepairBean.comments.equals("-1")){
+            toast("请选择维修情况")
+            return
+        }
+        showDialog()
         showDialog()
         equipRepairBean.consumable.forEach {
             var inspectConsumable=InspectConsumable()
@@ -96,13 +100,18 @@ class InspectDetailActivity : BaseActivity() {
         }
         var inspectEquipMent=InspectEquipMent()
         inspectEquipMent.equipmentIndex=equipId
-        inspectEquipMent.comments=equipRepairBean.comments
+        inspectEquipMent.comments=""
         inspectEquipMent.context=equipInspectBean.context
         inspectEquipMent.is_exist=equipInspectBean.is_exist
         if (equipInspectBean.context.equals("")){
             inspectEquipMent.is_unusual="0"
         }else{
-            inspectEquipMent.is_unusual="1"
+            if (equipRepairBean.comments.equals("1")){
+                inspectEquipMent.is_unusual="1"
+            }else{
+                inspectEquipMent.is_unusual="0"
+            }
+
         }
         inspectEquipMent.orderIndex=orderId
         inspectEquipMent.picture=equipRepairBean.picture

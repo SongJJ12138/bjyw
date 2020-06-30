@@ -23,6 +23,46 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="维修情况"
+                    android:textSize="@dimen/sp_17"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10">
+                <RadioButton
+                    android:id="@+id/rb_repair_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:text="当日可维修"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_12"/>
+                <RadioButton
+                    android:id="@+id/rb_repair_yiliu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="遗留问题"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_12"/>
+            </RadioGroup>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="@dimen/dp_10"
+                    android:layout_height="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:background="@drawable/cirlce" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="耗材情况"
                     android:textSize="@dimen/sp_17"
                     android:textColor="@color/black"/>

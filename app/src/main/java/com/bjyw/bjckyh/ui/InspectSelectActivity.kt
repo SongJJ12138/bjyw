@@ -21,10 +21,7 @@ import com.bjyw.bjckyh.bean.environPic
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.HttpModel
 import com.bjyw.bjckyh.network.request
-import com.bjyw.bjckyh.utils.DbController
-import com.bjyw.bjckyh.utils.MapLocationUtil
-import com.bjyw.bjckyh.utils.SPUtils
-import com.bjyw.bjckyh.utils.convertBitmapToFile
+import com.bjyw.bjckyh.utils.*
 import com.bjyw.bjckyh.view.EnvironUsualView
 import com.yzq.zxinglibrary.android.CaptureActivity
 import com.yzq.zxinglibrary.common.Constant
@@ -298,15 +295,8 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
     }
 
     private fun showPic(s: String) {
-        var uriStr:String
-        if (s.equals("")){
-            uriStr= map.get("uri") as String
-        }else{
-            uriStr=s
-        }
-        var fis: FileInputStream? = null
-        fis = FileInputStream(uriStr)
-        val bitmap = BitmapFactory.decodeStream(fis)
+        val uri = TakePhoto.getOutputMediaFileUri(applicationContext)
+        val bitmap = TakePhoto.getBitmapFormUri(applicationContext, uri)
         if (map.get("type")==0){
             map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment1).scaleType=ImageView.ScaleType.CENTER_CROP}
             map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment1).setImageBitmap(bitmap)}

@@ -13,7 +13,7 @@
             android:id="@+id/trans_img"
             android:layout_width="@dimen/dp_36"
             android:layout_height="@dimen/dp_30"
-            android:src="@mipmap/main_bendi"/>
+            android:src="@mipmap/main_xunjain"/>
         <TextView
             android:id="@+id/tv_tishi"
             android:layout_gravity="right|top"

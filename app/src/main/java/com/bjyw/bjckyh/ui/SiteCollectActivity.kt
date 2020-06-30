@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.adapter.SiteAdapter
 import kotlinx.android.synthetic.main.activity_site_collect.*
+import kotlinx.android.synthetic.main.toolbar_title.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class SiteCollectActivity : BaseActivity() {
@@ -17,6 +18,11 @@ class SiteCollectActivity : BaseActivity() {
         collectsite_rv_updatesite.adapter=updateAdapter
         collectsite_rv_collectsite.layoutManager= GridLayoutManager(applicationContext,3)
         collectsite_rv_collectsite.adapter=collectAdapter
+        activity_include_tvtitle.text="台站采集"
+        activity_include_tvrignt.text=""
+        activity_include_btback.onClick {
+            finish()
+        }
         tv_caiji.onClick{
             startActivity(Intent(this@SiteCollectActivity,SiteUpdateActivity::class.java))
         }

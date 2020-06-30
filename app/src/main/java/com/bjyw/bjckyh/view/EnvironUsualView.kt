@@ -20,6 +20,7 @@ import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.ui.InspectSelectActivity
 import com.bjyw.bjckyh.utils.FileProviderUtil
+import com.bjyw.bjckyh.utils.TakePhoto
 import com.lcw.library.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.item_workstatus.view.*
 import org.greenrobot.eventbus.EventBus
@@ -65,48 +66,30 @@ class EnvironUsualView : LinearLayout {
             isYiliu=true
         }
         img_environment1.onClick {
-            var path_name =
-                "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            var file= File(
-                Environment.getExternalStorageDirectory(),
-                path_name
-            )
-            uri= FileProviderUtil.getFileUri(
-                context,
-                file,
-                activity.getPackageName() + ".fileprovider"
-            )!!
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-            activity.startActivityForResult(intent,REQUEST__CODE_IMAGES)
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(context)
+            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            activity.startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
             var map=HashMap<String,Any>()
             map["position"] = position
             map["type"] = 0
-            map["uri"]=file.absolutePath
+            map["uri"]=myuri
             EventBus.getDefault().post(Message.getInstance(map))
         }
 
 
         img_environment2.onClick {
-                var path_name =
-                    "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                var file= File(
-                    Environment.getExternalStorageDirectory(),
-                    path_name
-                )
-                uri= FileProviderUtil.getFileUri(
-                    context,
-                    file,
-                    activity.getPackageName() + ".fileprovider"
-                )!!
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-                activity.startActivityForResult(intent,REQUEST__CODE_IMAGES)
-                var map=HashMap<String,Any>()
-                map["position"] = position
-                map["type"] = 1
-                map["uri"]=file.absolutePath
-                EventBus.getDefault().post(Message.getInstance(map))
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(context)
+            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            activity.startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
+            var map=HashMap<String,Any>()
+            map["position"] = position
+            map["type"] = 1
+            map["uri"]=myuri
+            EventBus.getDefault().post(Message.getInstance(map))
         }
 
         bt_environment.onClick {
@@ -189,7 +172,7 @@ class EnvironUsualView : LinearLayout {
         if (!isOk){
             tv_title.textColor=Color.RED
             if (layout_environment.visibility== View.VISIBLE){
-                layout_environment.visibility== View.GONE
+                layout_environment.visibility= View.GONE
             }
         }else{
             tv_title.textColor=resources.getColor(R.color.grey)

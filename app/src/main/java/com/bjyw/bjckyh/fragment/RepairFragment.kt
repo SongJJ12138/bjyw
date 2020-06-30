@@ -46,6 +46,7 @@ class RepairFragment : BaseFragment(), HttpModel.HttpClientListener {
 
     private val REQUEST__CODE_IMAGES = 0x01
     var  picType=1
+    var isRepair=-1
     var pic1=""
     var pic2=""
     override fun contentViewId()=R.layout.fragmeny_repair
@@ -65,6 +66,14 @@ class RepairFragment : BaseFragment(), HttpModel.HttpClientListener {
         rv_consumable.isNestedScrollingEnabled = false
         rv_consumable.layoutManager=LinearLayoutManager(context)
         rv_consumable.adapter=adapter
+        rb_repair_ok.onClick {
+            rv_consumable.visibility=View.VISIBLE
+            isRepair=0
+        }
+        rb_repair_yiliu.onClick{
+            rv_consumable.visibility=View.GONE
+            isRepair=1
+        }
         img_equip_repqir1.onClick {
             picType=1
             takePic()
@@ -94,7 +103,7 @@ class RepairFragment : BaseFragment(), HttpModel.HttpClientListener {
                 consumList.add(conse)
             }
         }
-        return EquipRepairBean("",consumList,pic,ed_equip_repair.text.toString())
+        return EquipRepairBean(""+isRepair,consumList,pic,ed_equip_repair.text.toString())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

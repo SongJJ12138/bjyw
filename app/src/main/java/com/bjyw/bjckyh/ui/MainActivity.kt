@@ -92,14 +92,14 @@ class MainActivity : BaseActivity() {
 
     private val navList:ArrayList<Nav> by lazy {
         var navList:ArrayList<Nav> = ArrayList()
-        navList.add(Nav(0,"巡检工单", com.bjyw.bjckyh.R.mipmap.main_xunjain,false,""))
-        navList.add(Nav(1,"台站采集", com.bjyw.bjckyh.R.mipmap.main_caiji,false,""))
-        navList.add(Nav(2,"次日工单", com.bjyw.bjckyh.R.mipmap.main_ciri,false,""))
-        navList.add(Nav(3,"我的小组", com.bjyw.bjckyh.R.mipmap.main_wode,false,""))
-        navList.add(Nav(4,"维修工单", com.bjyw.bjckyh.R.mipmap.maia_weixiu,false,""))
-        navList.add(Nav(5,"工作统计", com.bjyw.bjckyh.R.mipmap.main_gongzuo,false,""))
-        navList.add(Nav(6,"拆建工单", com.bjyw.bjckyh.R.mipmap.main_chaijian,false,""))
-        navList.add(Nav(7,"本地备忘录", com.bjyw.bjckyh.R.mipmap.main_bendi,false,""))
+        navList.add(Nav(0,"巡检工单", R.mipmap.main_xunjain,false,""))
+        navList.add(Nav(1,"台站采集", R.mipmap.mian_caiji,false,""))
+        navList.add(Nav(2,"次日工单",R.mipmap.main_ciri,false,""))
+        navList.add(Nav(3,"我的小组", R.mipmap.mian_wode,false,""))
+        navList.add(Nav(4,"维修工单", R.mipmap.main_weixiu,false,""))
+        navList.add(Nav(5,"工作统计", R.mipmap.main_gongzuo,false,""))
+        navList.add(Nav(6,"拆建工单", R.mipmap.main_chaijian,false,""))
+        navList.add(Nav(7,"本地备忘录", R.mipmap.main_bendi,false,""))
         navList
     }
 

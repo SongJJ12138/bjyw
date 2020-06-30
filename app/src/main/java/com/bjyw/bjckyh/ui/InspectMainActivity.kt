@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -19,11 +20,9 @@ import com.bjyw.bjckyh.dialog.CommitFaileDialog
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.HttpModel
 import com.bjyw.bjckyh.network.request
-import com.bjyw.bjckyh.utils.DbController
-import com.bjyw.bjckyh.utils.FileProviderUtil
-import com.bjyw.bjckyh.utils.SPUtils
-import com.bjyw.bjckyh.utils.convertBitmapToFile
+import com.bjyw.bjckyh.utils.*
 import kotlinx.android.synthetic.main.activity_inspect_main.*
+import kotlinx.android.synthetic.main.item_order.*
 import kotlinx.android.synthetic.main.toolbar_title.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.textColor
@@ -80,57 +79,27 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
         }
         img_clean1.onClick {
             picIndex=0
-            val path_name =
-                "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            val file= File(
-                Environment.getExternalStorageDirectory(),
-                path_name
-            )
-            val uri= FileProviderUtil.getFileUri(
-                applicationContext,
-                file,
-                "$packageName.fileprovider"
-            )!!
-            picPath=file.absolutePath
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-            startActivityForResult(intent,REQUEST__CODE_IMAGES)
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext)
+            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
         }
         img_clean2.onClick {
             picIndex=1
-            val path_name2 =
-                "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            val file= File(
-                Environment.getExternalStorageDirectory(),
-                path_name2
-            )
-            val uri= FileProviderUtil.getFileUri(
-                applicationContext,
-                file,
-                "$packageName.fileprovider"
-            )!!
-            picPath=file.absolutePath
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-            startActivityForResult(intent,REQUEST__CODE_IMAGES)
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext)
+            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
         }
         img_clean3.onClick {
             picIndex=2
-            val path_name3 =
-                "image" + Math.round((Math.random() * 9 + 1) * 100000) + ".jpg"
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            val file= File(
-                Environment.getExternalStorageDirectory(),
-                path_name3
-            )
-            val uri= FileProviderUtil.getFileUri(
-                applicationContext,
-                file,
-                "$packageName.fileprovider"
-            )!!
-            picPath=file.absolutePath
-            intent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-            startActivityForResult(intent,REQUEST__CODE_IMAGES)
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext)
+            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
         }
         tv_commit.onClick {
             checkItem()
@@ -336,7 +305,8 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
         httpType=1
         HttpManager.commit(jsonObject.toString()).request(this) { _, data ->
             data?.let {
-                toast("success")
+                var dialog= CommitSuccessDialog(this@InspectMainActivity)
+                dialog.show()
                 this.finish()
             }
         }
