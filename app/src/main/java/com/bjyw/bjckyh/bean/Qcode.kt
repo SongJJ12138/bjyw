@@ -1,6 +1,6 @@
 package com.bjyw.bjckyh.bean
 
-data class Qcode(
+ data class Qcode(
     val address: String,
     val alarm: Int,
     val checked: Int,
@@ -27,7 +27,7 @@ data class Qcode(
     val rfid: String,
     val running_state: Int,
     val sequenceName: String,
-    val ticketId: Int,
+    val ticketId: Long,
     val town: String,
     val tree_id: Int,
     val updateTimeFormat: String,
