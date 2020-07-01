@@ -138,7 +138,9 @@ public class DbController {
         List<InspectEnvironMent>environMents = (List<InspectEnvironMent>) inspectEnvironMentDao.queryBuilder().where(InspectEnvironMentDao.Properties.OnrderIndex.eq(wherecluse)).list();
         return environMents;
     }
-
+    public void deleteOrderEnvironment(String wherecluse){
+        inspectEnvironMentDao.queryBuilder().where(InspectEnvironMentDao.Properties.OnrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
     public void deleteEnvironment(String wherecluse){
         inspectEnvironMentDao.queryBuilder().where(InspectEnvironMentDao.Properties.EnvironmentIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
@@ -150,6 +152,9 @@ public class DbController {
     }
     public void deleteEquipment(String wherecluse){
         inspectEquipMentDao.queryBuilder().where(InspectEquipMentDao.Properties.EquipmentIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+    public void deleteOrderEquipment(String wherecluse){
+        inspectEquipMentDao.queryBuilder().where(InspectEquipMentDao.Properties.OrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
     public List<InspectEquipMent> searchByWhereEquipment(String wherecluse){
         List<InspectEquipMent>equipMents = (List<InspectEquipMent>) inspectEquipMentDao.queryBuilder().where(InspectEquipMentDao.Properties.OrderIndex.eq(wherecluse),InspectEquipMentDao.Properties.OrderIndex.eq(wherecluse)).list();
@@ -163,6 +168,9 @@ public class DbController {
     }
     public void deleteConsum(String wherecluse,String wercouse2){
         inspectConsumableDao.queryBuilder().where(InspectConsumableDao.Properties.ConsumableId.eq(wherecluse),InspectConsumableDao.Properties.EquipId.eq(wercouse2)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+    public void deleteOrderConsum(String wherecluse){
+        inspectConsumableDao.queryBuilder().where(InspectConsumableDao.Properties.OrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
     public List<InspectConsumable> searchByWhereConsum(String wherecluse,String equipId){
         List<InspectConsumable>consumables = (List<InspectConsumable>) inspectConsumableDao.queryBuilder().where(InspectConsumableDao.Properties.OrderIndex.eq(wherecluse),InspectConsumableDao.Properties.EquipId.eq(equipId)).list();

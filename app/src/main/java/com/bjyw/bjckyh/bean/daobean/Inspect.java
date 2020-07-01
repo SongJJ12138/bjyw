@@ -9,6 +9,8 @@ public class Inspect {
     @Id(autoincrement = true)//设置自增长
     private Long id;
     private boolean today;
+    private String name;
+    private String time;
     private int siteId;
     private String orderIndex;
     private String userId;
@@ -17,12 +19,14 @@ public class Inspect {
     private String useStatus;
     private String environmentStatus;
     private String conId;
-    @Generated(hash = 1500907064)
-    public Inspect(Long id, boolean today, int siteId, String orderIndex,
-            String userId, String status, String is_unusual, String useStatus,
-            String environmentStatus, String conId) {
+    @Generated(hash = 1009980090)
+    public Inspect(Long id, boolean today, String name, String time, int siteId,
+            String orderIndex, String userId, String status, String is_unusual,
+            String useStatus, String environmentStatus, String conId) {
         this.id = id;
         this.today = today;
+        this.name = name;
+        this.time = time;
         this.siteId = siteId;
         this.orderIndex = orderIndex;
         this.userId = userId;
@@ -94,5 +98,17 @@ public class Inspect {
     }
     public void setSiteId(int siteId) {
         this.siteId = siteId;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getTime() {
+        return this.time;
+    }
+    public void setTime(String time) {
+        this.time = time;
     }
 }

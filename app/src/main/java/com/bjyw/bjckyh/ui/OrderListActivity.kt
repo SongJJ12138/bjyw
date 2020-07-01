@@ -7,6 +7,7 @@ import android.os.Bundle
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.fragment.ChuliFragment
 import com.bjyw.bjckyh.fragment.RepairFragment
+import com.bjyw.bjckyh.fragment.WanchengFragment
 import kotlinx.android.synthetic.main.activity_order_list.*
 import kotlinx.android.synthetic.main.toolbar_title.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -17,7 +18,7 @@ class OrderListActivity : BaseActivity() {
         ChuliFragment()
     }
     private val wancheng by lazy {
-        RepairFragment()
+        WanchengFragment()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

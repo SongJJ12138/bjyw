@@ -17,6 +17,7 @@ import com.bjyw.bjckyh.bean.EquipBean
 import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.bjyw.bjckyh.bean.daobean.InspectEquipMent
 import com.bjyw.bjckyh.dialog.CommitFaileDialog
+import com.bjyw.bjckyh.dialog.CommitSuccessDialog
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.HttpModel
 import com.bjyw.bjckyh.network.request
@@ -194,7 +195,6 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     }
 
     override fun onSuccess(obj: Any) {
-        dismissDialog()
         var jsonObject= JSONObject(obj as String)
         var pic=jsonObject.get("data").toString()
         cleanPic= pic
@@ -203,10 +203,19 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
 
     override fun onSuccess2(response: String, environ: InspectEnvironMent) {
     }
+
+    private val inspect by lazy{
+        DbController.getInstance(applicationContext).searchById(orderId)
+    }
+
+    private val equimpmentList by lazy{
+        DbController.getInstance(applicationContext).searchByWhereEquipment(orderId)
+    }
+
+    private val environmentList by lazy{
+        DbController.getInstance(applicationContext).searchByWhereEnvironment(orderId)
+    }
     private fun commit() {
-        val inspect=DbController.getInstance(applicationContext).searchById(orderId)
-        val equimpmentList= DbController.getInstance(applicationContext).searchByWhereEquipment(orderId)
-        val environmentList= DbController.getInstance(applicationContext).searchByWhereEnvironment(orderId)
         val jsonObject=JSONObject()
         if (inspect.today){
             jsonObject.put("today","0")
@@ -305,17 +314,47 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
         httpType=1
         HttpManager.commit(jsonObject.toString()).request(this) { _, data ->
             data?.let {
-                var dialog= CommitSuccessDialog(this@InspectMainActivity)
+                httpType=0
+                dismissDialog()
+                var dialog= CommitSuccessDialog(this@InspectMainActivity,object:
+                    CommitSuccessDialog.onClickListener{
+                    override fun onClick() {
+                        clearData(true)
+                        var intent=Intent(this@InspectMainActivity,MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        this@InspectMainActivity.finish()
+                    }
+                })
                 dialog.show()
-                this.finish()
             }
         }
     }
+
+    private fun clearData(b: Boolean) {
+        inspect.status=""+5
+        DbController.getInstance(applicationContext).insertOrReplaceInspect(inspect)
+        if (b){
+            DbController.getInstance(applicationContext).deleteOrderEquipment(orderId)
+            DbController.getInstance(applicationContext).deleteOrderEnvironment(orderId)
+            DbController.getInstance(applicationContext).deleteOrderConsum(orderId)
+        }
+    }
+
     override fun dismissDialog() {
         super.dismissDialog()
         if (httpType==1){
             httpType=0
-            var dialog= CommitFaileDialog(this@InspectMainActivity)
+            var dialog= CommitFaileDialog(this@InspectMainActivity,object:
+                CommitFaileDialog.onClickListener{
+                override fun onClick() {
+                    clearData(false)
+                    var intent=Intent(this@InspectMainActivity,MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    this@InspectMainActivity.finish()
+                }
+            })
             dialog.show()
         }
     }
@@ -325,6 +364,9 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     }
     private val orderId by lazy{
         intent.getStringExtra("orderId")
+    }
+    private val status by lazy{
+        intent.getIntExtra("status",0)
     }
     private fun initView() {
         activity_include_tvrignt.text=""

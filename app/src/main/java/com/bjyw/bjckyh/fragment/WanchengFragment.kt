@@ -9,12 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bjyw.bjckyh.R
+import com.bjyw.bjckyh.adapter.Order2Adapter
 import com.bjyw.bjckyh.adapter.OrderAdapter
-import com.bjyw.bjckyh.bean.Order
 import com.bjyw.bjckyh.bean.daobean.Inspect
-import com.bjyw.bjckyh.network.HttpManager
-import com.bjyw.bjckyh.network.requestByF
+import com.bjyw.bjckyh.ui.InspectMainActivity
 import com.bjyw.bjckyh.ui.InspectSelectActivity
+import com.bjyw.bjckyh.utils.DbController
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener
 import com.yanzhenjie.recyclerview.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
@@ -66,7 +66,7 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
             SwipeMenuCreator { leftMenu, rightMenu, viewType ->
                 val deleteItem = SwipeMenuItem(context)
                 deleteItem.setBackgroundColor(Color.parseColor("#FF0000"))
-                    .setText("删除")
+                    .setText("上传")
                     .setTextColor(Color.WHITE)
                     .setHeight(ViewGroup.LayoutParams.MATCH_PARENT).width = 70
                 rightMenu.addMenuItem(deleteItem)
@@ -81,22 +81,45 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
                 val menuPosition = swipeMenuBridge.position // 菜单在RecyclerView的Item中的Position。
                 if (menuPosition == 0) {
                     list.removeAt(adapterPosition)
-                    //adapter.notifyDataSetChanged() // 刷新
+                    adapter.notifyDataSetChanged() // 刷新
                 }
             }
         // 菜单点击监听。
         ry_orderlist.setOnItemMenuClickListener(mMenuItemClickListener)
         // 必须 最后执行
-      //  ry_orderlist.adapter = adapter
+        ry_orderlist.adapter = adapter
     }
 
     private val adapter by lazy{
-       // OrderAdapter(list,this@WanchengFragment)
+        Order2Adapter(list,object: Order2Adapter.onClickListener{
+            override fun onChoose(
+                orderId: String,
+                siteId: Int,
+                is_usual: String,
+                status: String
+            ) {
+                var intent=Intent(activity,InspectMainActivity::class.java)
+                intent.putExtra("siteId",siteId.toInt())
+                intent.putExtra("orderId",orderId)
+                intent.putExtra("status",status)
+                if (is_usual.equals("0")){
+                    intent.putExtra("isOk",true)
+                }else{
+                    intent.putExtra("isOk",false)
+                }
+                startActivity(intent)
+            }
+
+        })
     }
 
     private fun getData() {
         showDialog()
-
+        DbController.getInstance(context).searchAllInspect().forEach {
+            list.add(it)
+        }
+        adapter.notifyDataSetChanged()
+        dismissDialog()
     }
 
     fun refreash() {
