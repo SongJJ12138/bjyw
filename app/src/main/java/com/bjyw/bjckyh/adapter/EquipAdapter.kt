@@ -12,7 +12,7 @@ class EquipAdapter(mData:ArrayList<EquipBean>, private val listener: onClickList
     override fun onBind(holder: ViewHolder, position: Int, data: EquipBean) {
         holder.setText(R.id.item_tv_equip,data.name)
         holder.itemView.onClick {
-            listener.onClick(position,""+data.id)
+            listener.onClick(position,""+data.type_index)
         }
     }
 }
