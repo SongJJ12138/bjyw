@@ -167,7 +167,6 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
 
     private fun saveInspect() {
         var inspect=Inspect()
-        inspect.status="1"
         if (SPUtils.instance().getInt("userId")==-1){
             toast("请先登录")
             return
@@ -176,6 +175,10 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
             toast("请选择巡检条件")
             return
         }else{
+            inspect.name=name
+            var simpleDateFormat=SimpleDateFormat("yyyy-MM-dd")
+            inspect.time=simpleDateFormat.format(Date())
+            inspect.status="1"
             inspect.conId=coitionId
             if (coitionId.equals("3")){
                 inspect.is_unusual="0"
@@ -308,12 +311,14 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
         }
     }
 
+    var name=""
     private fun getQcode(content: String) {
         HttpManager.getQcode(content).request(this@InspectSelectActivity){ _,data->
             data.let {
                 tv_district.text = it!![0].district
                 tv_town.text = it!![0].town
                 tv_village.text = it!![0].village
+                name=it!![0].district+" "+it!![0].town+" "+it!![0].village
                 siteId=it!![0].id
                 val latLngServer=LatLng(it[0].lat,it[0].lng)
                 val LatLngLocal= LatLng(MapLocationUtil.instance.lat,MapLocationUtil.instance.lng)
