@@ -1,55 +1,98 @@
 package com.bjyw.bjckyh.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 
 import androidx.core.content.FileProvider;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class TakePhoto {
+    // 是否是Android 10以上手机
+    public static boolean isAndroidQ = Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q;
     /**
      * 获取调取相机URI
      * @param context
      * @return
      */
-    public static Uri getOutputMediaFileUri(Context context) {
-        File mediaFile = null;
-        try {
-            File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
-            if (!mediaStorageDir.exists()) {
-                if (!mediaStorageDir.mkdirs()) {
-                    return null;
-                }
-            }
-            mediaFile = new File(mediaStorageDir.getPath()
-                    + File.separator
-                    + "camera_photos.jpg");//注意这里需要和filepaths.xml中配置的一样
-
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static Uri getOutputMediaFileUri(Context context,String fileName) {
+        File fileDir = new File(Environment.getExternalStorageDirectory(),"Pictures");
+        if (!fileDir.exists()) {
+            fileDir.mkdir();
         }
+        String mFilePath = fileDir.getAbsolutePath()+"/"+ fileName;
+        ContentValues contentValues = new ContentValues();
+        //设置文件名
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/Pictures");
+        }else {
+            contentValues.put(MediaStore.Images.Media.DATA, mFilePath);
+        }
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/JPEG");
+        Uri uri =context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        return  uri;
+//        Uri photoUri;
+//        if (isAndroidQ) {
+//            // 适配android 10
+//            photoUri = createImageUri(context);
+//        }else{
+//            File mediaFile = null;
+//            try {
+//                File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+//                if (!mediaStorageDir.exists()) {
+//                    if (!mediaStorageDir.mkdirs()) {
+//                        return null;
+//                    }
+//                }
+//                mediaFile = new File(mediaStorageDir.getPath()
+//                        + File.separator
+//                        + "camera_photos.jpg");//注意这里需要和filepaths.xml中配置的一样
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {// sdk >= 24  android7.0以上
+//                photoUri = FileProvider.getUriForFile(context,
+//                        "police.com.bsl.mobilepolice.provider",//与清单文件中android:authorities的值保持一致
+//                        mediaFile);//FileProvider方式或者ContentProvider。也可使用VmPolicy方式
+//                return photoUri;
+//
+//            } else {
+//                return Uri.fromFile(mediaFile);//或者 Uri.isPaise("file://"+file.toString()
+//
+//            }
+//        }
+//        return photoUri;
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {// sdk >= 24  android7.0以上
-            Uri contentUri = FileProvider.getUriForFile(context,
-                    "police.com.bsl.mobilepolice.provider",//与清单文件中android:authorities的值保持一致
-                    mediaFile);//FileProvider方式或者ContentProvider。也可使用VmPolicy方式
-            return contentUri;
-
+    /**
+     * 创建图片地址uri,用于保存拍照后的照片 Android 10以后使用这种方法
+     */
+    private static Uri createImageUri(Context context) {
+        String status = Environment.getExternalStorageState();
+        // 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
+        if (status.equals(Environment.MEDIA_MOUNTED)) {
+            return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
         } else {
-            return Uri.fromFile(mediaFile);//或者 Uri.isPaise("file://"+file.toString()
-
+            return context.getContentResolver().insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
         }
     }
+
 
     /**
      * 解析相机返回图片
@@ -117,4 +160,5 @@ public class TakePhoto {
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
         return bitmap;
     }
+
 }

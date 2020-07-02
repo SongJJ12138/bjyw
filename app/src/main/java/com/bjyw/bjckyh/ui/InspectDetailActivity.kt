@@ -78,6 +78,9 @@ class InspectDetailActivity : BaseActivity() {
         if (equipInspectBean.is_exist.equals("-1")){
             toast("请选择设备情况")
             return
+        }else if(equipInspectBean.is_exist.equals("0")&&equipInspectBean.context.equals("")){
+            toast("未选择异常问题")
+            return
         }
         if (status<0){
             toast("请检查是否需要设备维修")

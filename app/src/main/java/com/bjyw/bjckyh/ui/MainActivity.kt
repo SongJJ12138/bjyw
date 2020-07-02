@@ -134,6 +134,10 @@ class MainActivity : BaseActivity() {
                         intent= Intent(this@MainActivity,CreateOrderActivity::class.java)
                         startActivity(intent)
                     }
+                    2 ->{
+                        intent= Intent(this@MainActivity,MineActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             })
             .load(navList, object : TransformersHolderCreator<Nav> {

@@ -1,5 +1,6 @@
 package com.bjyw.bjckyh.ui
 
+import android.content.ContentUris
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -74,33 +75,34 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
        intent.getBooleanExtra("isOk",true)
     }
 
+    var fileName=""
     private fun initClick() {
         activity_include_btback.onClick {
             finish()
         }
         img_clean1.onClick {
             picIndex=0
-            val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext)
-            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
-            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
+            fileName = "IMG_" + System.currentTimeMillis() + ".jpg"
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext,fileName)
+            var intent =Intent(MediaStore.ACTION_IMAGE_CAPTURE)// 启动系统相机
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            startActivityForResult(intent, REQUEST__CODE_IMAGES)
         }
         img_clean2.onClick {
             picIndex=1
-            val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext)
-            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
-            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
+            fileName = "IMG_" + System.currentTimeMillis() + ".jpg"
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext,fileName)
+            var intent =Intent(MediaStore.ACTION_IMAGE_CAPTURE)// 启动系统相机
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            startActivityForResult(intent, REQUEST__CODE_IMAGES)
         }
         img_clean3.onClick {
             picIndex=2
-            val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext)
-            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
-            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
+            fileName = "IMG_" + System.currentTimeMillis() + ".jpg"
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext,fileName)
+            var intent =Intent(MediaStore.ACTION_IMAGE_CAPTURE)// 启动系统相机
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            startActivityForResult(intent, REQUEST__CODE_IMAGES)
         }
         tv_commit.onClick {
             checkItem()
@@ -406,11 +408,18 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == REQUEST__CODE_IMAGES ){
-            if (data==null){
-                showPic("")
-            }else{
-                val paths = data!!.extras!!.getSerializable("photos") as List<String>? //path是选择拍照或者图片的地址数组
-                paths?.get(0)?.let { showPic(it) }
+            try {
+                //查询的条件语句
+                var selection = MediaStore.Images.Media.DISPLAY_NAME + "=? "
+                var cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,arrayOf(MediaStore.Images.Media._ID),selection, arrayOf(fileName),null)
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        var uri =  ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cursor.getLong(0))
+                        showPic(uri)
+                    }while (cursor.moveToNext())
+                }
+            } catch (e:Exception ) {
+                e.printStackTrace()
             }
         }else{
             if (data!=null){
@@ -432,15 +441,8 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
             }
         }
     }
-    private fun showPic(s: String) {
-        val uriStr:String = if (s == ""){
-            picPath as String
-        }else{
-            s
-        }
-        var fis: FileInputStream? = null
-        fis = FileInputStream(uriStr)
-        val bitmap = BitmapFactory.decodeStream(fis)
+    private fun showPic(uri: Uri) {
+        val bitmap = TakePhoto.getBitmapFormUri(applicationContext, uri)
         picList.add(bitmap)
         when(picIndex){
             0 ->{

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -19,15 +18,12 @@ import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.ui.InspectSelectActivity
-import com.bjyw.bjckyh.utils.FileProviderUtil
 import com.bjyw.bjckyh.utils.TakePhoto
-import com.lcw.library.imagepicker.ImagePicker
 import kotlinx.android.synthetic.main.item_workstatus.view.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
-import java.io.File
 
 
 class EnvironUsualView : LinearLayout {
@@ -66,29 +62,31 @@ class EnvironUsualView : LinearLayout {
             isYiliu=true
         }
         img_environment1.onClick {
-            val myuri: Uri = TakePhoto.getOutputMediaFileUri(context)
-            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
-            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            activity.startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
+            val fileName = "IMG_" + System.currentTimeMillis() + ".jpg"
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(context,fileName)
+            var intent =Intent(MediaStore.ACTION_IMAGE_CAPTURE)// 启动系统相机
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            activity.startActivityForResult(intent, REQUEST__CODE_IMAGES)
             var map=HashMap<String,Any>()
             map["position"] = position
             map["type"] = 0
             map["uri"]=myuri
+            map["name"]=fileName
             EventBus.getDefault().post(Message.getInstance(map))
         }
 
 
         img_environment2.onClick {
-            val myuri: Uri = TakePhoto.getOutputMediaFileUri(context)
-            val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
-            openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            activity.startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
+            val fileName = "IMG_" + System.currentTimeMillis() + ".jpg"
+            val myuri: Uri = TakePhoto.getOutputMediaFileUri(context,fileName)
+            var intent =Intent(MediaStore.ACTION_IMAGE_CAPTURE)// 启动系统相机
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+            activity.startActivityForResult(intent, REQUEST__CODE_IMAGES)
             var map=HashMap<String,Any>()
             map["position"] = position
             map["type"] = 1
             map["uri"]=myuri
+            map["name"]=fileName
             EventBus.getDefault().post(Message.getInstance(map))
         }
 

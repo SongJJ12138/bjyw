@@ -63,6 +63,7 @@
         android:textSize="@dimen/sp_14"
         android:text="1.本系统外接交流电源进线接线正常。\n2.万用表检查入口有220V±20%电压。"/>
     <LinearLayout
+        android:id="@+id/title_yichang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

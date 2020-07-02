@@ -1,10 +1,16 @@
 package com.bjyw.bjckyh.ui
 
 import android.app.Activity
+import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Intent
-import android.graphics.BitmapFactory
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -35,7 +41,6 @@ import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.io.File
-import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -288,18 +293,25 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
                 orderId= data.getStringExtra("orderId")
             }
         } else if(requestCode == REQUEST__CODE_IMAGES && resultCode == Activity.RESULT_OK){
-            if (data==null){
-                showPic("")
-            }else{
-                val paths = data!!.extras!!.getSerializable("photos") as List<String>? //path是选择拍照或者图片的地址数组
-                paths?.get(0)?.let { showPic(it) }
+            try {
+                var fileName= map["name"] as String
+                //查询的条件语句
+                var selection = MediaStore.Images.Media.DISPLAY_NAME + "=? "
+                var cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,arrayOf(MediaStore.Images.Media._ID),selection, arrayOf(fileName),null)
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        var uri =  ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cursor.getLong(0))
+                        showPic(uri)
+                    }while (cursor.moveToNext())
+                }
+            } catch (e:Exception ) {
+                e.printStackTrace()
             }
         }
     }
-
-    private fun showPic(s: String) {
-        val uri = TakePhoto.getOutputMediaFileUri(applicationContext)
-        val bitmap = TakePhoto.getBitmapFormUri(applicationContext, uri)
+    private fun showPic(uri: Uri) {
+        val bitmap:Bitmap
+        bitmap = TakePhoto.getBitmapFormUri(applicationContext, uri)
         if (map.get("type")==0){
             map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment1).scaleType=ImageView.ScaleType.CENTER_CROP}
             map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment1).setImageBitmap(bitmap)}

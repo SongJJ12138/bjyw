@@ -53,9 +53,13 @@ class InspectFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         rb_have.onClick {
             isExit="0"
+            title_yichang.visibility=View.VISIBLE
+            rg_equip_inspect.visibility=View.VISIBLE
         }
         rb_Nhave.onClick {
             isExit="1"
+            title_yichang.visibility=View.GONE
+            rg_equip_inspect.visibility=View.GONE
         }
     }
 
@@ -81,16 +85,15 @@ class InspectFragment: BaseFragment() {
                     inspectEquipMent.orderIndex=orderId
                     inspectEquipMent.picture=""
                     inspectEquipMent.remark=""
-                        var radioButton= RadioButton(context)
-                        radioButton.text=list[i].abnormalContext
-                        radioButton.textSize=14f
-                        radioButton.onClick {
-                            checkId=""+list[i].id
-                            activity!!.toast(checkId)
-                        }
-                        rg_equip_inspect.addView(radioButton)
-                        var a=i+1
-                        tishi.append(""+a+"丶 "+list[i].normalContext+"\n")
+                    var radioButton= RadioButton(context)
+                    radioButton.text=list[i].abnormalContext
+                    radioButton.textSize=14f
+                    radioButton.onClick {
+                        checkId=""+list[i].id
+                    }
+                    rg_equip_inspect.addView(radioButton)
+                    var a=i+1
+                    tishi.append(""+a+"丶 "+list[i].normalContext+"\n")
                 }
                 tv_equip_inspect.text=tishi
             }

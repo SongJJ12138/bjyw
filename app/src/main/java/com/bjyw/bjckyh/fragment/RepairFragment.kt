@@ -1,6 +1,7 @@
 package com.bjyw.bjckyh.fragment
 
 import android.app.Activity
+import android.content.ContentUris
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -36,7 +37,6 @@ class RepairFragment : BaseFragment(), HttpModel.HttpClientListener {
         dismissDialog()
         var jsonObject=JSONObject(obj as String)
         pic=jsonObject.get("data").toString()
-        ed_equip_repair.hint=pic
     }
 
     override fun onError() {
@@ -84,13 +84,13 @@ class RepairFragment : BaseFragment(), HttpModel.HttpClientListener {
         }
         getData()
     }
-
+    var fileName=""
     fun takePic(){
-        val myuri: Uri = TakePhoto.getOutputMediaFileUri(context)
-        val openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
-        openCameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-        startActivityForResult(openCameraIntent, REQUEST__CODE_IMAGES)
+        fileName = "IMG_" + System.currentTimeMillis() + ".jpg"
+        val myuri: Uri = TakePhoto.getOutputMediaFileUri(context,fileName)
+        var intent =Intent(MediaStore.ACTION_IMAGE_CAPTURE)// 启动系统相机
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
+        startActivityForResult(intent, REQUEST__CODE_IMAGES)
     }
 
     fun getDataBean():EquipRepairBean{
@@ -109,8 +109,20 @@ class RepairFragment : BaseFragment(), HttpModel.HttpClientListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == REQUEST__CODE_IMAGES && resultCode == Activity.RESULT_OK){
-            val uri = TakePhoto.getOutputMediaFileUri(context)
-            val bitmap = TakePhoto.getBitmapFormUri(context, uri)
+            var bitmap: Bitmap? =null
+            try {
+                //查询的条件语句
+                var selection = MediaStore.Images.Media.DISPLAY_NAME + "=? "
+                var cursor = context!!.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,arrayOf(MediaStore.Images.Media._ID),selection, arrayOf(fileName),null)
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        var uri =  ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cursor.getLong(0))
+                        bitmap = TakePhoto.getBitmapFormUri(context, uri)
+                    }while (cursor.moveToNext())
+                }
+            } catch (e:Exception ) {
+                e.printStackTrace()
+            }
             if (picType==1){
                 img_equip_repqir1.scaleType= ImageView.ScaleType.CENTER_CROP
                 img_equip_repqir1.setImageBitmap(bitmap)
@@ -118,7 +130,7 @@ class RepairFragment : BaseFragment(), HttpModel.HttpClientListener {
                 img_equip_repqir2.scaleType= ImageView.ScaleType.CENTER_CROP
                 img_equip_repqir2.setImageBitmap(bitmap)
             }
-            listPicBit.add(bitmap)
+            listPicBit.add(bitmap!!)
             uploadPic(listPicBit)
         }
     }
