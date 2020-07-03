@@ -20,6 +20,9 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 
 class SiteDeatilActivity : BaseActivity(), EquipQcodeApapter.onClickListener {
+    override fun onChange(id: Int, position: Int) {}
+
+    override fun onAdd(id: Int, position: Int) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,43 +74,43 @@ class SiteDeatilActivity : BaseActivity(), EquipQcodeApapter.onClickListener {
         rating.rating= safeStatus.toFloat()
         rv_equip.layoutManager=GridLayoutManager(applicationContext,3)
         rv_equip.adapter=adapter
-        if (!details.picture.dmj.equals("")){
+        if (details.picture.dmj!=null&&details.picture.dmj != ""){
             dmj.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dmj).into(dmy)
         }
-        if (!details.picture.dmy.equals("")){
+        if (details.picture.dmy!=null&&details.picture.dmy != ""){
             dmy.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dmy).into(dmy)
         }
-        if (!details.picture.wky.equals("")){
+        if (details.picture.wky!=null&&details.picture.wky != ""){
             wky.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.wky).into(wky)
         }
-        if (!details.picture.tj.equals("")){
+        if (details.picture.tj!=null&&details.picture.tj != ""){
             tj.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.tj).into(tj)
         }
-        if (!details.picture.dzy.equals("")){
+        if (details.picture.dzy!=null&&details.picture.dzy != ""){
             dzy.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dzy).into(dzy)
         }
-        if (!details.picture.jq.equals("")){
+        if (details.picture.jq!=null&&details.picture.jq != ""){
             jq.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.jq).into(jq)
         }
-        if (!details.picture.ssj.equals("")){
+        if (details.picture.ssj!=null&&details.picture.ssj != ""){
             ssj.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.ssj).into(ssj)
         }
-        if (!details.picture.gqq.equals("")){
+        if (details.picture.gqq!=null&&details.picture.gqq != ""){
             gqq.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.gqq).into(gqq)
         }
-        if (!details.picture.ghq.equals("")){
+        if (details.picture.jwd!=null&&details.picture.jwd != ""){
             jwd.scaleType=ImageView.ScaleType.CENTER_CROP
-            Glide.with(this).load("http://img.bjckyh.com/"+details.picture.ghq).into(jwd)
+            Glide.with(this).load("http://img.bjckyh.com/"+details.picture.jwd).into(jwd)
         }
-        if (!details.picture.dxj.equals("")){
+        if (details.picture.dxj!=null&&details.picture.dxj != ""){
             dxj.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dxj).into(dxj)
         }
@@ -118,7 +121,7 @@ class SiteDeatilActivity : BaseActivity(), EquipQcodeApapter.onClickListener {
     }
     var Equiplist=ArrayList<Equip>()
     private val adapter by lazy {
-        EquipQcodeApapter(Equiplist,this)
+        EquipQcodeApapter(Equiplist,this,false)
     }
 
     override fun dismissDialog() {

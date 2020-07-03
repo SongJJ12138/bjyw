@@ -19,6 +19,7 @@ object Api {
     const val DELETE_ORDER="ticket/delete"//删除工单
     const val GET_SITEDETAILS="site/getSiteDetail"//工单详情
     const val UPDATE_SITE="site/updateSiteMsg"//更新台站
+    const val GET_MINE="users/id"//更新台站
 
 
 }

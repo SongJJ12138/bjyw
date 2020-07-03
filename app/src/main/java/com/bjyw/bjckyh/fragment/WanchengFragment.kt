@@ -1,6 +1,5 @@
 package com.bjyw.bjckyh.fragment
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -10,11 +9,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.adapter.Order2Adapter
-import com.bjyw.bjckyh.adapter.OrderAdapter
 import com.bjyw.bjckyh.bean.daobean.Inspect
+import com.bjyw.bjckyh.bean.daobean.InspectCommmit
+import com.bjyw.bjckyh.dialog.CommitSuccessDialog
+import com.bjyw.bjckyh.network.HttpManager
+import com.bjyw.bjckyh.network.requestByF
 import com.bjyw.bjckyh.ui.InspectMainActivity
-import com.bjyw.bjckyh.ui.InspectSelectActivity
+import com.bjyw.bjckyh.ui.MainActivity
 import com.bjyw.bjckyh.utils.DbController
+import com.bjyw.bjckyh.utils.SPUtils
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener
 import com.yanzhenjie.recyclerview.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
@@ -22,7 +25,7 @@ import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.fragment_chuli.*
 import org.jetbrains.anko.toast
 
-class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
+class WanchengFragment: BaseFragment(){
     override fun contentViewId(): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -31,12 +34,6 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onClick(orderId: String) {
-        var intent= Intent(activity, InspectSelectActivity::class.java)
-        intent.putExtra("orderId",orderId)
-        activity?.setResult(Activity.RESULT_OK,intent)
-        activity?.finish()
-    }
 
     var list=ArrayList<Inspect>()
 
@@ -58,6 +55,7 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
         initSide()
     }
 
+    var position=0
     private fun initSide() {
         ry_orderlist.isNestedScrollingEnabled = false
         ry_orderlist.isItemViewSwipeEnabled = true
@@ -79,11 +77,13 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
                 // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。
                 swipeMenuBridge.closeMenu()
                 val adapterPosition = swipeMenuBridge.position // RecyclerView的Item的position。
-                val menuPosition = swipeMenuBridge.position // 菜单在RecyclerView的Item中的Position。
+                position=adapterPosition
                 if (list[adapterPosition].status.equals("5")){
-                    commitOrder()
+                    var list2=DbController.getInstance(context).searchByWhereCommitData(list[adapterPosition].orderIndex,list[adapterPosition].userId)
+                    if (list2.size>0)
+                    commitOrder(list2[0])
                 }else{
-                    activity!!.toast("当前巡检未完成，请先去完成巡检")
+                    activity!!.toast("当前巡检不可提交")
                 }
             }
         // 菜单点击监听。
@@ -92,8 +92,31 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
         ry_orderlist.adapter = adapter
     }
 
-    private fun commitOrder() {
-
+    private fun commitOrder(inspectCommmit: InspectCommmit) {
+        showDialog()
+        HttpManager.commit(inspectCommmit.data).requestByF(this) { _, data ->
+            data?.let {
+                dismissDialog()
+                var dialog = CommitSuccessDialog(activity!!.applicationContext, object :
+                    CommitSuccessDialog.onClickListener {
+                    override fun onClick() {
+                        clearData(inspectCommmit)
+                        var intent = Intent(activity, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        activity!!.finish()
+                    }
+                })
+                dialog.show()
+            }
+        }
+    }
+    private fun clearData(ins: InspectCommmit) {
+        list[position].status=""+6
+        DbController.getInstance(context).insertOrReplaceInspect(list[position])
+        DbController.getInstance(context).deleteOrderEquipment(ins.orderIndex)
+        DbController.getInstance(context).deleteOrderEnvironment(ins.orderIndex)
+        DbController.getInstance(context).deleteOrderConsum(ins.orderIndex)
     }
 
     private val adapter by lazy{
@@ -113,6 +136,7 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
                 }else{
                     intent.putExtra("isOk",false)
                 }
+                intent.putExtra("isOk",1)
                 startActivity(intent)
             }
 
@@ -121,7 +145,8 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
 
     private fun getData() {
         showDialog()
-        DbController.getInstance(context).searchAllInspect().forEach {
+        var userId=SPUtils.instance().getInt("userId")
+        DbController.getInstance(context).searchAllInspect(""+userId).forEach {
             list.add(it)
         }
         adapter.notifyDataSetChanged()

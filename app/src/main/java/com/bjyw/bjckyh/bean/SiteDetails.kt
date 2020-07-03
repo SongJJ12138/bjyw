@@ -1,5 +1,5 @@
 package com.bjyw.bjckyh.bean
- data class SiteDetails(
+data class SiteDetails(
     val contact: String,
     val contactnum: String,
     val district: String,
@@ -19,20 +19,20 @@ package com.bjyw.bjckyh.bean
 )
 
 data class Equip(
-    val id: Int,
+    var id: Int,
     val name: String,
-    val qrcode: String
+    var qrcode: String
 )
 
 data class Picture(
-    val dmj: String,
-    val dmy: String,
-    val dxj: String,
-    val dzy: String,
-    val ghq: String,
-    val gqq: String,
-    val jq: String,
-    val ssj: String,
-    val tj: String,
-    val wky: String
+    var dmj: String,
+    var dmy: String,
+    var wky : String,
+    var tj : String,
+    var dzy : String,
+    var jq : String,
+    var ssj : String,
+    var gqq : String,
+    var jwd : String,
+    var dxj: String
 )

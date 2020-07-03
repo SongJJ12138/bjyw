@@ -25,6 +25,9 @@ class Order2Adapter  (mData:ArrayList<Inspect>, private val listener: onClickLis
         if (data.status.equals("5")){
             toast.text="待上传"
             toast.textColor= Color.RED
+        }else if(data.status.equals("6")){
+            toast.text="已完成"
+            toast.textColor=context.resources.getColor(R.color.darkgrey)
         }else{
             toast.text="待完成"
             toast.textColor=context.resources.getColor(R.color.toast_color)

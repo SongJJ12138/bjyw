@@ -19,6 +19,6 @@ class NotifyDialog(context: Context, private var mMessage: Notify) : Dialog(cont
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         title.text=mMessage.title
         content.text="  "+mMessage.context
-        time.text="发布日期："+mMessage.create_time
+        time.text="发布日期："+mMessage.recordTimeFormat
     }
 }

@@ -102,6 +102,7 @@ class InspectDetailActivity : BaseActivity() {
             DbController.getInstance(applicationContext).insertOrReplaceConsum(inspectConsumable)
         }
         var inspectEquipMent=InspectEquipMent()
+        inspectEquipMent.position=position
         inspectEquipMent.equipmentIndex=equipId
         inspectEquipMent.comments=""
         inspectEquipMent.context=equipInspectBean.context

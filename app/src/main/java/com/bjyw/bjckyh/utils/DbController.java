@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.bjyw.bjckyh.bean.daobean.DaoMaster;
 import com.bjyw.bjckyh.bean.daobean.DaoSession;
 import com.bjyw.bjckyh.bean.daobean.Inspect;
+import com.bjyw.bjckyh.bean.daobean.InspectCommmit;
+import com.bjyw.bjckyh.bean.daobean.InspectCommmitDao;
 import com.bjyw.bjckyh.bean.daobean.InspectConsumable;
 import com.bjyw.bjckyh.bean.daobean.InspectConsumableDao;
 import com.bjyw.bjckyh.bean.daobean.InspectDao;
@@ -46,6 +48,7 @@ public class DbController {
     private InspectEnvironMentDao inspectEnvironMentDao;
     private InspectEquipMentDao inspectEquipMentDao;
     private InspectConsumableDao inspectConsumableDao;
+    private InspectCommmitDao inspectCommmitDao;
 
     private static DbController mDbController;
 
@@ -75,6 +78,7 @@ public class DbController {
         inspectEnvironMentDao=mDaoSession.getInspectEnvironMentDao();
         inspectEquipMentDao=mDaoSession.getInspectEquipMentDao();
         inspectConsumableDao=mDaoSession.getInspectConsumableDao();
+        inspectCommmitDao=mDaoSession.getInspectCommmitDao();
     }
     /**
      * 获取可读数据库
@@ -119,8 +123,8 @@ public class DbController {
     /**
      * 查询所有数据
      */
-    public List<Inspect> searchAllInspect(){
-        List<Inspect>Inspects=inspectDao.queryBuilder().list();
+    public List<Inspect> searchAllInspect(String userId){
+        List<Inspect>Inspects=inspectDao.queryBuilder().where(InspectDao.Properties.UserId.eq(userId)).list();
         return Inspects;
     }
     /**
@@ -175,5 +179,19 @@ public class DbController {
     public List<InspectConsumable> searchByWhereConsum(String wherecluse,String equipId){
         List<InspectConsumable>consumables = (List<InspectConsumable>) inspectConsumableDao.queryBuilder().where(InspectConsumableDao.Properties.OrderIndex.eq(wherecluse),InspectConsumableDao.Properties.EquipId.eq(equipId)).list();
         return consumables;
+    }
+
+
+
+    public void insertOrReplaceCommitData(InspectCommmit inspectCommmit){
+        inspectCommmitDao.insertOrReplace(inspectCommmit);
+    }
+    public void deleteCommitData(String wherecluse){
+        inspectCommmitDao.queryBuilder().where(InspectCommmitDao.Properties.OrderIndex.eq(wherecluse)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
+    public List<InspectCommmit> searchByWhereCommitData(String wherecluse,String userId){
+        List<InspectCommmit>inspectCommmits = (List<InspectCommmit>)inspectCommmitDao.queryBuilder().where(InspectCommmitDao.Properties.OrderIndex.eq(wherecluse),InspectCommmitDao.Properties.UserId.eq(userId)).list();
+        return inspectCommmits;
     }
 }

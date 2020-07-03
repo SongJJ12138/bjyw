@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.adapter.EquipAdapter
 import com.bjyw.bjckyh.bean.EquipBean
+import com.bjyw.bjckyh.bean.daobean.DaoMaster
 import com.bjyw.bjckyh.bean.daobean.InspectCommmit
 import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.bjyw.bjckyh.bean.daobean.InspectEquipMent
@@ -50,6 +51,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     private var teshu="0"
     private  var cleanPic=""
     private  var picIndex=0
+    private var isReInspect=false
     var picPath=""
     var picList=ArrayList<Bitmap>()
     override fun onClick(position:Int,equipId: String) {
@@ -67,6 +69,9 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inspect_main)
+        if (intent.getIntExtra("isSave",0)==1){
+            isReInspect=true
+        }
         initView()
         initClick()
         getEquipUsual()
@@ -316,7 +321,10 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
         }
         data.put("equimInspect",equimInspect)
         jsonObject.put("data",data)
-
+        inspectData.data=jsonObject.toString()
+        inspectData.orderIndex=orderId
+        inspectData.siteId=""+siteId
+        inspectData.userId=""+SPUtils.instance().getInt("userId")
         httpType=1
         HttpManager.commit(jsonObject.toString()).request(this) { _, data ->
             data?.let {
@@ -327,7 +335,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
                     override fun onClick() {
                         clearData(true)
                         var intent=Intent(this@InspectMainActivity,MainActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                         startActivity(intent)
                         this@InspectMainActivity.finish()
                     }
@@ -338,12 +346,16 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     }
 
     private fun clearData(b: Boolean) {
-        inspect.status=""+5
-        DbController.getInstance(applicationContext).insertOrReplaceInspect(inspect)
         if (b){
+            inspect.status=""+6
+            DbController.getInstance(applicationContext).insertOrReplaceInspect(inspect)
             DbController.getInstance(applicationContext).deleteOrderEquipment(orderId)
             DbController.getInstance(applicationContext).deleteOrderEnvironment(orderId)
             DbController.getInstance(applicationContext).deleteOrderConsum(orderId)
+        }else{
+            inspect.status=""+5
+            DbController.getInstance(applicationContext).insertOrReplaceInspect(inspect)
+            DbController.getInstance(applicationContext).insertOrReplaceCommitData(inspectData)
         }
     }
 
@@ -356,7 +368,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
                 override fun onClick() {
                     clearData(false)
                     var intent=Intent(this@InspectMainActivity,MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
                     this@InspectMainActivity.finish()
                 }
@@ -383,7 +395,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
 
     var list=ArrayList<EquipBean>()
     private val adapter by lazy {
-        EquipAdapter(list,this)
+        EquipAdapter(list,isReInspect,this)
     }
     private fun getEquipUsual() {
         showDialog()
@@ -405,6 +417,22 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
                 list.addAll(it!!)
                 adapter.notifyDataSetChanged()
                 dismissDialog()
+                if (isReInspect){
+                    showInspectEquip()
+                }
+            }
+        }
+    }
+
+    private fun showInspectEquip() {
+        var inspectEquipMent=  DbController.getInstance(applicationContext).searchByWhereEquipment(orderId)
+        inspectEquipMent.forEach {inspectEquipMent ->
+            if (inspectEquipMent.is_exist.equals("1")){
+                rv_inspect_equip.getChildAt(inspectEquipMent.position).findViewById<TextView>(R.id.item_tv_equip).textColor=Color.RED
+                rv_inspect_equip.getChildAt(inspectEquipMent.position).findViewById<TextView>(R.id.item_tv_equip).background=resources.getDrawable(R.drawable.tv_equip_red)
+            }else if (inspectEquipMent.is_unusual.equals("1")){
+                rv_inspect_equip.getChildAt(inspectEquipMent.position).findViewById<TextView>(R.id.item_tv_equip).textColor=Color.BLACK
+                rv_inspect_equip.getChildAt(inspectEquipMent.position).findViewById<TextView>(R.id.item_tv_equip).background=resources.getDrawable(R.drawable.tv_equip_yello)
             }
         }
     }

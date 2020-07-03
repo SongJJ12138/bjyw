@@ -146,9 +146,12 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
 
     private fun initClick() {
         bt_sitehistory.onClick {
+            if (siteId==0){
+                toast("请先扫码选择台站")
+                return@onClick
+            }
             var intent=Intent(this@InspectSelectActivity,SiteDeatilActivity::class.java)
-            //equipStatus
-            intent.putExtra("siteId","1")
+            intent.putExtra("siteId",""+siteId)
             startActivity(intent)
         }
         activity_include_btback.onClick {
@@ -273,6 +276,7 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
     private fun initView() {
         size.visibility=View.VISIBLE
         size.text=intent.getStringExtra("orderSize")
+        activity_include_tvtitle.text="台站巡检"
         activity_include_tvrignt.text="工单列表"
         activity_include_tvrignt.textColor=Color.WHITE
         val formatter = SimpleDateFormat("yyyy年MM月dd日")

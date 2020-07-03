@@ -258,5 +258,15 @@ object HttpManager {
         return request().updateSite(id).defaultScheduler()
     }
 
+
+    /**
+     *个人信息
+     */
+    fun getMine(id:String): Flowable<ResultData<Mine>> {
+        var jsonObject=JSONObject()
+        jsonObject.put("id",id)
+        return request().getMine(jsonObject.toString()).defaultScheduler()
+    }
+
 }
 

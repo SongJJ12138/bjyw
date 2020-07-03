@@ -2,6 +2,7 @@ package com.bjyw.bjckyh.network
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.Environment
 import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback
@@ -115,6 +116,30 @@ class HttpModel(val httpClientListener: HttpClientListener) {
                 }
             })
     }
+
+    fun getSiteDetails( id: String) {
+        val Parmas = java.util.HashMap<String, String>()
+        Parmas["id"] =id
+        OkHttpUtils
+            .post()
+            .url(Api.BASE_URL + Api.GET_SITEDETAILS)
+            .params(Parmas)
+            .build()
+            .execute(object : StringCallback() {
+                override fun onError(call: Call, e: Exception, id: Int) {
+                    httpClientListener.onError()
+                }
+
+                override fun onResponse(response: String, id: Int) {
+                    if (!response.contains("FAll")) {
+                        httpClientListener.onSuccess2(response,InspectEnvironMent())
+                    } else {
+                        httpClientListener.onError()
+                    }
+                }
+            })
+    }
+
     interface HttpClientListener {
         fun onError()
         fun onSuccess(obj: Any)

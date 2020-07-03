@@ -14,6 +14,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener
 import com.bjyw.bjckyh.bean.Site
+import com.bjyw.bjckyh.bean.Site2
 import com.bjyw.bjckyh.dialog.CreateOrderDialog
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.request
@@ -35,10 +36,10 @@ class CreateOrderActivity : BaseActivity(), CreateOrderDialog.onClickListener {
 
     var villageId:Int=0
     var planTime:String=""
-    private val disList=ArrayList<String>()
-    private val townList=ArrayList<String>()
-    private val villageList=ArrayList<String>()
-    private val villageSiteList=ArrayList<Site>()
+    private val disList=ArrayList<Site2>()
+    private val townList=ArrayList<List<Site2>>()
+    private val villageList=ArrayList<List<List<Site2>>>()
+    private val SiteList=ArrayList<Site>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_order)
@@ -60,13 +61,35 @@ class CreateOrderActivity : BaseActivity(), CreateOrderDialog.onClickListener {
             data.let { dataBean ->
                 dataBean!!.forEach {site ->
                     if (site.level==2){
-                        disList.add(site.name)
-                    }else if (site.level==3){
-                        townList.add(site.name)
-                    }else if (site.level==4){
-                        villageList.add(site.name)
-                        villageSiteList.add(site)
+                        var dis=Site2(site.id,site.name)
+                        disList.add(dis)
                     }
+                    SiteList.add(site)
+                }
+                disList.forEach {dis ->
+                    var towns=ArrayList<Site2>()
+                    dataBean.forEach {
+                        if (it.parent_id==dis.id){
+                            var town=Site2(it.id,it.name)
+                            towns.add(town)
+                        }
+                    }
+                    townList.add(towns)
+                }
+
+                townList.forEach {
+                    var villagess=ArrayList<List<Site2>>()
+                    it.forEach {town->
+                        var villages=ArrayList<Site2>()
+                       dataBean.forEach {
+                           if (it.parent_id==town.id){
+                               var village=Site2(it.id,it.name)
+                               villages.add(village)
+                           }
+                       }
+                        villagess.add(villages)
+                    }
+                    villageList.add(villagess)
                 }
             }
         }
@@ -120,15 +143,44 @@ class CreateOrderActivity : BaseActivity(), CreateOrderDialog.onClickListener {
     private fun showOptionPicker() {
         val pvOptions =OptionsPickerBuilder(this@CreateOrderActivity, OnOptionsSelectListener {
                 options1, options2, options3, _ ->
-            createOrder_spinner_district.text=disList[options1]
-            createOrder_spinner_town.text=townList[options2]
-            createOrder_spinner_village.text=villageList[options3]
-            villageId=villageSiteList[options3].site_index
+            createOrder_spinner_district.text=disList[options1].name
+            createOrder_spinner_town.text=townList[options1][options2].name
+            createOrder_spinner_village.text=villageList[options1][options2][options3].name
+            var Id=villageList[options1][options2][options3].id
+            SiteList.forEach {
+                if (it.id==Id){
+                    villageId=it.site_index
+                }
+            }
         })
             .setCancelText("取消")//取消按钮文字
             .setSubmitText("确认")//确认按钮文字
             .build<Any>()
-        pvOptions.setNPicker(disList as List<Any>?, townList as List<Any>?, villageList as List<Any>?)
+        var dislist=ArrayList<String>()
+        var townlist=ArrayList<List<String>>()
+        var villagelist=ArrayList<List<List<String>>>()
+        disList.forEach {
+            dislist.add(it.name)
+        }
+        townList.forEach {
+            var list=ArrayList<String>()
+            it.forEach {
+                list.add(it.name)
+            }
+            townlist.add(list)
+        }
+        villageList.forEach {
+            var list2=ArrayList<List<String>>()
+            it.forEach {sites ->
+                var list=ArrayList<String>()
+                sites.forEach {site->
+                    list.add(site.name)
+                }
+                list2.add(list)
+            }
+            villagelist.add(list2)
+        }
+        pvOptions.setPicker(dislist as List<String>?, townlist as List< List<String>>?, villagelist as List<List< List<String>>>?)
         pvOptions.show()
     }
 
