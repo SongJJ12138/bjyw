@@ -20,6 +20,7 @@ import com.yanzhenjie.recyclerview.SwipeMenuBridge
 import com.yanzhenjie.recyclerview.SwipeMenuCreator
 import com.yanzhenjie.recyclerview.SwipeMenuItem
 import kotlinx.android.synthetic.main.fragment_chuli.*
+import org.jetbrains.anko.toast
 
 class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
     override fun contentViewId(): Int {
@@ -79,15 +80,20 @@ class WanchengFragment: BaseFragment(), OrderAdapter.onClickListener {
                 swipeMenuBridge.closeMenu()
                 val adapterPosition = swipeMenuBridge.position // RecyclerView的Item的position。
                 val menuPosition = swipeMenuBridge.position // 菜单在RecyclerView的Item中的Position。
-                if (menuPosition == 0) {
-                    list.removeAt(adapterPosition)
-                    adapter.notifyDataSetChanged() // 刷新
+                if (list[adapterPosition].status.equals("5")){
+                    commitOrder()
+                }else{
+                    activity!!.toast("当前巡检未完成，请先去完成巡检")
                 }
             }
         // 菜单点击监听。
         ry_orderlist.setOnItemMenuClickListener(mMenuItemClickListener)
         // 必须 最后执行
         ry_orderlist.adapter = adapter
+    }
+
+    private fun commitOrder() {
+
     }
 
     private val adapter by lazy{

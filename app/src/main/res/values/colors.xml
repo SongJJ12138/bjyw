@@ -3,6 +3,7 @@
     <color name="colorPrimary">#1976D2</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#1976D2</color>
+    <color name="toast_color">#FFAE0D</color>
     <color name="white">#FFFFFF</color>
     <!-- 白色 -->
     <color name="ivory">#FFFFF0</color>

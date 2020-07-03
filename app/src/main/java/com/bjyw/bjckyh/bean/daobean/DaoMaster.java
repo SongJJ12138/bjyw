@@ -25,6 +25,7 @@ public class DaoMaster extends AbstractDaoMaster {
         InspectConsumableDao.createTable(db, ifNotExists);
         InspectEnvironMentDao.createTable(db, ifNotExists);
         InspectEquipMentDao.createTable(db, ifNotExists);
+        InspectCommmitDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -33,6 +34,7 @@ public class DaoMaster extends AbstractDaoMaster {
         InspectConsumableDao.dropTable(db, ifExists);
         InspectEnvironMentDao.dropTable(db, ifExists);
         InspectEquipMentDao.dropTable(db, ifExists);
+        InspectCommmitDao.dropTable(db, ifExists);
     }
 
     /**
@@ -55,6 +57,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(InspectConsumableDao.class);
         registerDaoClass(InspectEnvironMentDao.class);
         registerDaoClass(InspectEquipMentDao.class);
+        registerDaoClass(InspectCommmitDao.class);
     }
 
     public DaoSession newSession() {

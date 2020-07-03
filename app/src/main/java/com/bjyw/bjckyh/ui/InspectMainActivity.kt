@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.adapter.EquipAdapter
 import com.bjyw.bjckyh.bean.EquipBean
+import com.bjyw.bjckyh.bean.daobean.InspectCommmit
 import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.bjyw.bjckyh.bean.daobean.InspectEquipMent
 import com.bjyw.bjckyh.dialog.CommitFaileDialog
@@ -217,6 +218,8 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     private val environmentList by lazy{
         DbController.getInstance(applicationContext).searchByWhereEnvironment(orderId)
     }
+
+    var inspectData=InspectCommmit()
     private fun commit() {
         val jsonObject=JSONObject()
         if (inspect.today){
@@ -313,6 +316,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
         }
         data.put("equimInspect",equimInspect)
         jsonObject.put("data",data)
+
         httpType=1
         HttpManager.commit(jsonObject.toString()).request(this) { _, data ->
             data?.let {
