@@ -34,7 +34,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.SiteUpdateActivity"></activity>
+        <activity android:name=".ui.MineActivity"></activity>
+        <activity android:name=".ui.SiteUpdateActivity" />
         <activity android:name=".ui.SiteDeatilActivity" />
         <activity android:name=".ui.OrderListActivity" />
         <activity android:name=".ui.InspectDetailActivity" /> <!-- 适配华为（huawei）刘海屏 -->

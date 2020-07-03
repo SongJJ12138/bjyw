@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/mine"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <include layout="@layout/toolbar_title"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_26"
+        android:layout_marginLeft="@dimen/dp_14">
+        <ImageView
+            android:id="@+id/mine_photo"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_70"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/mine_pic"/>
+        <TextView
+            android:id="@+id/mine_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="李根"
+        android:textColor="#ff212121"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_margin="@dimen/dp_10"
+        android:layout_toRightOf="@id/mine_photo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="运维一组"
+            android:textColor="#ff1976d2"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_below="@id/mine_name"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@id/mine_photo"/>
+        <TextView
+            android:id="@+id/bt_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mine_change"
+            android:text="切换账号"
+            android:textColor="#fffafafa"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_weight="1"
+        android:background="@drawable/dialog_mine"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="组长"
+            android:textColor="#ff505050"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/dp_20"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/mine_name2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:text="姓名：             李根"
+            android:textColor="#ff666666"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/mine_phone"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:text="联系方式：    136xxxx0218"
+            android:textColor="#ff666666"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="组员"
+            android:textColor="#ff505050"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/dp_20"
+            android:textSize="18sp"/>
+    </LinearLayout>
+</LinearLayout>
