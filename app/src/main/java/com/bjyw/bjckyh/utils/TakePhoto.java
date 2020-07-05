@@ -115,7 +115,6 @@ public class TakePhoto {
         int originalHeight = onlyBoundsOptions.outHeight;
         if ((originalWidth == -1) || (originalHeight == -1))
             return null;
-
         //图片分辨率以480x800为标准
         float hh = 800f;//这里设置高度为800f
         float ww = 480f;//这里设置宽度为480f

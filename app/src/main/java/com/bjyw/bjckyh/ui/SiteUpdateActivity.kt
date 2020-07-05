@@ -154,13 +154,13 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
             jsonObject.put("updateTime",sim)
             pic.put("dmj",Piclist[0])
             pic.put("dmy",Piclist[1])
-            pic.put("wky ",Piclist[2])
-            pic.put("tj ",Piclist[3])
-            pic.put("dzy ",Piclist[4])
-            pic.put("jq ",Piclist[5])
-            pic.put("ssj ",Piclist[6])
-            pic.put("gqq ",Piclist[7])
-            pic.put("jwd ",Piclist[8])
+            pic.put("wky",Piclist[2])
+            pic.put("tj",Piclist[3])
+            pic.put("dzy",Piclist[4])
+            pic.put("jq",Piclist[5])
+            pic.put("ssj",Piclist[6])
+            pic.put("gqq",Piclist[7])
+            pic.put("jwd",Piclist[8])
             pic.put("dxj",Piclist[9])
             jsonObject.put("picture",pic.toString())
             jsonObject.put("equipList",JSONArray())
@@ -178,7 +178,8 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
             jsonObject.put("contact","")
             jsonObject.put("contactnum","")
             jsonObject.put("updateTime",sim)
-            jsonObject.put("picture","")
+            var picture=JSONObject()
+            jsonObject.put("picture",picture)
             var equips=JSONArray()
             Equiplist.forEach {
                 var equip=JSONObject()
@@ -293,7 +294,7 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
         rv_equip.adapter=adapter
         if (details.picture.dmj!=null&&!details.picture.dmj.equals("")){
             dmj.scaleType= ImageView.ScaleType.CENTER_CROP
-            Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dmj).into(dmy)
+            Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dmj).into(dmj)
         }
         dmj.onClick {
             picIndex=0

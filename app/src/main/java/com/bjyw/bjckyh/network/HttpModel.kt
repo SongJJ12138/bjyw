@@ -45,6 +45,7 @@ class HttpModel(val httpClientListener: HttpClientListener) {
         OkHttpUtils
             .post()
             .url(Api.BASE_URL + Api.UPLOAD_PIC)
+            .addHeader("watermark","true")
             .files("files", map1)
             .build()
             .execute(object : StringCallback() {
@@ -73,6 +74,7 @@ class HttpModel(val httpClientListener: HttpClientListener) {
         OkHttpUtils
             .post()
             .url(Api.BASE_URL + Api.UPLOAD_PIC)
+            .addHeader("watermark","true")
             .files("files", map1)
             .build()
             .execute(object : StringCallback() {
@@ -100,6 +102,7 @@ class HttpModel(val httpClientListener: HttpClientListener) {
         OkHttpUtils
             .post()
             .url(Api.BASE_URL + Api.UPLOAD_PIC)
+            .addHeader("watermark","true")
             .files("files", map1)
             .build()
             .execute(object : StringCallback() {
