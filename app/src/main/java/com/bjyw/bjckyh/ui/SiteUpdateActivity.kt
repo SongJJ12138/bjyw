@@ -178,7 +178,8 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
             jsonObject.put("contact","")
             jsonObject.put("contactnum","")
             jsonObject.put("updateTime",sim)
-            jsonObject.put("picture","")
+            var picture=JSONObject()
+            jsonObject.put("picture",picture)
             var equips=JSONArray()
             Equiplist.forEach {
                 var equip=JSONObject()
@@ -293,7 +294,7 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
         rv_equip.adapter=adapter
         if (details.picture.dmj!=null&&!details.picture.dmj.equals("")){
             dmj.scaleType= ImageView.ScaleType.CENTER_CROP
-            Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dmj).into(dmy)
+            Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dmj).into(dmj)
         }
         dmj.onClick {
             picIndex=0
