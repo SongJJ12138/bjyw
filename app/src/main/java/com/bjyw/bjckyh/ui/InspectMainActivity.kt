@@ -44,8 +44,8 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     private  val REQUEST_CODE=0x01
     private val REQUEST__CODE_IMAGES=0x02
     var httpType=0
-    private var youxian=""
-    private var wuxian=""
+    private var youxian=ArrayList<String>()
+    private var wuxian=ArrayList<String>()
     private var phone=""
     private var huanjing=-1
     private var teshu="0"
@@ -113,26 +113,56 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
         tv_commit.onClick {
             checkItem()
         }
+
         rb_dianxin.onClick {
-            youxian="电信"
+            if ( rb_dianxin.isChecked){
+                youxian.add("电信")
+            }else{
+                youxian.remove("电信")
+            }
         }
         rb_yidong.onClick {
-            youxian="移动"
+            if ( rb_yidong.isChecked){
+                youxian.add("移动")
+            }else{
+                youxian.remove("移动")
+            }
+
         }
         rb_liantong.onClick {
-            youxian="联通"
+            if ( rb_liantong.isChecked){
+                youxian.add("联通")
+            }else{
+                youxian.remove("联通")
+            }
         }
         rb_gehua.onClick {
-            youxian="歌华"
+            if ( rb_gehua.isChecked){
+                youxian.add("歌华")
+            }else{
+                youxian.remove("歌华")
+            }
         }
         rb_Ndianxin.onClick {
-            wuxian="电信"
+            if ( rb_Ndianxin.isChecked){
+                wuxian.add("电信")
+            }else{
+                wuxian.remove("电信")
+            }
         }
         rb_Nliantong.onClick {
-            wuxian="联通"
+            if ( rb_Nliantong.isChecked){
+                wuxian.add("联通")
+            }else{
+                wuxian.remove("联通")
+            }
         }
         rb_Nyidong.onClick {
-            wuxian="移动"
+            if ( rb_Nyidong.isChecked){
+                wuxian.add("移动")
+            }else{
+                wuxian.remove("移动")
+            }
         }
         rb_phone4G.onClick {
             phone="有4G"
@@ -164,11 +194,11 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     }
 
     private fun checkItem() {
-        if (youxian == ""){
+        if (youxian.size==0){
             toast("请选择有线网络状态")
             return
         }
-        if (wuxian == ""){
+        if (wuxian.size==0){
             toast("请选择无线网络状态")
             return
         }
@@ -240,8 +270,16 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
         val data=JSONObject()
         data.put("status","5")
         data.put("userId",""+SPUtils.instance().getInt("userId"))
-        data.put("netStatus",youxian)
-        data.put("noNetStatus",wuxian)
+        var youxianStr=StringBuffer()
+        var wuxianStr=StringBuffer()
+        youxian.forEach{
+            youxianStr.append("$it ")
+        }
+        wuxian.forEach {
+            wuxianStr.append("$it ")
+        }
+        data.put("netStatus",youxianStr.toString())
+        data.put("noNetStatus",wuxianStr.toString())
         data.put("pNetStatus",phone)
         data.put("is_unusual",inspect.is_unusual)
         data.put("useStatus",inspect.useStatus)

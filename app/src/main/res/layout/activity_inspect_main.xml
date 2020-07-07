@@ -73,41 +73,41 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1" />
-            <RadioGroup
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_10"
                 android:background="@color/white"
                 android:orientation="horizontal">
-                <RadioButton
+                <CheckBox
                     android:id="@+id/rb_dianxin"
                     android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_14"
                     android:text="电信"/>
-                <RadioButton
+                <CheckBox
                     android:id="@+id/rb_yidong"
                     android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_14"
                     android:text="移动"/>
-                <RadioButton
+                <CheckBox
                     android:id="@+id/rb_liantong"
                     android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_14"
                     android:text="联通"/>
-                <RadioButton
+                <CheckBox
                     android:id="@+id/rb_gehua"
                     android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_14"
                     android:text="歌华"/>
-            </RadioGroup>
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_3" />
@@ -126,34 +126,34 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1" />
-            <RadioGroup
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_10"
                 android:background="@color/white"
                 android:orientation="horizontal">
-                <RadioButton
+                <CheckBox
                     android:id="@+id/rb_Ndianxin"
                     android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_14"
                     android:text="电信"/>
-                <RadioButton
+                <CheckBox
                     android:id="@+id/rb_Nyidong"
                     android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_14"
                     android:text="移动"/>
-                <RadioButton
+                <CheckBox
                     android:id="@+id/rb_Nliantong"
                     android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_14"
                     android:text="联通"/>
-            </RadioGroup>
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_3" />

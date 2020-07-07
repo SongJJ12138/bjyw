@@ -30,6 +30,7 @@ import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.utils.*
 import com.bjyw.bjckyh.view.EnvironUsualView
 import com.yzq.zxinglibrary.android.CaptureActivity
+import com.yzq.zxinglibrary.bean.ZxingConfig
 import com.yzq.zxinglibrary.common.Constant
 import kotlinx.android.synthetic.main.activity_inspect_select.*
 import kotlinx.android.synthetic.main.toolbar_title.*
@@ -48,7 +49,6 @@ import kotlin.collections.ArrayList
 
 class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
     override fun onSuccess(obj: Any) {}
-
     private val REQUEST_CODE_SCAN=0x01
     private val REQUEST_CODE_ORDE=0x02
     private val REQUEST__CODE_IMAGES=0x03
@@ -162,6 +162,9 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
         }
         layout_saoma.onClick {
             val intent = Intent(this@InspectSelectActivity, CaptureActivity::class.java)
+            var config =  ZxingConfig()
+            config.isShowbottomLayout=false
+            intent.putExtra(Constant.INTENT_ZXING_CONFIG, config)
             startActivityForResult(intent, REQUEST_CODE_SCAN)
         }
         bt_next.onClick {
