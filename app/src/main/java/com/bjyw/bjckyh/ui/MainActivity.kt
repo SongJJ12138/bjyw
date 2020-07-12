@@ -138,6 +138,10 @@ class MainActivity : BaseActivity() {
                         intent= Intent(this@MainActivity,MineActivity::class.java)
                         startActivity(intent)
                     }
+                    7 ->{
+                        intent= Intent(this@MainActivity,MemoActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
             })
             .load(navList, object : TransformersHolderCreator<Nav> {

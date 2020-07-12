@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
     android:background="#F2F3F7"
-    tools:context=".ui.InspectDetailActivity">
+    android:fitsSystemWindows="true">
     <include layout="@layout/toolbar_title"/>
     <LinearLayout
         android:background="@drawable/layout_equip"
@@ -17,19 +15,27 @@
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_20">
         <TextView
-            android:id="@+id/tv_equipdetails_inspect"
+            android:id="@+id/tv_repair_1"
             android:background="@drawable/tv_equiptitle"
-            android:layout_width="0dp"
-            android:text="巡查"
-            android:gravity="center"
-            android:textColor="#1976D2"
+            android:text="待处理"
             android:textSize="@dimen/sp_17"
+            android:gravity="center"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
         <TextView
-            android:id="@+id/tv_equipdetails_repair"
+            android:id="@+id/tv_repair_3"
             android:background="@drawable/tv_equiptitle2"
-            android:text="维修"
+            android:text="待审批"
+            android:textSize="@dimen/sp_17"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/tv_repair_4"
+            android:background="@drawable/tv_equiptitle2"
+            android:text="已完成"
             android:textSize="@dimen/sp_17"
             android:gravity="center"
             android:layout_width="0dp"
@@ -37,7 +43,7 @@
             android:layout_weight="1"/>
     </LinearLayout>
     <FrameLayout
-        android:id="@+id/details_framlayout"
+        android:id="@+id/repair_framlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F2F3F7"
