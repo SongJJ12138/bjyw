@@ -22,19 +22,19 @@ public class DaoMaster extends AbstractDaoMaster {
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
         InspectDao.createTable(db, ifNotExists);
-        InspectCommmitDao.createTable(db, ifNotExists);
         InspectConsumableDao.createTable(db, ifNotExists);
         InspectEnvironMentDao.createTable(db, ifNotExists);
         InspectEquipMentDao.createTable(db, ifNotExists);
+        InspectCommmitDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         InspectDao.dropTable(db, ifExists);
-        InspectCommmitDao.dropTable(db, ifExists);
         InspectConsumableDao.dropTable(db, ifExists);
         InspectEnvironMentDao.dropTable(db, ifExists);
         InspectEquipMentDao.dropTable(db, ifExists);
+        InspectCommmitDao.dropTable(db, ifExists);
     }
 
     /**
@@ -54,10 +54,10 @@ public class DaoMaster extends AbstractDaoMaster {
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(InspectDao.class);
-        registerDaoClass(InspectCommmitDao.class);
         registerDaoClass(InspectConsumableDao.class);
         registerDaoClass(InspectEnvironMentDao.class);
         registerDaoClass(InspectEquipMentDao.class);
+        registerDaoClass(InspectCommmitDao.class);
     }
 
     public DaoSession newSession() {
