@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,6 +27,8 @@ import com.bjyw.bjckyh.network.HttpModel
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.utils.*
 import kotlinx.android.synthetic.main.activity_inspect_main.*
+import kotlinx.android.synthetic.main.equip_inspect.*
+import kotlinx.android.synthetic.main.fragmeny_repair.*
 import kotlinx.android.synthetic.main.item_order.*
 import kotlinx.android.synthetic.main.toolbar_title.*
 import org.jetbrains.anko.sdk25.coroutines.onClick

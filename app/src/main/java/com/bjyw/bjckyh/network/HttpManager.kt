@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.bjyw.bjckyh.bean.*
 import com.bjyw.bjckyh.utils.DES
+import com.bjyw.bjckyh.utils.MapLocationUtil
 import com.bjyw.bjckyh.utils.SPUtils
 import com.bjyw.bjckyh.utils.defaultScheduler
 import com.google.gson.JsonObject
@@ -113,8 +114,12 @@ object HttpManager {
      */
     fun login(name: String, password: String): Flowable<ResultData<user>> {
         var jsonObject=JSONObject()
+        var lat=MapLocationUtil.instance.lat
+        var lng=MapLocationUtil.instance.lng
         jsonObject.put("loginName",name)
         jsonObject.put("password",password)
+        jsonObject.put("lat",127.10554745)
+        jsonObject.put("lng",49.330941)
         return request().login(jsonObject.toString()).defaultScheduler()
     }
 

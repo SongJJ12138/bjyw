@@ -11,6 +11,7 @@ import com.bjyw.bjckyh.bean.daobean.InspectEquipMent
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.requestByF
 import kotlinx.android.synthetic.main.equip_inspect.*
+import kotlinx.android.synthetic.main.fragmeny_repair.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import java.lang.StringBuilder
@@ -18,6 +19,7 @@ import java.lang.StringBuilder
 class InspectFragment: BaseFragment() {
     private var checkId=""
     private var isExit="-1"
+    var isRepair=-1
 
     companion object {
         fun newInstance(equipId:String,orderId:String): InspectFragment {
@@ -61,6 +63,14 @@ class InspectFragment: BaseFragment() {
             title_yichang.visibility=View.GONE
             rg_equip_inspect.visibility=View.GONE
         }
+        rb_repair_ok.onClick {
+            rv_consumable.visibility= View.VISIBLE
+            isRepair=0
+        }
+        rb_repair_yiliu.onClick{
+            rv_consumable.visibility= View.GONE
+            isRepair=1
+        }
     }
 
     override fun onFirstVisibleToUser() {}
@@ -68,7 +78,7 @@ class InspectFragment: BaseFragment() {
     override fun contentViewId() = R.layout.equip_inspect
 
     fun getDataBean(): EquipInspectBean {
-        return EquipInspectBean(isExit,checkId)
+        return EquipInspectBean(""+isRepair,isExit,checkId)
     }
 
     private fun getData(equipId:String,orderId:String) {

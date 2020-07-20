@@ -1,7 +1,6 @@
 package com.bjyw.bjckyh.bean
 
 data class EquipRepairBean(
-    val comments: String,
     val consumable: List<Conse>,
     val picture: String,
     val remark: String

@@ -87,7 +87,7 @@ class InspectDetailActivity : BaseActivity() {
             return
         }
         var equipRepairBean=repair.getDataBean()
-        if (equipRepairBean.comments.equals("-1")){
+        if (equipInspectBean.content.equals("-1")){
             toast("请选择维修情况")
             return
         }
@@ -110,7 +110,7 @@ class InspectDetailActivity : BaseActivity() {
         if (equipInspectBean.context.equals("")){
             inspectEquipMent.is_unusual="0"
         }else{
-            if (equipRepairBean.comments.equals("1")){
+            if (equipInspectBean.content.equals("1")){
                 inspectEquipMent.is_unusual="1"
             }else{
                 inspectEquipMent.is_unusual="0"
