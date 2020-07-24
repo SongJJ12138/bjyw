@@ -1,14 +1,13 @@
 package com.bjyw.bjckyh.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.adapter.EquipQcodeApapter
 import com.bjyw.bjckyh.bean.Equip
-import com.bjyw.bjckyh.bean.Picture
 import com.bjyw.bjckyh.bean.SiteDetails
 import com.bjyw.bjckyh.dialog.EquipQcodeDialog
 import com.bjyw.bjckyh.network.HttpManager
@@ -60,6 +59,37 @@ class SiteDeatilActivity : BaseActivity(), EquipQcodeApapter.onClickListener {
     }
 
     private fun initView(details: SiteDetails) {
+        var piclist=ArrayList<String>()
+        if (details.picture.dmy != ""){
+            piclist.add(details.picture.dmy)
+        }
+        if (details.picture.dmj != ""){
+            piclist.add(details.picture.dmj)
+        }
+        if (details.picture.wky != ""){
+            piclist.add(details.picture.wky)
+        }
+        if (details.picture.tj != ""){
+            piclist.add(details.picture.tj)
+        }
+        if (details.picture.dzy != ""){
+            piclist.add(details.picture.dzy)
+        }
+        if (details.picture.jq != ""){
+            piclist.add(details.picture.jq)
+        }
+        if (details.picture.ssj != ""){
+            piclist.add(details.picture.ssj)
+        }
+        if (details.picture.gqq != ""){
+            piclist.add(details.picture.gqq)
+        }
+        if (details.picture.jwd != ""){
+            piclist.add(details.picture.jwd)
+        }
+        if (details.picture.dxj != ""){
+            piclist.add(details.picture.dxj)
+        }
         district.text=details.district
         town.text=details.town
         village.text=details.village
@@ -76,7 +106,7 @@ class SiteDeatilActivity : BaseActivity(), EquipQcodeApapter.onClickListener {
         rv_equip.adapter=adapter
         if (details.picture.dmj!=null&&details.picture.dmj != ""){
             dmj.scaleType=ImageView.ScaleType.CENTER_CROP
-            Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dmj).into(dmy)
+            Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dmj).into(dmj)
         }
         if (details.picture.dmy!=null&&details.picture.dmy != ""){
             dmy.scaleType=ImageView.ScaleType.CENTER_CROP
@@ -113,6 +143,86 @@ class SiteDeatilActivity : BaseActivity(), EquipQcodeApapter.onClickListener {
         if (details.picture.dxj!=null&&details.picture.dxj != ""){
             dxj.scaleType=ImageView.ScaleType.CENTER_CROP
             Glide.with(this).load("http://img.bjckyh.com/"+details.picture.dxj).into(dxj)
+        }
+        dmy.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 0)
+            startActivity(intent)
+        }
+        dmj.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 1)
+            startActivity(intent)
+        }
+        wky.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 2)
+            startActivity(intent)
+        }
+        tj.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 3)
+            startActivity(intent)
+        }
+        dzy.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 4)
+            startActivity(intent)
+        }
+        jq.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 5)
+            startActivity(intent)
+        }
+        ssj.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 6)
+            startActivity(intent)
+        }
+        gqq.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 7)
+            startActivity(intent)
+        }
+        jwd.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 8)
+            startActivity(intent)
+        }
+        dxj.onClick {
+            val intent = Intent(this@SiteDeatilActivity, PhotoActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArrayList("photo", piclist)
+            intent.putExtra("photo", bundle)
+            intent.putExtra("firstCode", 0)
+            startActivity(intent)
         }
     }
 

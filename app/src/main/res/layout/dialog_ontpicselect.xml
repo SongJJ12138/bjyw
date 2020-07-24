@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_10"
+    android:background="@drawable/backgroundsharp"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <TextView
+        android:id="@+id/dialog_takePic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="拍照"
+        android:textColor="@color/black"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/dialog_selectPic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="从相册获取"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_weight="1"/>
+
+</LinearLayout>

@@ -22,10 +22,11 @@ class InspectFragment: BaseFragment() {
     var isRepair=-1
 
     companion object {
-        fun newInstance(equipId:String,orderId:String): InspectFragment {
+        fun newInstance(equipId:String,typeId:String,orderId:String): InspectFragment {
             val fragment = InspectFragment()
             val bundle = Bundle()
             bundle.putString("equipId",equipId)
+            bundle.putString("typeId",typeId)
             bundle.putString("orderId",orderId)
             fragment.arguments = bundle
             return fragment
@@ -39,14 +40,17 @@ class InspectFragment: BaseFragment() {
     ): View? {
         var equipId:String
         var orderId:String
+        var typeId:String
         if (arguments == null) {
             equipId = ""
             orderId=""
+            typeId=""
         } else {
             orderId = arguments?.getString("orderId")?:""
             equipId = arguments?.getString("equipId")?:""
+            typeId = arguments?.getString("typeId")?:""
         }
-        getData(equipId,orderId)
+        getData(equipId,typeId,orderId)
         return super.onCreateView(inflater, container, savedInstanceState)
 
     }
@@ -64,11 +68,9 @@ class InspectFragment: BaseFragment() {
             rg_equip_inspect.visibility=View.GONE
         }
         rb_repair_ok.onClick {
-            rv_consumable.visibility= View.VISIBLE
             isRepair=0
         }
         rb_repair_yiliu.onClick{
-            rv_consumable.visibility= View.GONE
             isRepair=1
         }
     }
@@ -81,8 +83,8 @@ class InspectFragment: BaseFragment() {
         return EquipInspectBean(""+isRepair,isExit,checkId)
     }
 
-    private fun getData(equipId:String,orderId:String) {
-        HttpManager.getEquipUsual(equipId).requestByF(this){ _, data->
+    private fun getData(equipId:String,typeId:String,orderId:String) {
+        HttpManager.getEquipUsual(typeId).requestByF(this){ _, data->
             data?.let {list ->
                 var tishi= StringBuilder()
                 for (i in 0 until list!!.size){

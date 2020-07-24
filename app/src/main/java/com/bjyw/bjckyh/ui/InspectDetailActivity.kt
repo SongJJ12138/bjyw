@@ -21,13 +21,20 @@ import org.jetbrains.anko.toast
 class InspectDetailActivity : BaseActivity() {
     var status=-1
     private val inspect by lazy {
-        InspectFragment.newInstance(equipId,orderId)
+        InspectFragment.newInstance(equipId,typeId,orderId)
+    }
+
+    private val equipId by lazy {
+        intent.getStringExtra("equipId")
     }
     private val repair by lazy {
         RepairFragment()
     }
-    private val equipId by lazy {
-        intent.getStringExtra("equipId")
+    private val typeId by lazy {
+        intent.getStringExtra("typeId")
+    }
+    private val name by lazy {
+        intent.getStringExtra("name")
     }
     private val position by lazy {
         intent.getIntExtra("position",0)
@@ -78,7 +85,7 @@ class InspectDetailActivity : BaseActivity() {
         if (equipInspectBean.is_exist.equals("-1")){
             toast("请选择设备情况")
             return
-        }else if(equipInspectBean.is_exist.equals("0")&&equipInspectBean.context.equals("")){
+        }else if(equipInspectBean.context.equals("0")&&equipInspectBean.context.equals("")){
             toast("未选择异常问题")
             return
         }
@@ -92,7 +99,6 @@ class InspectDetailActivity : BaseActivity() {
             return
         }
         showDialog()
-        showDialog()
         equipRepairBean.consumable.forEach {
             var inspectConsumable=InspectConsumable()
             inspectConsumable.orderIndex=orderId
@@ -102,6 +108,7 @@ class InspectDetailActivity : BaseActivity() {
             DbController.getInstance(applicationContext).insertOrReplaceConsum(inspectConsumable)
         }
         var inspectEquipMent=InspectEquipMent()
+        inspectEquipMent.equipName=name
         inspectEquipMent.position=position
         inspectEquipMent.equipmentIndex=equipId
         inspectEquipMent.comments=""
@@ -115,7 +122,6 @@ class InspectDetailActivity : BaseActivity() {
             }else{
                 inspectEquipMent.is_unusual="0"
             }
-
         }
         inspectEquipMent.orderIndex=orderId
         inspectEquipMent.picture=equipRepairBean.picture

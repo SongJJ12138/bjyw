@@ -35,9 +35,9 @@ fun date2String(date:Date):String {
     return  simpleDateFormat.format(date)
 }
 
-fun convertBitmapToFile(context: Context, bm: Bitmap): File {
+fun convertBitmapToFile(context: Context, bm: Bitmap,name:String): File {
    var  bitmap = Bitmap.createScaledBitmap(bm, 150, 150, true);
-    val f = File(context.cacheDir, "portrait")
+    val f = File(context.cacheDir, name)
         try {
             // create a file to write bitmap data
             f.createNewFile()

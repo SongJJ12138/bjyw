@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentUris
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.provider.MediaStore
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,7 +20,7 @@ import com.bjyw.bjckyh.bean.Equip
 import com.bjyw.bjckyh.bean.SiteDetails
 import com.bjyw.bjckyh.bean.daobean.InspectEnvironMent
 import com.bjyw.bjckyh.dialog.ChangePeopleDialog
-import com.bjyw.bjckyh.dialog.EquipQcodeDialog
+import com.bjyw.bjckyh.dialog.onePicSelectDialog
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.HttpModel
 import com.bjyw.bjckyh.network.request
@@ -70,6 +70,8 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
 
     private val REQUEST__CODE_IMAGES=0x01
     private val REQUEST_CODE_SCAN=0x02
+    private val SELECTPICEQUEST_CODE = 0X03
+    private val TAKAPHOTO_CODE = 0X04
     override fun onClick(nameStr: String, phoneStr: String) {
         var jsonObject=JSONObject()
         jsonObject.put("siteId",""+siteId)
@@ -396,7 +398,7 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
                 Equiplist[equipPosition].qrcode=content
 
             }
-        }else{
+        }else if (requestCode == TAKAPHOTO_CODE){
             try {
                 //查询的条件语句
                 var selection = MediaStore.Images.Media.DISPLAY_NAME + "=? "
@@ -409,6 +411,11 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
                 }
             } catch (e:Exception ) {
                 e.printStackTrace()
+            }
+        }else{
+            var uri =data!!.data
+            if (uri != null) {
+                showPic(uri)
             }
         }
     }
@@ -458,7 +465,7 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
             }
         }
         var picFiles=ArrayList<File>()
-        picFiles.add(convertBitmapToFile(applicationContext,bitmap))
+        picFiles.add(convertBitmapToFile(applicationContext,bitmap,"pic"))
         uploadPic(picFiles)
     }
 
@@ -480,10 +487,17 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
     }
 
     private fun takePhoto(fileName: String) {
-        val myuri: Uri = TakePhoto.getOutputMediaFileUri(applicationContext,fileName)
-        var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)// 启动系统相机
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, myuri)
-        startActivityForResult(intent, REQUEST__CODE_IMAGES)
+        val onePicDialog = onePicSelectDialog(this@SiteUpdateActivity, fileName,object : onePicSelectDialog.SelectPicListener {
+            override fun onChooseTake(intent: Intent?) {
+
+                startActivityForResult(intent, TAKAPHOTO_CODE)
+            }
+            override fun onChooseSelect(intent: Intent?) {
+                startActivityForResult(intent, SELECTPICEQUEST_CODE)
+            }
+        })
+        onePicDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        onePicDialog.show()
     }
 
     var Equiplist=ArrayList<Equip>()

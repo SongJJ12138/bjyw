@@ -126,7 +126,7 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
                     radioButton.text=useStatus.abnormalContext
                     radioButton.textSize=14f
                     radioButton.onClick {
-                        useStutusId=""+useStatus.index
+                        useStutusId=""+useStatus.id
 
                     }
                     radioButton.layoutParams = LinearLayout.LayoutParams(
@@ -199,15 +199,19 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
             val unusual_dian=environList[0].getEnvironBean().is_unusual
             val unusual_xin=environList[1].getEnvironBean().is_unusual
             val unusual_room=environList[2].getEnvironBean().is_unusual
-            if (unusual_room.equals("1")){
+            if (!useStutusId.equals("0")){
                 inspect.environmentStatus="0"
             }else{
-                if (unusual_dian.equals("1")&&unusual_xin.equals("1")){
+                if (unusual_room.equals("1")){
                     inspect.environmentStatus="0"
-                }else if(unusual_dian.equals("1")||unusual_xin.equals("1")){
-                    inspect.environmentStatus="1"
                 }else{
-                    inspect.environmentStatus="2"
+                    if (unusual_dian.equals("1")&&unusual_xin.equals("1")){
+                        inspect.environmentStatus="0"
+                    }else if(unusual_dian.equals("1")||unusual_xin.equals("1")){
+                        inspect.environmentStatus="1"
+                    }else{
+                        inspect.environmentStatus="2"
+                    }
                 }
             }
         }
@@ -238,9 +242,9 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
             if (picList[i].pic1!=null|| picList[i].pic2!=null){
                 var list=ArrayList<File>()
                 if (picList[i].pic1!=null){
-                    list.add(convertBitmapToFile(applicationContext,picList[i].pic1!!))
+                    list.add(convertBitmapToFile(applicationContext,picList[i].pic1!!, "pic$i"))
                 }else if (picList[i].pic1!=null){
-                    list.add(convertBitmapToFile(applicationContext,picList[i].pic2!!))
+                    list.add(convertBitmapToFile(applicationContext,picList[i].pic2!!, "pic$i"))
                 }
                 updataPic(list,environ)
             }else{

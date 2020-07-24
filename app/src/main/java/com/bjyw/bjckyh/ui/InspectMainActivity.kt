@@ -57,12 +57,14 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     private var isReInspect=false
     var picPath=""
     var picList=ArrayList<Bitmap>()
-    override fun onClick(position:Int,equipId: String) {
+    override fun onClick(position:Int,type_id:String,equipId: String,name:String) {
         if (isok){
             var intent=Intent(this@InspectMainActivity,InspectDetailActivity::class.java)
             intent.putExtra("equipId",equipId)
+            intent.putExtra("typeId",type_id)
             intent.putExtra("orderId",orderId)
             intent.putExtra("position",position)
+            intent.putExtra("name",name)
             startActivityForResult(intent,REQUEST_CODE)
         }else{
             toast("异常巡检，无法点击")
@@ -214,8 +216,10 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
             return
         }
         var picFiles=ArrayList<File>()
-        picList.forEach {
-            picFiles.add(convertBitmapToFile(applicationContext,it))
+        if (picList.size>0){
+            for ( i in 0.. picList.size){
+                picFiles.add(convertBitmapToFile(applicationContext,picList[i], "pic$i"))
+            }
         }
         if (picFiles.size>0){
             uploadPic(picFiles)
@@ -319,33 +323,6 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
             if(it.is_unusual.equals("1")||it.is_exist.equals("1")){
                 badEquip.append(it.equipName)
             }
-            var badEquipStr=badEquip.toString()
-            var equipStatus=3
-            if (badEquipStr.equals("")){
-                equipStatus=3
-            }else if (badEquipStr.contains("总电源")||badEquipStr.contains("UPS")){
-                equipStatus=1
-            }else if (badEquipStr.equals("天线1")&&badEquipStr.equals("天线2")){
-                equipStatus=1
-            }else if (badEquipStr.equals("主馈线")&&badEquipStr.equals("备用馈线")){
-                equipStatus=1
-            }else if (badEquipStr.equals("主解码器")&&badEquipStr.equals("备用解码器")){
-                equipStatus=1
-            }else if (badEquipStr.equals("主发射机")&&badEquipStr.equals("备用发射机")){
-                equipStatus=1
-            }else{
-                equipStatus=2
-            }
-            data.put("equipStatus",""+equipStatus)
-            if (equipStatus==1){
-                data.put("workStatus","1")
-            }else{
-                if (environStatus==0){
-                    data.put("workStatus","2")
-                }else{
-                    data.put("workStatus","3")
-                }
-            }
             val coum= DbController.getInstance(applicationContext).searchByWhereConsum(orderId,it.equipmentIndex)
             val couns=JSONArray()
             if (coum.size>0){
@@ -359,6 +336,37 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
             }
             equipment.put("consumable",couns)
             equimInspect.put(equipment)
+        }
+        var badEquipStr=badEquip.toString()
+        var equipStatus=3
+        if (badEquipStr.equals("")){
+            equipStatus=3
+        }else if (badEquipStr.contains("总电源")||badEquipStr.contains("UPS")){
+            equipStatus=1
+        }else if (badEquipStr.contains("天线1")&&badEquipStr.contains("天线2")){
+            equipStatus=1
+        }else if (badEquipStr.contains("主馈线")&&badEquipStr.contains("备用馈线")){
+            equipStatus=1
+        }else if (badEquipStr.contains("主解码器")&&badEquipStr.contains("备用解码器")){
+            equipStatus=1
+        }else if (badEquipStr.contains("主发射机")&&badEquipStr.contains("备用发射机")){
+            equipStatus=1
+        }else{
+            equipStatus=2
+        }
+        data.put("equipStatus",""+equipStatus)
+        if (isok){
+            if (equipStatus==1){
+                data.put("workStatus","1")
+            }else{
+                if (environStatus==0){
+                    data.put("workStatus","2")
+                }else{
+                    data.put("workStatus","3")
+                }
+            }
+        }else{
+            data.put("workStatus","0")
         }
         data.put("equimInspect",equimInspect)
         jsonObject.put("data",data)
@@ -438,6 +446,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
     private val adapter by lazy {
         EquipAdapter(list,isReInspect,this)
     }
+
     private fun getEquipUsual() {
         showDialog()
         HttpManager.getAllEquip(siteId).request(this@InspectMainActivity){ _, data->

@@ -34,7 +34,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.RepairListActivity"></activity>
+        <activity android:name=".ui.PhotoActivity"></activity>
+        <activity android:name=".ui.RepairListActivity" />
         <activity android:name=".ui.MemoDetailsActivity" />
         <activity android:name=".ui.MemoCreateActivity" />
         <activity android:name=".ui.MemoActivity" />
