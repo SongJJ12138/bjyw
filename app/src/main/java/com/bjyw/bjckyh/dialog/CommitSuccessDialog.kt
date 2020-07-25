@@ -18,10 +18,6 @@ class CommitSuccessDialog  (context: Context, val listener:onClickListener) : Di
         setContentView(R.layout.dialog_success)
         val window = window
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        falsee.onClick {
-            dismiss()
-            listener.onClick()
-        }
         truee.onClick {
             dismiss()
             listener.onClick()

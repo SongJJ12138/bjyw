@@ -73,37 +73,9 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
         EventBus.getDefault().unregister(this)
     }
     private fun getData() {
-        var threadCount=3
         showDialog()
-        HttpManager.getCoition(0).request(this@InspectSelectActivity){ _,data->
-            data.let { data->
-                threadCount--
-                data!!.forEach {inspectItem ->
-                    var radioButton=RadioButton(applicationContext)
-                    radioButton.text=inspectItem.context
-                    radioButton.textSize=14f
-                    radioButton.onClick {
-                        isOk = inspectItem.context == "正常巡检"
-                        environList.forEach {
-                            it.setOk(isOk)
-                        }
-                        coitionId=""+inspectItem.index
-                    }
-                    radioButton.layoutParams = LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        1.0f
-                    )
-                    group_tiaojian.addView(radioButton)
-                }
-                if (threadCount==0){
-                    dismissDialog()
-                }
-            }
-        }
         HttpManager.getCoition(1).request(this@InspectSelectActivity){ _,data->
             data.let {data ->
-                threadCount--
                 for (i in 0 until data!!.size) {
                     var environUsualView=EnvironUsualView(applicationContext)
                     environUsualView.init(this@InspectSelectActivity,i,data[i].index,isOk)
@@ -112,31 +84,6 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
                     environList.add(environUsualView)
                     var pic=environPic(null,null)
                     picList.add(pic)
-                }
-                if (threadCount==0){
-                    dismissDialog()
-                }
-            }
-        }
-        HttpManager.getUseStatus(6).request(this@InspectSelectActivity){ _,data->
-            data.let {
-                threadCount--
-                data!!.forEach {useStatus ->
-                    var radioButton=RadioButton(applicationContext)
-                    radioButton.text=useStatus.abnormalContext
-                    radioButton.textSize=14f
-                    radioButton.onClick {
-                        useStutusId=""+useStatus.id
-
-                    }
-                    radioButton.layoutParams = LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        1.0f
-                    )
-                    group_status.addView(radioButton)
-                }
-                if (threadCount==0){
                     dismissDialog()
                 }
             }
@@ -243,8 +190,9 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
                 var list=ArrayList<File>()
                 if (picList[i].pic1!=null){
                     list.add(convertBitmapToFile(applicationContext,picList[i].pic1!!, "pic$i"))
-                }else if (picList[i].pic1!=null){
-                    list.add(convertBitmapToFile(applicationContext,picList[i].pic2!!, "pic$i"))
+                }
+                if (picList[i].pic2!=null){
+                    list.add(convertBitmapToFile(applicationContext,picList[i].pic2!!, "pic2$i"))
                 }
                 updataPic(list,environ)
             }else{
@@ -289,6 +237,112 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
         val formatter = SimpleDateFormat("yyyy年MM月dd日")
         val curDate = Date(System.currentTimeMillis())
         tv_inspecttime.text=formatter.format(curDate)
+        var radioButton1=RadioButton(applicationContext)
+        radioButton1.text="机柜丢失"
+        radioButton1.textSize=14f
+        radioButton1.onClick {
+            isOk = false
+            environList.forEach {
+                it.setOk(isOk)
+            }
+            coitionId="1"
+        }
+        radioButton1.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+
+        var radioButton2=RadioButton(applicationContext)
+        radioButton2.text="无法进入"
+        radioButton2.textSize=14f
+        radioButton2.onClick {
+            isOk = false
+            environList.forEach {
+                it.setOk(isOk)
+            }
+            coitionId="2"
+        }
+        radioButton2.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+
+        var radioButton3=RadioButton(applicationContext)
+        radioButton3.text="正常巡检"
+        radioButton3.textSize=14f
+        radioButton3.onClick {
+            isOk = true
+            environList.forEach {
+                it.setOk(isOk)
+            }
+            coitionId="3"
+        }
+        radioButton3.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+        group_tiaojian.addView(radioButton1)
+        group_tiaojian.addView(radioButton2)
+        group_tiaojian.addView(radioButton3)
+
+        var radioButton4=RadioButton(applicationContext)
+        radioButton4.text="正常"
+        radioButton4.textSize=14f
+        radioButton4.onClick {
+            useStutusId="0"
+
+        }
+        radioButton4.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+
+        var radioButton5=RadioButton(applicationContext)
+        radioButton5.text="搬迁封存"
+        radioButton5.textSize=14f
+        radioButton5.onClick {
+            useStutusId="8"
+
+        }
+        radioButton5.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+
+        var radioButton6=RadioButton(applicationContext)
+        radioButton6.text="本地封存"
+        radioButton6.textSize=14f
+        radioButton6.onClick {
+            useStutusId="9"
+
+        }
+        radioButton6.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+
+        var radioButton7=RadioButton(applicationContext)
+        radioButton7.text="航空管制"
+        radioButton7.textSize=14f
+        radioButton7.onClick {
+            useStutusId="11"
+
+        }
+        radioButton7.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+        group_status.addView(radioButton4)
+        group_status.addView(radioButton5)
+        group_status.addView(radioButton6)
+        group_status.addView(radioButton7)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -321,8 +375,7 @@ class InspectSelectActivity : BaseActivity(), HttpModel.HttpClientListener {
         }
     }
     private fun showPic(uri: Uri) {
-        val bitmap:Bitmap
-        bitmap = TakePhoto.getBitmapFormUri(applicationContext, uri)
+        val bitmap:Bitmap = TakePhoto.getBitmapFormUri(applicationContext, uri)
         if (map.get("type")==0){
             map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment1).scaleType=ImageView.ScaleType.CENTER_CROP}
             map.get("position")?.let { layout_EnvironUsualView.get(it as Int).findViewById<ImageView>(R.id.img_environment1).setImageBitmap(bitmap)}

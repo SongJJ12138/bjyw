@@ -20,6 +20,10 @@ class OrderListActivity : BaseActivity() {
     private val wancheng by lazy {
         WanchengFragment()
     }
+    private val isSuccess by lazy {
+        intent.getIntExtra("isSuccess",0)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_list)
@@ -31,14 +35,21 @@ class OrderListActivity : BaseActivity() {
         fT.hide(wancheng).show(chuli).commit()
         initClick()
     }
+
     private fun initClick() {
         activity_include_tvrignt.onClick {
             chuli.refreash()
         }
         activity_include_btback.onClick {
-            var intent= Intent(this@OrderListActivity,InspectSelectActivity::class.java)
-            setResult(Activity.RESULT_CANCELED,intent)
-            finish()
+            if (isSuccess==0){
+                var intent= Intent(this@OrderListActivity,InspectSelectActivity::class.java)
+                setResult(Activity.RESULT_CANCELED,intent)
+                finish()
+            }else{
+                var intent= Intent(this@OrderListActivity,MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
         tv_orderlist_chuli.onClick {
             tv_orderlist_wancheng.background=application.resources.getDrawable(R.drawable.tv_equiptitle2)
@@ -55,9 +66,15 @@ class OrderListActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        var intent= Intent(this@OrderListActivity,InspectSelectActivity::class.java)
-        setResult(Activity.RESULT_CANCELED,intent)
-        finish()
+        if (isSuccess==0){
+            var intent= Intent(this@OrderListActivity,InspectSelectActivity::class.java)
+            setResult(Activity.RESULT_CANCELED,intent)
+            finish()
+        }else{
+            var intent= Intent(this@OrderListActivity,MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onDestroy() {

@@ -16,6 +16,7 @@ import com.zaaach.transformerslayout.TransformersOptions
 import com.bjyw.bjckyh.adapter.TransFormersViewHolder
 import com.bjyw.bjckyh.bean.Nav
 import com.bjyw.bjckyh.bean.Notify
+import com.bjyw.bjckyh.bean.Order
 import com.bjyw.bjckyh.network.HttpManager
 import com.bjyw.bjckyh.network.request
 import com.bjyw.bjckyh.utils.dp2px
@@ -45,8 +46,14 @@ class MainActivity : BaseActivity() {
         HttpManager.getOrder().request(this@MainActivity){ _,data ->
             data.let {
                 threadCount--
-                if (it!=null&&it.size>0){
-                    orderSize=""+it.size
+                var list=ArrayList<Order>()
+                it?.forEach { order ->
+                    if (order.status==1){
+                        list.add(order)
+                    }
+                }
+                if (list!=null&&list.size>0){
+                    orderSize=""+list.size
                     navList[0] = Nav(0,"巡检工单", com.bjyw.bjckyh.R.mipmap.main_xunjain,true,"待完成")
                     main_transforer.notifyDataChanged(navList)
                 }

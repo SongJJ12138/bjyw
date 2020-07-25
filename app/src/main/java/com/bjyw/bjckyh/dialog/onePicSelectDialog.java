@@ -30,7 +30,6 @@ public class onePicSelectDialog extends Dialog implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_ontpicselect);
-        setCanceledOnTouchOutside(false);
         init();
     }
 

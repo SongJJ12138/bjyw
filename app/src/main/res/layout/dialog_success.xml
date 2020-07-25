@@ -26,19 +26,10 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/falsee"
-            android:layout_width="@dimen/dp_120"
-            android:layout_height="@dimen/dp_43"
-            android:background="@drawable/bt_fou"
-            android:layout_marginRight="@dimen/dp_10"
-            android:text="否"
-            android:textColor="#1976D2"
-            android:textSize="@dimen/sp_19"/>
-        <Button
             android:id="@+id/truee"
             android:layout_width="@dimen/dp_120"
             android:layout_height="@dimen/dp_43"
-            android:text="是"
+            android:text="确认"
             android:background="@drawable/bt_shi"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_19"/>

@@ -116,8 +116,13 @@ class ChuliFragment: BaseFragment(), OrderAdapter.onClickListener {
         HttpManager.getOrder().requestByF(this){ _, data->
             data?.let {
                 dismissDialog()
+                var listt=ArrayList<Order>()
                 list.clear()
-                list.addAll(it)
+                it.forEach {order ->
+                    if (order.status==1){
+                        list.add(order)
+                    }
+                }
                 adapter.notifyDataSetChanged()
             }
         }

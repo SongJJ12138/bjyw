@@ -413,7 +413,7 @@ class SiteUpdateActivity: BaseActivity(), EquipQcodeApapter.onClickListener,
                 e.printStackTrace()
             }
         }else{
-            var uri =data!!.data
+            var uri =data?.data
             if (uri != null) {
                 showPic(uri)
             }

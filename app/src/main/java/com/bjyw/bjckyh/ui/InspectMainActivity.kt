@@ -217,7 +217,7 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
         }
         var picFiles=ArrayList<File>()
         if (picList.size>0){
-            for ( i in 0.. picList.size){
+            for ( i in 0 until picList.size){
                 picFiles.add(convertBitmapToFile(applicationContext,picList[i], "pic$i"))
             }
         }
@@ -383,8 +383,9 @@ class InspectMainActivity : BaseActivity(), EquipAdapter.onClickListener,
                     CommitSuccessDialog.onClickListener{
                     override fun onClick() {
                         clearData(true)
-                        var intent=Intent(this@InspectMainActivity,MainActivity::class.java)
+                        var intent=Intent(this@InspectMainActivity,OrderListActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        intent.putExtra("isSuccess",1)
                         startActivity(intent)
                         this@InspectMainActivity.finish()
                     }

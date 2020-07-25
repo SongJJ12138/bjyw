@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bjyw.bjckyh.R
 import com.bjyw.bjckyh.adapter.Order2Adapter
+import com.bjyw.bjckyh.adapter.Order3Adapter
+import com.bjyw.bjckyh.bean.Order
 import com.bjyw.bjckyh.bean.daobean.Inspect
 import com.bjyw.bjckyh.bean.daobean.InspectCommmit
 import com.bjyw.bjckyh.dialog.CommitSuccessDialog
@@ -36,7 +38,7 @@ class WanchengFragment: BaseFragment(){
 
 
     var list=ArrayList<Inspect>()
-
+    var list2=ArrayList<Order>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,12 +49,14 @@ class WanchengFragment: BaseFragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        rv2.layoutManager=LinearLayoutManager(context)
+        rv2.adapter=adapter2
         initSide()
+        getData()
     }
 
     var position=0
@@ -118,7 +122,9 @@ class WanchengFragment: BaseFragment(){
         DbController.getInstance(context).deleteOrderEnvironment(ins.orderIndex)
         DbController.getInstance(context).deleteOrderConsum(ins.orderIndex)
     }
-
+    private val adapter2 by lazy{
+        Order3Adapter(list2)
+    }
     private val adapter by lazy{
         Order2Adapter(list,object: Order2Adapter.onClickListener{
             override fun onChoose(
@@ -149,8 +155,20 @@ class WanchengFragment: BaseFragment(){
         DbController.getInstance(context).searchAllInspect(""+userId).forEach {
             list.add(it)
         }
-        adapter.notifyDataSetChanged()
-        dismissDialog()
+        HttpManager.getOrder().requestByF(this){ _, data->
+            data?.let {
+                dismissDialog()
+                var listt=ArrayList<Order>()
+                list2.clear()
+                it.forEach {order ->
+                    if (order.status==5){
+                        list2.add(order)
+                    }
+                }
+                adapter.notifyDataSetChanged()
+                adapter2.notifyDataSetChanged()
+            }
+        }
     }
 
     fun refreash() {
